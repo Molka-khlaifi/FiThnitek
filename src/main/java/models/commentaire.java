@@ -7,22 +7,22 @@ public class commentaire {
     String contenu;
     LocalDateTime dateCommentaire;
     int likes;
-    int forumId;
+    int publicationId;
     int auteurId;
     public commentaire() {}
-    public commentaire(String contenu, LocalDateTime dateCommentaire, int likes, int forumId, int auteurId) {
+    public commentaire(String contenu, LocalDateTime dateCommentaire, int likes, int publicationId, int auteurId) {
         this.contenu = contenu;
         this.dateCommentaire = dateCommentaire;
         this.likes = likes;
-        this.forumId = forumId;
+        this.publicationId = publicationId;
         this.auteurId = auteurId;
     }
-    public commentaire(int id, String contenu, LocalDateTime dateCommentaire, int likes, int forumId, int auteurId) {
+    public commentaire(int id, String contenu, LocalDateTime dateCommentaire, int likes, int publicationId, int auteurId) {
         this.id = id;
         this.contenu = contenu;
         this.dateCommentaire = dateCommentaire;
         this.likes = likes;
-        this.forumId = forumId;
+        this.publicationId = publicationId;
         this.auteurId = auteurId;
     }
 
@@ -58,12 +58,12 @@ public class commentaire {
         this.likes = like;
     }
 
-    public int getForumId() {
-        return forumId;
+    public int getpublicationId() {
+        return publicationId;
     }
 
-    public void setForumId(int forumId) {
-        this.forumId = forumId;
+    public void setpublicationId(int publicationId) {
+        this.publicationId = publicationId;
     }
 
     public int getAuteurId() {
@@ -79,7 +79,7 @@ public class commentaire {
                 "id=" + id +
                 ", contenu='" + contenu + '\'' +
                 ", likes=" + likes +
-                ", forumId=" + forumId +
+                ", publicationId=" + publicationId +
                 ", auteurId=" + auteurId +
                 '}';
     }

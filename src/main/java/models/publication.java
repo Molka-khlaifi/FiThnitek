@@ -2,7 +2,7 @@ package models;
 
 import java.util.Date;
 
-public class forum {
+public class publication {
     int id;
     String titre;
     String contenu;
@@ -11,10 +11,11 @@ public class forum {
     Date date_creation;
     int nb_vues;
     int auteurId;
-    int trajetId;
+    Integer trajetId;
+    boolean epingle;
 
-    public forum() {}
-    public forum(String titre, String contenu, String categorie, String statut, Date date_creation, int nb_vues, int auteurId, int trajetId) {
+    public publication() {}
+    public publication(String titre, String contenu, String categorie, String statut, Date date_creation, int nb_vues, int auteurId, Integer trajetId, boolean epingle) {
         this.titre = titre;
         this.contenu = contenu;
         this.categorie = categorie;
@@ -23,9 +24,10 @@ public class forum {
         this.nb_vues = nb_vues;
         this.auteurId = auteurId;
         this.trajetId = trajetId;
+        this.epingle = epingle;
     }
 
-    public forum(int id,String titre, String contenu, String categorie, String statut, Date date_creation ,int nb_vues, int auteurId,int trajet_id) {
+    public publication(int id,String titre, String contenu, String categorie, String statut, Date date_creation ,int nb_vues, int auteurId,Integer trajet_id,boolean epingle) {
         this.id = id;
         this.titre = titre;
         this.contenu = contenu;
@@ -105,18 +107,25 @@ public class forum {
         return trajetId;
     }
 
-    public void setTrajet_id(int trajetId) {
+    public void setTrajetId(Integer trajetId) {
         this.trajetId = trajetId;
+    }
+    public boolean isEpingle() {
+        return epingle;
+    }
+
+    public void setEpingle(boolean epingle) {
+        this.epingle = epingle;
     }
     @Override
     public String toString() {
-        return "Forum{" +
+        return "publication{" +
                 "id=" + id +
                 ", titre='" + titre + '\'' +
                 ", categorie='" + categorie + '\'' +
                 ", statut='" + statut + '\'' +
                 ", nbVues=" + nb_vues +
-                ", auteurId=" + auteurId +
+                ", auteurId=" + auteurId + ", trajetId=" + trajetId +
                 '}';}
 
 }

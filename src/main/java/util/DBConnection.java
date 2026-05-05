@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private String url="jdbc:mysql://localhost:3306/fi_thnitek_db";
+    private String url="jdbc:mysql://localhost:3306/gestion_forum";
     private String user="root";
     private String password="";
     private Connection conn;
