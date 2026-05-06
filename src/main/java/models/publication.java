@@ -13,9 +13,10 @@ public class publication {
     int auteurId;
     Integer trajetId;
     boolean epingle;
+    String image;
 
     public publication() {}
-    public publication(String titre, String contenu, String categorie, String statut, Date date_creation, int nb_vues, int auteurId, Integer trajetId, boolean epingle) {
+    public publication(String titre, String contenu, String categorie, String statut, Date date_creation, int nb_vues, int auteurId, Integer trajetId, boolean epingle,String image) {
         this.titre = titre;
         this.contenu = contenu;
         this.categorie = categorie;
@@ -25,9 +26,10 @@ public class publication {
         this.auteurId = auteurId;
         this.trajetId = trajetId;
         this.epingle = epingle;
+        this.image = image;
     }
 
-    public publication(int id,String titre, String contenu, String categorie, String statut, Date date_creation ,int nb_vues, int auteurId,Integer trajet_id,boolean epingle) {
+    public publication(int id,String titre, String contenu, String categorie, String statut, Date date_creation ,int nb_vues, int auteurId,Integer trajet_id,boolean epingle,String image) {
         this.id = id;
         this.titre = titre;
         this.contenu = contenu;
@@ -37,6 +39,8 @@ public class publication {
         this.nb_vues = nb_vues;
         this.auteurId = auteurId;
         this.trajetId = trajet_id;
+        this.epingle = epingle;
+        this.image = image;
     }
 
     public int getId() {
@@ -103,7 +107,7 @@ public class publication {
         this.auteurId = auteurId;
     }
 
-    public int getTrajetId() {
+    public Integer getTrajetId() {
         return trajetId;
     }
 
@@ -117,6 +121,15 @@ public class publication {
     public void setEpingle(boolean epingle) {
         this.epingle = epingle;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "publication{" +

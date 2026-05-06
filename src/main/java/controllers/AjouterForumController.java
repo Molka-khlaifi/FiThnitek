@@ -1,5 +1,9 @@
 package controllers;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import java.io.File;
 import java.util.Date;
 import java.time.ZoneId;
 import javafx.event.ActionEvent;
@@ -19,7 +23,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class AjouterForumController {
-
+    @FXML private TextField imagePathTextField;
+    @FXML private ImageView imagePreview;
+    private String imageChoisie = null;
     @FXML private TextField        titreTextField;
     @FXML private TextArea         contenuTextArea;
     @FXML private ComboBox<String> categorieComboBox;
@@ -74,10 +80,11 @@ public class AjouterForumController {
         Date date = Date.from(LocalDateTime.now()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
+        Integer trajetId = null;
         publication pub = new publication(
                 titre, contenu, categorie,
                 statut,date,
-                0,1, 1,false  // auteur_id=1, remplacer par user connecté
+                0,1, trajetId,false,imageChoisie  // auteur_id=1, remplacer par user connecté
         );
 
         forumService forumService = new forumService();
@@ -117,5 +124,20 @@ public class AjouterForumController {
         categorieComboBox.setValue("annonce");
         statutComboBox.setValue("ouvert");
         erreurLabel.setText("");
+    }
+    // méthode à ajouter
+    @FXML
+    void choisirImageAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+        File file = fileChooser.showOpenDialog(titreTextField.getScene().getWindow());
+        if (file != null) {
+            imageChoisie = file.getAbsolutePath();
+            imagePathTextField.setText(file.getName());
+            imagePreview.setImage(new Image(file.toURI().toString()));
+        }
     }
 }

@@ -70,7 +70,7 @@
             style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 5; -fx-font-size: 11px; -fx-cursor: hand;"/>
 
     <!-- ListView principale -->
-    <ListView fx:id="forumListView"
+    <ListView fx:id="publicationListView"
               layoutX="30.0" layoutY="165.0"
               prefWidth="640.0" prefHeight="240.0"
               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 1;"/>
@@ -98,28 +98,16 @@
             style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
 
     <Button layoutX="155.0" layoutY="478.0"
-            text="Modifier"
-            onAction="#modifierAction"
-            prefWidth="100.0" prefHeight="36.0"
-            style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
-
-    <Button layoutX="270.0" layoutY="478.0"
-            text="Supprimer"
-            onAction="#supprimerAction"
-            prefWidth="110.0" prefHeight="36.0"
-            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
-
-    <Button layoutX="395.0" layoutY="478.0"
-            text="Epingler"
-            onAction="#epinglerAction"
-            prefWidth="100.0" prefHeight="36.0"
-            style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
-
-    <Button layoutX="510.0" layoutY="478.0"
             text="Commentaires"
             onAction="#voirCommentairesAction"
             prefWidth="130.0" prefHeight="36.0"
             style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+    <Button layoutX="300.0" layoutY="478.0"
+            text="Mes Posts"
+            onAction="#mesPostsAction"
+            prefWidth="110.0" prefHeight="36.0"
+            style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
 
     <!-- Message statut -->
     <Label fx:id="messageLabel"

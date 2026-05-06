@@ -26,7 +26,6 @@ public class ListeForumController {
     // ───────────────── INIT ─────────────────
     @FXML
     public void initialize() {
-
         categorieFilterComboBox.getItems().addAll("Tous", "annonce", "question", "discussion");
         categorieFilterComboBox.setValue("Tous");
 
@@ -34,10 +33,21 @@ public class ListeForumController {
 
         publicationListView.setOnMouseClicked(event -> {
             int index = publicationListView.getSelectionModel().getSelectedIndex();
+
             if (index >= 0 && index < publicationList.size()) {
-                idTextField.setText(String.valueOf(publicationList.get(index).getId()));
+                publication selected = publicationList.get(index);
+
+                // ✔ clic simple → remplir ID
+                idTextField.setText(String.valueOf(selected.getId()));
+
+                // ✔ double clic → ouvrir détails
+                if (event.getClickCount() == 2) {
+                    afficherDetailsPost(selected);
+                }
             }
         });
+
+
     }
 
     // ───────────────── CHARGER ─────────────────
@@ -49,20 +59,15 @@ public class ListeForumController {
 
     // ───────────────── AFFICHAGE ─────────────────
     private void afficher(List<publication> list) {
-
         publicationListView.getItems().clear();
-
         for (publication f : list) {
-
             String epingle = f.isEpingle() ? "📌 " : "";
-
             String ligne = epingle +
                     "[" + f.getId() + "] " +
                     f.getTitre() +
                     " | " + f.getCategorie().toUpperCase() +
                     " | " + f.getStatut() +
                     " | " + f.getNb_vues() + " vues";
-
             publicationListView.getItems().add(ligne);
         }
     }
@@ -70,14 +75,11 @@ public class ListeForumController {
     // ───────────────── RECHERCHE ─────────────────
     @FXML
     void rechercherAction(ActionEvent event) {
-
         String keyword = searchTextField.getText().trim();
-
         if (keyword.isEmpty()) {
             chargerpublications();
             return;
         }
-
         publicationList = forumService.rechercher(keyword);
         afficher(publicationList);
         statsLabel.setText(publicationList.size() + " résultats");
@@ -86,9 +88,7 @@ public class ListeForumController {
     // ───────────────── FILTRE ─────────────────
     @FXML
     void filtrerCategorieAction(ActionEvent event) {
-
         String cat = categorieFilterComboBox.getValue();
-
         if (cat == null || cat.equals("Tous")) {
             chargerpublications();
         } else {
@@ -113,107 +113,77 @@ public class ListeForumController {
         messageLabel.setText("Tri par vues");
     }
 
+    @FXML
+    void trierParCommentairesAction(ActionEvent event) {
+        // ✅ méthode ajoutée pour correspondre au FXML
+        messageLabel.setText("Tri par commentaires non disponible");
+    }
+
     // ───────────────── AJOUT ─────────────────
     @FXML
     void ajouterAction(ActionEvent event) {
-
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Ajouterpublication.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml")); // ✅
             publicationListView.getScene().setRoot(root);
         } catch (IOException e) {
             System.out.println("Erreur ajout : " + e.getMessage());
         }
     }
-
-    // ───────────────── MODIFIER ─────────────────
+    // ─── Naviguer vers MES posts ──────────────────────────────────────────
     @FXML
-    void modifierAction(ActionEvent event) {
-
-        int id = getId();
-        if (id == -1) return;
-
-        publication f = forumService.getById(id);
-
-        if (f == null) {
-            showError("Post introuvable !");
-            return;
-        }
-
+    void mesPostsAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Modifierpublication.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
+            publicationListView.getScene().setRoot(root);
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+    }
+
+    //double click
+    @FXML
+    private void afficherDetailsPost(publication post) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
             Parent root = loader.load();
 
-            ModifierForumController ctrl = loader.getController();
-            ctrl.initData(f);
+            PostDetailsController controller = loader.getController();
+            controller.setPost(post);
 
             publicationListView.getScene().setRoot(root);
+
+            // ✔ augmenter les vues (BONUS PRO)
+            forumService.incrementerVues(post.getId());
 
         } catch (IOException e) {
-            System.out.println("Erreur modifier : " + e.getMessage());
+            System.out.println("Erreur affichage détails : " + e.getMessage());
         }
     }
 
-    // ───────────────── SUPPRIMER ─────────────────
+
+
+    // ───────────────── COMMENTAIRES ─────────────────
     @FXML
-    void supprimerAction(ActionEvent event) {
-
-        int id = getId();
-        if (id == -1) return;
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Supprimer post #" + id + " ?",
-                ButtonType.YES, ButtonType.NO);
-
-        alert.showAndWait().ifPresent(btn -> {
-            if (btn == ButtonType.YES) {
-                forumService.delete(forumService.getById(id));
-                chargerpublications();
-                messageLabel.setText("Supprimé !");
-            }
-        });
-    }
-
-    // ───────────────── EPINGLER ─────────────────
-    @FXML
-    void epinglerAction(ActionEvent event) {
-
-        int id = getId();
-        if (id == -1) return;
-
-        forumService.toggleEpingle(id);
-
-        chargerpublications();
-        messageLabel.setText("État épingle modifié");
-    }
-
-    // ───────────────── commentaireS ─────────────────
-    @FXML
-    void voircommentairesAction(ActionEvent event) {
-
+    void voirCommentairesAction(ActionEvent event) {
         int id = getId();
         if (id == -1) return;
 
         publication f = forumService.getById(id);
-
         if (f == null) {
             showError("Post introuvable !");
             return;
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/commentairepublication.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CommentaireForum.fxml")); // ✅
             Parent root = loader.load();
-
             CommentaireForumController ctrl = loader.getController();
             ctrl.initData(f.getId(), f.getTitre());
-
             publicationListView.getScene().setRoot(root);
-
         } catch (IOException e) {
             System.out.println("Erreur commentaires : " + e.getMessage());
         }
     }
-
     // ───────────────── HELPERS ─────────────────
     private int getId() {
         try {
