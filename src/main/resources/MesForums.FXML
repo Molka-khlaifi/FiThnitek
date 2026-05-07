@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -6,92 +7,152 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="560.0" prefWidth="700.0"
+            style="-fx-background-image: url('/background.jpg');
+            -fx-background-size: cover;
+            -fx-background-position: center;"
             xmlns="http://javafx.com/javafx/26"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.MesForumsController"
-            style="-fx-background-color: #f0faf5;">
-
-    <!-- Header zone privée -->
-    <Label layoutX="30.0" layoutY="25.0"
-           text="Mes Posts"
-           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #085041;"/>
-
-    <Label layoutX="30.0" layoutY="55.0"
-           text="Seulement vos posts — vous pouvez les modifier et supprimer"
-           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px;"/>
+            fx:controller="controllers.MesForumsController">
+    <!-- ── Header ── -->
+    <Label layoutX="30.0" layoutY="22.0"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #085041;"
+           text="📋  Mes Posts" />
 
     <Label fx:id="statsLabel"
-           layoutX="560.0" layoutY="30.0"
-           text="0 posts"
-           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px;"/>
+           layoutX="610.0"
+           layoutY="28.0"
+           style="-fx-text-fill: #1D9E75; -fx-font-size: 12px; -fx-font-weight: bold;"
+           text="0 posts" />
 
-    <Label layoutX="30.0" layoutY="75.0"
-           text="──────────────────────────────────────────────────────────"
-           style="-fx-text-fill: #9FE1CB;"/>
+    <Label layoutX="30.0"
+           layoutY="52.0"
+           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px;"
+           text="Seulement vos posts — vous pouvez les modifier et supprimer" />
 
-    <!-- Bouton retour liste publique -->
-    <Button layoutX="30.0" layoutY="90.0"
-            text="← Forum public"
+    <Label layoutX="30.0"
+           layoutY="72.0"
+           style="-fx-text-fill: #9FE1CB;"
+           text="──────────────────────────────────────────────────────────────────" />
+
+    <!-- ── Bouton retour ── -->
+    <Button layoutX="30.0"
+            layoutY="90.0"
             onAction="#retourListeAction"
-            prefWidth="140.0" prefHeight="30.0"
-            style="-fx-background-color: white; -fx-border-color: #0F6E56; -fx-border-width: 1; -fx-text-fill: #0F6E56; -fx-background-radius: 6; -fx-cursor: hand;"/>
+            prefHeight="30.0"
+            prefWidth="140.0"
+            style="-fx-background-color: white;
+            -fx-border-color: #0F6E56;
+            -fx-border-width: 1;
+            -fx-text-fill: #0F6E56;
+            -fx-background-radius: 6;
+            -fx-font-size: 12px;
+            -fx-cursor: hand;" text="← Forum public" />
 
-    <!-- Liste de MES posts -->
+    <!-- ── Liste posts ── -->
     <ListView fx:id="mesForumsListView"
-              layoutX="30.0" layoutY="132.0"
-              prefWidth="640.0" prefHeight="250.0"
-              style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #5DCAA5; -fx-border-width: 1;"/>
+              layoutX="30.0"
+              layoutY="132.0"
+              prefHeight="262.0"
+              prefWidth="658.0"
+              style="-fx-background-radius: 8;
+              -fx-border-radius: 8;
+              -fx-border-color: #5DCAA5;
+              -fx-border-width: 1.5;
+              -fx-background-color: white;" />
 
-    <!-- Zone actions -->
-    <Label layoutX="30.0" layoutY="395.0"
-           text="────────────────────────────────────────────────────────────"
-           style="-fx-text-fill: #9FE1CB;"/>
+    <!-- ── Séparateur ── -->
+    <Label layoutX="30.0"
+           layoutY="401.0"
+           style="-fx-text-fill: #9FE1CB;"
+           text="──────────────────────────────────────────────────────────────────" />
 
-    <Label layoutX="30.0" layoutY="412.0"
-           text="ID du post :"
-           style="-fx-font-weight: bold; -fx-text-fill: #085041; -fx-font-size: 12px;"/>
+    <!-- ── Sélection ID ── -->
+    <Label layoutX="33.0"
+           layoutY="424.0"
+           style="-fx-font-weight: bold;
+           -fx-text-fill: #085041;
+           -fx-font-size: 12px;"
+           text="ID du post sélectionné :" />
 
     <TextField fx:id="idTextField"
-               layoutX="120.0" layoutY="409.0"
-               prefWidth="80.0" prefHeight="30.0"
-               promptText="ex: 1"
-               style="-fx-background-radius: 5; -fx-border-color: #5DCAA5; -fx-border-width: 1; -fx-background-color: white;"/>
+               layoutX="195.0"
+               layoutY="419.0"
+               prefHeight="28.0"
+               prefWidth="80.0" promptText="ex: 1"
+               style="-fx-background-radius: 5;
+               -fx-border-color: #5DCAA5;
+               -fx-border-width: 1;
+               -fx-background-color: white;
+                -fx-font-size: 12px;" />
 
-    <!-- Boutons actions MES posts -->
-    <Button layoutX="30.0" layoutY="458.0"
-            text="+ Ajouter"
+    <Label layoutX="284.0"
+           layoutY="425.0"
+           style="-fx-text-fill: #aaa; -fx-font-size: 11px; -fx-font-style: italic;"
+           text="← cliquez sur un post pour le remplir" />
+
+    <!-- ── Boutons actions ── -->
+    <Button layoutX="30.0"
+            layoutY="478.0"
             onAction="#ajouterAction"
-            prefWidth="110.0" prefHeight="36.0"
-            style="-fx-background-color: #1D9E75; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
 
-    <Button layoutX="155.0" layoutY="458.0"
-            text="Modifier"
+            prefHeight="36.0"
+            prefWidth="115.0"
+            style="-fx-background-color: #1D9E75;
+            -fx-text-fill: white;
+            -fx-font-weight: bold;
+            -fx-background-radius: 7;
+             -fx-font-size: 12px;
+             -fx-cursor: hand;"
+            text="＋  Ajouter" />
+
+    <Button layoutX="158.0"
+            layoutY="478.0"
             onAction="#modifierAction"
-            prefWidth="100.0" prefHeight="36.0"
-            style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            prefHeight="36.0"
+            prefWidth="105.0"
+            style="-fx-background-color: #f39c12;
+            -fx-text-fill: white;
+            -fx-font-weight: bold;
+             -fx-background-radius: 7;
+             -fx-font-size: 12px;                    *
+             -fx-cursor: hand;" text="✏  Modifier" />
 
-    <Button layoutX="270.0" layoutY="458.0"
-            text="Supprimer"
+    <Button layoutX="276.0"
+            layoutY="478.0"
             onAction="#supprimerAction"
-            prefWidth="110.0" prefHeight="36.0"
-            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: #e74c3c;
+            -fx-text-fill: white;
+            -fx-font-weight: bold;
+            -fx-background-radius: 7;
+             -fx-font-size: 12px;
+             -fx-cursor: hand;" text="🗑  Supprimer" />
 
-    <Button layoutX="395.0" layoutY="458.0"
-            text="Epingler"
+    <Button layoutX="404.0"
+            layoutY="478.0"
             onAction="#epinglerAction"
-            prefWidth="100.0" prefHeight="36.0"
-            style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            prefHeight="36.0"
+            prefWidth="110.0"
+            style="-fx-background-color: #9b59b6;
+            -fx-text-fill: white;
+            -fx-font-weight: bold;
+            -fx-background-radius: 7;
+            -fx-font-size: 12px;
+            -fx-cursor: hand;" text="📌  Épingler" />
 
-    <Button layoutX="510.0" layoutY="458.0"
-            text="Commentaires"
+    <Button layoutX="527.0" layoutY="478.0"
             onAction="#voirCommentairesAction"
-            prefWidth="130.0" prefHeight="36.0"
-            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            prefHeight="36.0" prefWidth="143.0" style="-fx-background-color: #1abc9c;
+            -fx-text-fill: white;
+            -fx-font-weight: bold;
+            -fx-background-radius: 7;
+            -fx-font-size: 12px;
+            -fx-cursor: hand;" text="💬  Commentaires" />
 
-    <!-- Message statut -->
+    <!-- ── Message statut ── -->
     <Label fx:id="messageLabel"
-           layoutX="30.0" layoutY="510.0"
-           text=""
-           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px;"/>
+           layoutX="30.0"
+           layoutY="530.0"
+           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px; -fx-font-style: italic;"
+           text="" />
 
 </AnchorPane>

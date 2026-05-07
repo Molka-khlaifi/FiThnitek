@@ -28,7 +28,7 @@ public class CommentaireForumController {
     @FXML private Label            messageLabel;
 
     private forumService  forumService = new forumService();
-    private int           forumId;
+    private int forumId;
     private List<commentaire> commentaireList;
 
     // ─── Recevoir le forumId et titre depuis ListeForumController ─────────
@@ -85,6 +85,7 @@ public class CommentaireForumController {
                 texte, LocalDateTime.now(),
                 0, forumId, 1   // auteur_id=1, remplacer par user connecté
         );
+
         forumService.addcommentaire(c);
         nouveauCommentaireArea.clear();
         messageLabel.setText("Commentaire publié avec succès !");

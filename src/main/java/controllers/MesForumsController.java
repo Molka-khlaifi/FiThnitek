@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import models.publication;
 import services.forumService;
 
+
 import java.io.IOException;
 import java.util.List;
 
@@ -31,12 +32,44 @@ public class MesForumsController {
                 idTextField.setText(String.valueOf(mesPosts.get(index).getId()));
             }
         });
+        // double click
+        mesForumsListView.setOnMouseClicked(event -> {
+            int index = mesForumsListView.getSelectionModel().getSelectedIndex();
+
+            if (index >= 0 && index < mesPosts.size()) {
+                publication selected = mesPosts.get(index);
+                idTextField.setText(String.valueOf(selected.getId()));
+
+                if (event.getClickCount() == 2) {
+                    afficherDetailsPost(selected);
+                }
+            }
+        });
     }
 
     private void chargerMesPosts() {
-        mesPosts = forumService.getAll(); // remplace par getByUser() si tu as cette méthode
+        mesPosts = forumService.getAll();
+        mesPosts.sort((p1, p2) -> Boolean.compare(p2.isEpingle(), p1.isEpingle()));
         afficher(mesPosts);
         statsLabel.setText(mesPosts.size() + " posts");
+    }
+
+    @FXML
+    private void afficherDetailsPost(publication post) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
+            Parent root = loader.load();
+
+            PostDetailsController controller = loader.getController();
+            controller.setPost(post);
+
+            mesForumsListView.getScene().setRoot(root);
+
+            forumService.incrementerVues(post.getId());
+
+        } catch (IOException e) {
+            System.out.println("Erreur affichage détails : " + e.getMessage());
+        }
     }
 
     private void afficher(List<publication> list) {
@@ -61,13 +94,26 @@ public class MesForumsController {
         }
     }
 
-    @FXML
-    void modifierAction(ActionEvent event) {
+    @FXML void modifierAction(ActionEvent event) {
         int id = getId();
         if (id == -1) return;
+
+        publication p = forumService.getById(id);
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierForum.fxml"));
+            Parent root = loader.load();
+            ModifierForumController controller = loader.getController();
+            controller.initData(p);
+            mesForumsListView.getScene().setRoot(root);
+
+        } catch (IOException e) {
+
+            showError("Erreur modification : " + e.getMessage());
+        }
         // TODO: ouvrir la vue de modification avec l'ID
-        messageLabel.setText("Modifier post #" + id);
-    }
+        messageLabel.setText("Modifier post #" + id); }
 
     @FXML
     void supprimerAction(ActionEvent event) {
@@ -75,7 +121,27 @@ public class MesForumsController {
         if (id == -1) return;
         publication p = forumService.getById(id);
         if (p == null) { showError("Post introuvable !"); return; }
-        forumService.delete(p);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Suppression du post");
+        alert.setContentText("Voulez-vous vraiment supprimer ce post ?");
+        ButtonType oui = new ButtonType("Oui");
+        ButtonType non = new ButtonType("Annuler");
+        alert.getButtonTypes().setAll(oui, non);
+        alert.showAndWait().ifPresent(response -> {
+                    if (response == oui) {
+
+                        forumService.delete(p);
+
+                        messageLabel.setText("✅ Post #" + id + " supprimé.");
+
+                        chargerMesPosts();
+
+                    } else {
+
+                        messageLabel.setText("❌ Suppression annulée.");
+                    }
+                });
         messageLabel.setText("Post #" + id + " supprimé.");
         chargerMesPosts();
     }
@@ -84,7 +150,7 @@ public class MesForumsController {
     void epinglerAction(ActionEvent event) {
         int id = getId();
         if (id == -1) return;
-        // TODO: appeler forumService.epingler(id)
+        forumService.toggleEpingle(id);
         messageLabel.setText("Post #" + id + " épinglé.");
         chargerMesPosts();
     }
@@ -128,4 +194,5 @@ public class MesForumsController {
         a.setHeaderText(msg);
         a.show();
     }
+
 }

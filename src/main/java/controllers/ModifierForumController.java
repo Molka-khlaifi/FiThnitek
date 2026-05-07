@@ -29,7 +29,7 @@ public class ModifierForumController {
 
     @FXML
     public void initialize() {
-        categorieComboBox.getItems().addAll("annonce", "question", "discussion");
+        categorieComboBox.getItems().addAll( "question", "discussion","autre");
         statutComboBox.getItems().addAll("ouvert", "ferme");
     }
 
@@ -76,7 +76,7 @@ public class ModifierForumController {
             alert.setTitle("Succès");
             alert.setHeaderText("Post modifié avec succès !");
             alert.show();
-            Parent root = FXMLLoader.load(getClass().getResource("/ListeForum.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
             titreTextField.getScene().setRoot(root);
         } catch (IOException e) {
             System.out.println("Erreur navigation : " + e.getMessage());
@@ -86,7 +86,7 @@ public class ModifierForumController {
     @FXML
     void annulerAction(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ListeForum.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
             titreTextField.getScene().setRoot(root);
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());

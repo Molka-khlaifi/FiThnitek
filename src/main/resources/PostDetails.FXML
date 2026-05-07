@@ -1,54 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 
-<AnchorPane prefHeight="580.0" prefWidth="700.0"
+<AnchorPane prefHeight="600.0" prefWidth="700.0"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.PostDetailsController"
-            style="-fx-background-color: #f9f9f9;">
+            style="-fx-background-image: url('/background.jpg');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;">
+    <!-- ── Header ── -->
+    <Label layoutX="30" layoutY="22"
+           text="📄  Détails du Post"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #085041;"/>
 
-    <!-- Header -->
-    <Label layoutX="30" layoutY="25"
-           text="Détails du Post"
-           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Label layoutX="30" layoutY="52"
+           text="──────────────────────────────────────────────────────────────────"
+           style="-fx-text-fill: #9FE1CB;"/>
 
-    <!-- Carte centrale -->
-    <VBox layoutX="30" layoutY="70" prefWidth="640" spacing="15"
-          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #ddd;">
+    <!-- ── Carte centrale ── -->
+    <VBox layoutX="30" layoutY="70" prefWidth="640" spacing="14"
+          style="-fx-background-color: white;
+                 -fx-padding: 20;
+                 -fx-background-radius: 10;
+                 -fx-border-radius: 10;
+                 -fx-border-color: #5DCAA5;
+                 -fx-border-width: 1.5;">
 
         <!-- Titre -->
         <Label fx:id="titreLabel"
-               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+               wrapText="true"
+               style="-fx-font-size: 18px;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #085041;"/>
 
-        <!-- Image -->
+        <!-- Séparateur -->
+        <Label text="────────────────────────────────────────────────────────"
+               style="-fx-text-fill: #9FE1CB;"/>
+
+        <!-- Image (optionnelle) -->
         <ImageView fx:id="imageView"
                    fitWidth="600"
-                   fitHeight="200"
-                   preserveRatio="true"
-                   style="-fx-background-radius: 8;"/>
+                   fitHeight="180"
+                   preserveRatio="true"/>
 
         <!-- Contenu -->
-        <Label text="Contenu :" style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-        <Label fx:id="contenuLabel" wrapText="true"
-               style="-fx-text-fill: #333;"/>
+        <Label text="Contenu :"
+               style="-fx-font-weight: bold; -fx-text-fill: #0F6E56; -fx-font-size: 13px;"/>
+
+        <Label fx:id="contenuLabel"
+               wrapText="true"
+               style="-fx-text-fill: #333; -fx-font-size: 13px; -fx-line-spacing: 3;"/>
+
+        <!-- Séparateur -->
+        <Label text="────────────────────────────────────────────────────────"
+               style="-fx-text-fill: #9FE1CB;"/>
 
         <!-- Infos -->
-        <HBox spacing="20">
-            <Label fx:id="categorieLabel" style="-fx-text-fill: #888;"/>
-            <Label fx:id="dateLabel" style="-fx-text-fill: #888;"/>
-            <Label fx:id="vuesLabel" style="-fx-text-fill: #888;"/>
+        <HBox spacing="25">
+            <Label fx:id="categorieLabel"
+                   style="-fx-text-fill: white;
+                          -fx-background-color: #1D9E75;
+                          -fx-background-radius: 5;
+                          -fx-padding: 3 10;
+                          -fx-font-size: 11px;
+                          -fx-font-weight: bold;"/>
+
+            <Label fx:id="dateLabel"
+                   style="-fx-text-fill: #888;
+                          -fx-font-size: 12px;"/>
+
+            <Label fx:id="vuesLabel"
+                   style="-fx-text-fill: #888;
+                          -fx-font-size: 12px;"/>
+
+            <Label fx:id="statutLabel"
+                   style="-fx-text-fill: white;
+                          -fx-background-color: #3498db;
+                          -fx-background-radius: 5;
+                          -fx-padding: 3 10;
+                          -fx-font-size: 11px;
+                          -fx-font-weight: bold;"/>
         </HBox>
 
     </VBox>
 
-    <!-- Bouton retour -->
-    <Button layoutX="30" layoutY="520"
+    <!-- ── Boutons ── -->
+    <Button layoutX="30" layoutY="538"
             text="← Retour"
             onAction="#retourAction"
             prefWidth="120" prefHeight="36"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            style="-fx-background-color: white;
+                   -fx-border-color: #0F6E56;
+                   -fx-border-width: 1;
+                   -fx-text-fill: #0F6E56;
+                   -fx-background-radius: 7;
+                   -fx-font-size: 12px;
+                   -fx-cursor: hand;"/>
+
+    <Button layoutX="165" layoutY="538"
+            text="💬  Commentaires"
+            onAction="#voirCommentairesAction"
+            prefWidth="155" prefHeight="36"
+            style="-fx-background-color: #1abc9c;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 7;
+                   -fx-font-size: 12px;
+                   -fx-cursor: hand;"/>
+
+    <!-- ── Message statut ── -->
+    <Label fx:id="messageLabel"
+           layoutX="30" layoutY="592"
+           text=""
+           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px; -fx-font-style: italic;"/>
 
 </AnchorPane>

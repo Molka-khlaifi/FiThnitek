@@ -17,7 +17,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import models.publication;
 import services.forumService;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -35,12 +34,12 @@ public class AjouterForumController {
 
     @FXML
     public void initialize() {
-        categorieComboBox.getItems().addAll("annonce", "question", "discussion");
-        categorieComboBox.setValue("annonce");
+        categorieComboBox.getItems().addAll("question", "discussion","autre");
+        categorieComboBox.setValue("discussion");
         statutComboBox.getItems().addAll("ouvert", "ferme");
         statutComboBox.setValue("ouvert");
 
-        // Compteur caractères temps réel
+        // Compteur caractères
         contenuTextArea.textProperty().addListener((obs, oldVal, newVal) -> {
             int count = newVal.length();
             compteurLabel.setText(count + " / 500");
@@ -121,11 +120,11 @@ public class AjouterForumController {
     void annulerAction(ActionEvent event) {
         titreTextField.clear();
         contenuTextArea.clear();
-        categorieComboBox.setValue("annonce");
+        categorieComboBox.setValue("discussion");
         statutComboBox.setValue("ouvert");
         erreurLabel.setText("");
     }
-    // méthode à ajouter
+
     @FXML
     void choisirImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();

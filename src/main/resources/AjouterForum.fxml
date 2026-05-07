@@ -8,14 +8,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="560.0" prefWidth="620.0" style="-fx-background-color: #f9f9f9;"
+<AnchorPane prefHeight="560.0" prefWidth="620.0"
             xmlns="http://javafx.com/javafx/26"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.AjouterForumController">
+            fx:controller="controllers.AjouterForumController"
+            style="-fx-background-image: url('/background.jpg');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;">
 
     <Label layoutX="30.0" layoutY="25.0"
            style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
-           text="Nouveau Post Forum" />
+           text="Nouveau Post " />
 
     <Label layoutX="30.0" layoutY="65.0"
            style="-fx-text-fill: #cccccc;"

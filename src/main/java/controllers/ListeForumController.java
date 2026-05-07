@@ -5,9 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import models.publication;
 import services.forumService;
-
+import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class ListeForumController {
     @FXML private ComboBox<String> categorieFilterComboBox;
     @FXML private Label statsLabel;
     @FXML private Label messageLabel;
+    @FXML private ToggleButton themeToggle;
+    @FXML private Button btnChatbot;
 
     private forumService forumService = new forumService();
     private List<publication> publicationList;
@@ -26,7 +30,7 @@ public class ListeForumController {
     // ───────────────── INIT ─────────────────
     @FXML
     public void initialize() {
-        categorieFilterComboBox.getItems().addAll("Tous", "annonce", "question", "discussion");
+        categorieFilterComboBox.getItems().addAll("Tous", "question", "discussion","autre");
         categorieFilterComboBox.setValue("Tous");
 
         chargerpublications();
@@ -53,6 +57,7 @@ public class ListeForumController {
     // ───────────────── CHARGER ─────────────────
     private void chargerpublications() {
         publicationList = forumService.getAll();
+        publicationList.sort((p1, p2) -> Boolean.compare(p2.isEpingle(), p1.isEpingle()));
         afficher(publicationList);
         statsLabel.setText(publicationList.size() + " posts");
     }
@@ -113,12 +118,6 @@ public class ListeForumController {
         messageLabel.setText("Tri par vues");
     }
 
-    @FXML
-    void trierParCommentairesAction(ActionEvent event) {
-        // ✅ méthode ajoutée pour correspondre au FXML
-        messageLabel.setText("Tri par commentaires non disponible");
-    }
-
     // ───────────────── AJOUT ─────────────────
     @FXML
     void ajouterAction(ActionEvent event) {
@@ -152,7 +151,6 @@ public class ListeForumController {
 
             publicationListView.getScene().setRoot(root);
 
-            // ✔ augmenter les vues (BONUS PRO)
             forumService.incrementerVues(post.getId());
 
         } catch (IOException e) {
@@ -199,4 +197,23 @@ public class ListeForumController {
         a.setHeaderText(msg);
         a.show();
     }
+    @FXML
+    void openChatbot() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatbotAide.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Assistant Forum");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

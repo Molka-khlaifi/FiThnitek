@@ -9,8 +9,9 @@
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.DetailForumController"
-            style="-fx-background-color: #f9f9f9;">
-
+            style="-fx-background-image: url('/background.jpg');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;">
     <!-- Header succès -->
     <Label layoutX="30.0" layoutY="25.0"
            text="Post publié avec succès !"
