@@ -8,42 +8,48 @@ import services.TransactionService;
 
 public class Main {
     public static void main(String[] args) {
-        IService<Revenue> revenueService = new RevenueService();
-        IService<Transaction> transactionService = new TransactionService();
 
-        // --- ADD REVENUES ---
-        // Driver revenues
-        Revenue r1 = new Revenue(1, "driver", 101, 15.0, "2024-01-10", "per_trip", "Trajet Tunis-Sousse");
-        Revenue r2 = new Revenue(1, "driver", 102, 20.0, "2024-01-15", "per_trip", "Trajet Tunis-Sfax");
-        Revenue r3 = new Revenue(1, "driver", 0, 50.0, "2024-01-31", "monthly", "Bonus janvier");
-        // Passenger revenues
-        Revenue r4 = new Revenue(2, "passenger", 101, 5.0, "2024-01-10", "per_trip", "Trajet Tunis-Sousse");
-        Revenue r5 = new Revenue(3, "passenger", 102, 7.0, "2024-01-15", "per_trip", "Trajet Tunis-Sfax");
+        TransactionService transactionService = new TransactionService();
+        RevenueService revenueService = new RevenueService();
 
-        revenueService.add(r1);
-        revenueService.add(r2);
-        revenueService.add(r3);
-        revenueService.add(r4);
-        revenueService.add(r5);
+        // ── Simulate driver completing a cash trip ──────────
+        System.out.println("\n=== Driver completes Trip 1 (cash) ===");
+        transactionService.completeTrip(1, 101, 15.0, 2, "cash");
 
-        // --- ADD TRANSACTIONS ---
-        Transaction t1 = new Transaction(1, 15.0, "2024-01-10", "cash", "completed");
-        Transaction t2 = new Transaction(2, 20.0, "2024-01-15", "cash", "completed");
-        Transaction t3 = new Transaction(3, 50.0, "2024-01-31", "cash", "pending");
-        Transaction t4 = new Transaction(4, 5.0, "2024-01-10", "cash", "completed");
-        Transaction t5 = new Transaction(5, 7.0, "2024-01-15", "cash", "completed");
+        // ── Simulate driver completing a flouci trip ────────
+        System.out.println("\n=== Driver completes Trip 2 (flouci) ===");
+        transactionService.completeTrip(1, 102, 20.0, 3, "flouci");
 
-        transactionService.add(t1);
-        transactionService.add(t2);
-        transactionService.add(t3);
-        transactionService.add(t4);
-        transactionService.add(t5);
+        // ── Simulate another driver completing a trip ───────
+        System.out.println("\n=== Driver 2 completes Trip 3 (cash) ===");
+        transactionService.completeTrip(2, 103, 25.0, 1, "cash");
 
-        // --- DISPLAY ---
-        System.out.println("\n--- Revenues ---");
-        System.out.println(revenueService.getAll());
+        // ── Display all transactions ─────────────────────────
+        System.out.println("\n=== All Transactions ===");
+        for (Transaction t : transactionService.getAll()) {
+            System.out.println(t);
+        }
 
-        System.out.println("\n--- Transactions ---");
-        System.out.println(transactionService.getAll());
+        // ── Display all revenues ─────────────────────────────
+        System.out.println("\n=== All Revenues ===");
+        for (Revenue r : revenueService.getAll()) {
+            System.out.println(r);
+        }
+
+        // ── Display driver 1 revenues only ──────────────────
+        System.out.println("\n=== Driver 1 Revenues ===");
+        for (Revenue r : revenueService.getByDriver(1)) {
+            System.out.println(r);
+        }
+
+        // ── Simulate a refund ────────────────────────────────
+        System.out.println("\n=== Refund Transaction 1 ===");
+        transactionService.refundTransaction(1, 15.0, "Trajet annule par le conducteur");
+
+        // ── Display after refund ─────────────────────────────
+        System.out.println("\n=== All Revenues After Refund ===");
+        for (Revenue r : revenueService.getAll()) {
+            System.out.println(r);
+        }
     }
 }

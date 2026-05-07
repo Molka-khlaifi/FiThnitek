@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.loginController"
+            prefHeight="400.0" prefWidth="450.0"
+            style="-fx-background-color: white;">
+
+    <!-- Title -->
+    <Label layoutX="0.0" layoutY="40.0"
+           prefWidth="450.0"
+           style="-fx-font-size: 26px; -fx-font-weight: bold;
+                  -fx-text-fill: #3498db; -fx-alignment: center;"
+           text="Fi Thniytek"/>
+
+    <Label layoutX="0.0" layoutY="80.0"
+           prefWidth="450.0"
+           style="-fx-font-size: 13px; -fx-text-fill: #aaa;
+                  -fx-alignment: center;"
+           text="Admin Panel — Please sign in"/>
+
+    <!-- Username -->
+    <Label layoutX="60.0" layoutY="140.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;"
+           text="Username"/>
+    <TextField fx:id="usernameField"
+               layoutX="60.0" layoutY="162.0"
+               prefHeight="38.0" prefWidth="330.0"
+               promptText="Enter your username"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Password -->
+    <Label layoutX="60.0" layoutY="215.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;"
+           text="Password"/>
+    <PasswordField fx:id="passwordField"
+                   layoutX="60.0" layoutY="237.0"
+                   prefHeight="38.0" prefWidth="330.0"
+                   promptText="Enter your password"
+                   style="-fx-background-radius: 6; -fx-border-radius: 6;
+                          -fx-border-color: #ddd; -fx-border-width: 1;
+                          -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Error Label -->
+    <Label fx:id="erreurLabel"
+           layoutX="60.0" layoutY="285.0"
+           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"
+           text=""/>
+
+    <!-- Login Button -->
+    <Button layoutX="60.0" layoutY="310.0"
+            fx:id="loginBtn"
+            onAction="#login"
+            prefHeight="38.0" prefWidth="330.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white;
+                   -fx-font-weight: bold; -fx-font-size: 14px;
+                   -fx-background-radius: 8; -fx-cursor: hand;"
+            text="Sign In"/>
+
+</AnchorPane>
