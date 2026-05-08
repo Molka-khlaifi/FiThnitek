@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ChatbotAideController"
+      style="-fx-padding: 10; -fx-background-image: url('BACKGROUND.png')">
+
+    <Label text="🤖 Assistant d'aide Forum"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <!-- ✅ Zone de bienvenue ajoutée -->
+    <Label text="Bonjour 👋 ! Comment puis-je vous aider ?"
+           wrapText="true"
+           style="-fx-font-size: 13px;
+                  -fx-background-color: white;
+                  -fx-padding: 10;
+                  -fx-background-radius: 10;" />
+
+    <ListView fx:id="chatList"
+              prefHeight="350"
+              style="-fx-background-radius: 10;" />
+
+    <HBox spacing="10">
+        <TextField fx:id="inputField"
+                   promptText="Pose ta question..."
+                   HBox.hgrow="ALWAYS"/>
+
+        <Button text="Envoyer"
+                onAction="#sendMessage"
+                style="-fx-background-color: #1A73E8; -fx-text-fill: white;" />
+    </HBox>
+
+</VBox>
