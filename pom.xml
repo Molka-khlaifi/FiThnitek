@@ -5,9 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-<<<<<<< HEAD
     <artifactId>COVFT-Final</artifactId>
-=======
     <artifactId>FiThnitek</artifactId>
 >>>>>>> origin/gestion-forum
     <version>1.0-SNAPSHOT</version>
@@ -18,8 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-<<<<<<< HEAD
-=======
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
@@ -45,12 +41,10 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <!-- ✅ corrigé -->
                     <mainClass>org.example.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
->>>>>>> origin/gestion-forum
 </project>
