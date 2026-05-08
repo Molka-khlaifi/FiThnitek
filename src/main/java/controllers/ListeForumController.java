@@ -40,20 +40,17 @@ public class ListeForumController {
     @FXML
     public void initialize() {
 
-
         logoImageView.setImage(new Image(getClass().getResourceAsStream("/FT.png")));
         categorieFilterComboBox.getItems().addAll("Tous", "question", "discussion", "autre");
         categorieFilterComboBox.setValue("Tous");
 
         chargerpublications();
 
-        //tcherchy wahdha
         searchTextField.textProperty().addListener((obs, oldVal, newVal) -> {
             publicationList = forumService.rechercher(newVal);
             afficherFeed(publicationList);
         });
 
-        //BOUTON BEL ENTRE
         searchTextField.setOnAction(this::rechercherAction);
     }
 
@@ -61,13 +58,11 @@ public class ListeForumController {
 
         publicationList = forumService.getAll();
 
-        //tala3 l epingle l fou9
         publicationList.sort((p1, p2) ->
                 Boolean.compare(p2.isEpingle(), p1.isEpingle()));
 
         afficherFeed(publicationList);
 
-        //nb posts
         statsLabel.setText(publicationList.size() + " posts");
     }
 
@@ -95,22 +90,19 @@ public class ListeForumController {
                             "-fx-text-fill: #085041;"
             );
 
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
-
             header.getChildren().add(titre);
 
             if (post.isEpingle()) {
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
 
                 Label epingle = new Label("📌 Épinglé");
-
                 epingle.setStyle(
                         "-fx-background-color: #FFE082;" +
                                 "-fx-padding: 4 8;" +
                                 "-fx-background-radius: 10;" +
                                 "-fx-font-size: 11px;"
                 );
-
                 header.getChildren().addAll(spacer, epingle);
             }
 
@@ -124,7 +116,6 @@ public class ListeForumController {
                     "📂 " + post.getCategorie().toUpperCase()
                             + "   👁 " + post.getNb_vues() + " vues"
             );
-
             infos.setStyle("-fx-text-fill: #777; -fx-font-size: 12px;");
 
             // ACTIONS
@@ -141,20 +132,18 @@ public class ListeForumController {
             actions.getChildren().addAll(detailsBtn, commentairesBtn);
 
             card.getChildren().addAll(header, contenu, infos, actions);
-            card.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 1) {
-                    idTextField.setText(String.valueOf(post.getId()));
-                }
 
+            card.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
                     afficherDetailsPost(post);
+                } else if (event.getClickCount() == 1) {
+                    idTextField.setText(String.valueOf(post.getId()));
                 }
             });
-            feedContainer.getChildren().add(card);
 
+            feedContainer.getChildren().add(card);
         }
     }
-
 
     @FXML
     void rechercherAction(ActionEvent event) {
@@ -166,13 +155,9 @@ public class ListeForumController {
             return;
         }
         publicationList = forumService.rechercher(keyword);
-
         afficherFeed(publicationList);
-
         statsLabel.setText(publicationList.size() + " résultats");
     }
-
-
 
     @FXML
     void filtrerCategorieAction(ActionEvent event) {
@@ -191,7 +176,6 @@ public class ListeForumController {
 
     @FXML
     void trierParDateAction(ActionEvent event) {
-
         publicationList = forumService.trierParDate();
         afficherFeed(publicationList);
         messageLabel.setText("Tri par date");
@@ -199,7 +183,6 @@ public class ListeForumController {
 
     @FXML
     void trierParVuesAction(ActionEvent event) {
-
         publicationList = forumService.trierParVues();
         afficherFeed(publicationList);
         messageLabel.setText("Tri par vues");
@@ -209,14 +192,12 @@ public class ListeForumController {
 
     @FXML
     void ajouterAction(ActionEvent event) throws IOException {
-
         Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml"));
         feedContainer.getScene().setRoot(root);
     }
 
     @FXML
     void mesPostsAction(ActionEvent event) throws IOException {
-
         Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
         feedContainer.getScene().setRoot(root);
     }
@@ -224,18 +205,14 @@ public class ListeForumController {
     // ───────── DETAILS ─────────
 
     private void afficherDetailsPost(publication post) {
-
         try {
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/PostDetails.fxml"));
-
-            Parent root = loader.load();
-
-            PostDetailsController controller = loader.getController();
-            controller.setPost(post);
-
             forumService.incrementerVues(post.getId());
+            publication fresh = forumService.getById(post.getId()); // ← données fraîches depuis DB
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
+            Parent root = loader.load();
+            PostDetailsController controller = loader.getController();
+            controller.setPost(fresh); // ← fresh, pas post
 
             feedContainer.getScene().setRoot(root);
 
@@ -247,19 +224,12 @@ public class ListeForumController {
     // ───────── COMMENTAIRES ─────────
 
     private void ouvrirCommentaires(publication post) {
-
         try {
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/CommentaireForum.fxml"));
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CommentaireForum.fxml"));
             Parent root = loader.load();
-
             CommentaireForumController ctrl = loader.getController();
             ctrl.initData(post.getId(), post.getTitre());
-
             feedContainer.getScene().setRoot(root);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -269,20 +239,14 @@ public class ListeForumController {
 
     @FXML
     void openChatbot() {
-
         try {
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/ChatbotAide.fxml"));
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatbotAide.fxml"));
             Parent root = loader.load();
-
             Stage stage = new Stage();
             stage.setTitle("Assistant Forum");
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

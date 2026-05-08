@@ -333,14 +333,25 @@ public class forumService implements IService<publication> {
     }
 
     // ───────────────── VUES ─────────────────
-    public void incrementerVues(int publicationId) {
-        String sql = "UPDATE publication SET nb_vues = nb_vues + 1 WHERE id=?";
+    public void incrementerVues(int id) {
+
+        String req =
+                "UPDATE publication " +
+                        "SET nb_vues = nb_vues + 1 " +
+                        "WHERE id = ?";
+
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, publicationId);
+
+            PreparedStatement ps =
+                    con.prepareStatement(req);
+
+            ps.setInt(1, id);
+
             ps.executeUpdate();
+
         } catch (SQLException e) {
-            System.out.println("Erreur incrementerVues : " + e.getMessage());
+
+            System.out.println(e.getMessage());
         }
     }
 

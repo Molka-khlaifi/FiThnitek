@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import models.publication;
 import services.forumService;
@@ -15,27 +17,36 @@ import java.util.List;
 
 public class MesForumsController {
 
-    @FXML private TextField idTextField;
-    @FXML private Label statsLabel;
-    @FXML private Label messageLabel;
-    @FXML private VBox feedContainer;
+    @FXML
+    private TextField idTextField;
 
-    private forumService forumService = new forumService();
+    @FXML
+    private Label statsLabel;
+
+    @FXML
+    private Label messageLabel;
+
+    @FXML
+    private VBox feedContainer;
+
+    private final forumService forumService = new forumService();
+
     private List<publication> mesPosts;
 
-    // ───────── INIT ─────────
+    // ───────────────── INIT ─────────────────
 
     @FXML
     public void initialize() {
         chargerMesPosts();
     }
 
-    // ───────── CHARGER FEED ─────────
+    // ───────────────── CHARGER POSTS ─────────────────
 
     private void chargerMesPosts() {
 
-        mesPosts = forumService.getAll(); // ou getByUser(id)
+        mesPosts = forumService.getAll();
 
+        // Trier les posts épinglés en premier
         mesPosts.sort((p1, p2) ->
                 Boolean.compare(p2.isEpingle(), p1.isEpingle())
         );
@@ -45,7 +56,7 @@ public class MesForumsController {
         statsLabel.setText(mesPosts.size() + " posts");
     }
 
-    // ───────── FEED UI ─────────
+    // ───────────────── FEED ─────────────────
 
     private void afficherFeed(List<publication> list) {
 
@@ -63,93 +74,179 @@ public class MesForumsController {
                             "-fx-border-color: #DDE6ED;"
             );
 
-            // TITRE
+            // ───── HEADER ─────
+
+            HBox header = new HBox(10);
+
             Label titre = new Label(post.getTitre());
+
             titre.setStyle(
                     "-fx-font-size: 18px;" +
                             "-fx-font-weight: bold;" +
                             "-fx-text-fill: #085041;"
             );
 
-            // CONTENU
+            header.getChildren().add(titre);
+
+            // Badge épinglé
+            if (post.isEpingle()) {
+
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
+
+                Label epingle = new Label("📌 Épinglé");
+
+                epingle.setStyle(
+                        "-fx-background-color: #FFE082;" +
+                                "-fx-padding: 4 8;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-font-size: 11px;"
+                );
+
+                header.getChildren().addAll(spacer, epingle);
+            }
+
+            // ───── CONTENU ─────
+
             Label contenu = new Label(post.getContenu());
+
             contenu.setWrapText(true);
-            contenu.setStyle("-fx-text-fill: #444;");
 
-            // INFOS
-            Label infos = new Label(
-                    "📂 " + post.getCategorie().toUpperCase() +
-                            " | 👁 " + post.getNb_vues()
+            contenu.setStyle(
+                    "-fx-text-fill: #444;" +
+                            "-fx-font-size: 13px;"
             );
-            infos.setStyle("-fx-text-fill: #777; -fx-font-size: 12px;");
 
-            // BOUTONS
+            // ───── INFOS ─────
+
+            Label infos = new Label(
+                    "📂 " + post.getCategorie().toUpperCase()
+                            + "   |   👁 " + post.getNb_vues() + " vues"
+            );
+
+            infos.setStyle(
+                    "-fx-text-fill: #777;" +
+                            "-fx-font-size: 12px;"
+            );
+
+            // ───── BOUTONS ─────
+
             Button detailsBtn = new Button("Voir détails");
-            detailsBtn.setStyle("-fx-background-color: #0f87cc; -fx-text-fill: white;");
+
+            detailsBtn.setStyle(
+                    "-fx-background-color: #0f87cc;" +
+                            "-fx-text-fill: white;"
+            );
+
             detailsBtn.setOnAction(e -> afficherDetailsPost(post));
 
             Button commentairesBtn = new Button("💬 Commentaires");
-            commentairesBtn.setStyle("-fx-background-color: #4bcad6; -fx-text-fill: white;");
+
+            commentairesBtn.setStyle(
+                    "-fx-background-color: #4bcad6;" +
+                            "-fx-text-fill: white;"
+            );
+
             commentairesBtn.setOnAction(e -> ouvrirCommentaires(post));
 
             HBox actions = new HBox(10, detailsBtn, commentairesBtn);
 
-            // CLICK SIMPLE + DOUBLE CLICK
+            // ───── CLICK SUR CARD ─────
+
             card.setOnMouseClicked(event -> {
 
+                // simple clic
                 if (event.getClickCount() == 1) {
                     idTextField.setText(String.valueOf(post.getId()));
                 }
 
+                // double clic
                 if (event.getClickCount() == 2) {
                     afficherDetailsPost(post);
                 }
             });
 
-            card.getChildren().addAll(titre, contenu, infos, actions);
+            // ───── AJOUT CARD ─────
+
+            card.getChildren().addAll(
+                    header,
+                    contenu,
+                    infos,
+                    actions
+            );
+
             feedContainer.getChildren().add(card);
         }
     }
 
-    // ───────── DETAILS ─────────
+    // ───────────────── DETAILS ─────────────────
 
     private void afficherDetailsPost(publication post) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
+
+            // incrémenter les vues
+            forumService.incrementerVues(post.getId());
+
+            // récupérer le post mis à jour depuis la BD
+            publication updatedPost =
+                    forumService.getById(post.getId());
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/PostDetails.fxml")
+            );
+
             Parent root = loader.load();
 
-            PostDetailsController controller = loader.getController();
-            controller.setPost(post);
+            PostDetailsController controller =
+                    loader.getController();
 
-            forumService.incrementerVues(post.getId());
+            // envoyer le post mis à jour
+            controller.setPost(updatedPost);
 
             feedContainer.getScene().setRoot(root);
 
         } catch (IOException e) {
-            showError("Erreur détails : " + e.getMessage());
+
+            showError(
+                    "Erreur affichage détails : "
+                            + e.getMessage()
+            );
         }
     }
 
-    // ───────── COMMENTAIRES ─────────
+    // ───────────────── COMMENTAIRES ─────────────────
 
     private void ouvrirCommentaires(publication post) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CommentaireForum.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/CommentaireForum.fxml")
+            );
+
             Parent root = loader.load();
 
-            CommentaireForumController ctrl = loader.getController();
-            ctrl.initData(post.getId(), post.getTitre());
+            CommentaireForumController ctrl =
+                    loader.getController();
+
+            ctrl.initData(
+                    post.getId(),
+                    post.getTitre()
+            );
 
             feedContainer.getScene().setRoot(root);
 
         } catch (IOException e) {
-            showError("Erreur commentaires : " + e.getMessage());
+
+            showError(
+                    "Erreur commentaires : "
+                            + e.getMessage()
+            );
         }
     }
 
-    // ───────── ACTIONS ─────────
+    // ───────────────── ACTIONS CRUD ─────────────────
 
     @FXML
     void ajouterAction(ActionEvent event) {
@@ -160,25 +257,37 @@ public class MesForumsController {
     void modifierAction(ActionEvent event) {
 
         int id = getId();
+
         if (id == -1) return;
 
         publication p = forumService.getById(id);
+
         if (p == null) {
             showError("Post introuvable !");
             return;
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierForum.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ModifierForum.fxml")
+            );
+
             Parent root = loader.load();
 
-            ModifierForumController controller = loader.getController();
+            ModifierForumController controller =
+                    loader.getController();
+
             controller.initData(p);
 
             feedContainer.getScene().setRoot(root);
 
         } catch (IOException e) {
-            showError("Erreur modification : " + e.getMessage());
+
+            showError(
+                    "Erreur modification : "
+                            + e.getMessage()
+            );
         }
     }
 
@@ -186,23 +295,36 @@ public class MesForumsController {
     void supprimerAction(ActionEvent event) {
 
         int id = getId();
+
         if (id == -1) return;
 
         publication p = forumService.getById(id);
+
         if (p == null) {
             showError("Post introuvable !");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION
+        );
+
         alert.setTitle("Confirmation");
+
         alert.setHeaderText("Supprimer ce post ?");
+
         alert.setContentText("Action irréversible");
 
         alert.showAndWait().ifPresent(response -> {
+
             if (response == ButtonType.OK) {
+
                 forumService.delete(p);
-                messageLabel.setText("Post supprimé");
+
+                messageLabel.setText(
+                        "✅ Post supprimé"
+                );
+
                 chargerMesPosts();
             }
         });
@@ -212,11 +334,15 @@ public class MesForumsController {
     void epinglerAction(ActionEvent event) {
 
         int id = getId();
+
         if (id == -1) return;
 
         forumService.toggleEpingle(id);
 
-        messageLabel.setText("Post épinglé");
+        messageLabel.setText(
+                "📌 Post épinglé"
+        );
+
         chargerMesPosts();
     }
 
@@ -229,12 +355,17 @@ public class MesForumsController {
     void openActiviteAction(ActionEvent event) {
         loadScene("/MonActivite.fxml");
     }
+
+    // IMPORTANT POUR LE FXML
     @FXML
     void voirCommentairesAction(ActionEvent event) {
+
         int id = getId();
+
         if (id == -1) return;
 
         publication p = forumService.getById(id);
+
         if (p == null) {
             showError("Post introuvable !");
             return;
@@ -243,29 +374,51 @@ public class MesForumsController {
         ouvrirCommentaires(p);
     }
 
-    // ───────── UTIL ─────────
+    // ───────────────── UTILITAIRES ─────────────────
 
     private int getId() {
+
         try {
-            return Integer.parseInt(idTextField.getText().trim());
+
+            return Integer.parseInt(
+                    idTextField.getText().trim()
+            );
+
         } catch (Exception e) {
+
             showError("ID invalide !");
+
             return -1;
         }
     }
 
     private void loadScene(String fxml) {
+
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxml));
+
+            Parent root = FXMLLoader.load(
+                    getClass().getResource(fxml)
+            );
+
             feedContainer.getScene().setRoot(root);
+
         } catch (IOException e) {
-            showError("Erreur chargement : " + e.getMessage());
+
+            showError(
+                    "Erreur chargement : "
+                            + e.getMessage()
+            );
         }
     }
 
     private void showError(String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
+
+        Alert a = new Alert(
+                Alert.AlertType.ERROR
+        );
+
         a.setHeaderText(msg);
+
         a.show();
     }
 }

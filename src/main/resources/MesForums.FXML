@@ -35,9 +35,9 @@
     <Label layoutX="15.0" layoutY="458.0" style="-fx-text-fill: #9FE1CB;" text="──────────────────────────────────────────────────────────────────" />
 
     <!-- ID -->
-    <Label layoutX="30.0" layoutY="476.0" style="-fx-font-weight: bold;            -fx-text-fill: #085041;            -fx-font-size: 12px;" text="ID du post :" />
+    <Label layoutX="30.0" layoutY="467.0" style="-fx-font-weight: bold;            -fx-text-fill: #085041;            -fx-font-size: 12px;" text="ID du post :" />
 
-    <TextField fx:id="idTextField" layoutX="30.0" layoutY="509.0" prefHeight="28.0" prefWidth="80.0" promptText="ex: 1" style="-fx-background-radius: 5;                -fx-border-color: #5dbdca;                -fx-border-width: 1;                -fx-background-color: white;                -fx-font-size: 12px;" />
+    <TextField fx:id="idTextField" layoutX="30.0" layoutY="491.0" prefHeight="28.0" prefWidth="80.0" promptText="ex: 1" style="-fx-background-radius: 5;                -fx-border-color: #5dbdca;                -fx-border-width: 1;                -fx-background-color: white;                -fx-font-size: 12px;" />
 
     <!-- BOUTONS -->
     <Button layoutX="168.0" layoutY="505.0" onAction="#ajouterAction" prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: #1D9E75;             -fx-text-fill: white;             -fx-font-weight: bold;             -fx-background-radius: 7;             -fx-font-size: 12px;             -fx-cursor: hand;" text="＋ Ajouter" />
