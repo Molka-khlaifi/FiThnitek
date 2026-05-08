@@ -37,9 +37,18 @@ public class CommentaireForumController {
         titreForum.setText(titre);
         infoForumLabel.setText("Post #" + forumId + " — " + titre);
 
-        // Incrémenter vues
         forumService.incrementerVues(forumId);
+
         chargerCommentaires();
+
+        nouveauCommentaireArea.setOnKeyPressed(event -> {
+            if (event.getCode() == javafx.scene.input.KeyCode.ENTER) {
+                publierCommentaireAction(null);
+                event.consume();
+            }
+        });
+
+
     }
 
     // ─── Charger les commentaires du forum ────────────────────────────────

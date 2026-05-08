@@ -1,91 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="460.0" prefWidth="620.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.DetailForumController"
-            style="-fx-background-image: url('/background.jpg');
-                   -fx-background-size: cover;
-                   -fx-background-position: center;">
+<AnchorPane prefHeight="460.0" prefWidth="620.0" style="-fx-background-image: url('/BACKGROUND.png');                    -fx-background-size: cover;                    -fx-background-position: center;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailForumController">
     <!-- Header succès -->
-    <Label layoutX="30.0" layoutY="25.0"
-           text="Post publié avec succès !"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+    <Label layoutX="30.0" layoutY="25.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Post publié avec succès !" />
 
-    <Label layoutX="30.0" layoutY="58.0"
-           text="Voici le récapitulatif de votre post :"
-           style="-fx-text-fill: #888; -fx-font-size: 13px;"/>
+    <Label layoutX="30.0" layoutY="58.0" style="-fx-text-fill: #888; -fx-font-size: 13px;" text="Voici le récapitulatif de votre post :" />
 
-    <Label layoutX="30.0" layoutY="80.0"
-           text="───────────────────────────────────────────────────"
-           style="-fx-text-fill: #ddd;"/>
+    <Label layoutX="30.0" layoutY="80.0" style="-fx-text-fill: #ddd;" text="───────────────────────────────────────────────────" />
 
     <!-- Titre -->
-    <Label layoutX="30.0" layoutY="105.0" text="Titre"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextField fx:id="titreTextField"
-               layoutX="30.0" layoutY="124.0"
-               prefWidth="555.0" prefHeight="36.0"
-               editable="false"
-               style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 0 10;"/>
+    <Label layoutX="30.0" layoutY="105.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Titre" />
+    <TextField fx:id="titreTextField" editable="false" layoutX="30.0" layoutY="124.0" prefHeight="36.0" prefWidth="555.0" style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 0 10;" />
 
     <!-- Categorie + Statut -->
-    <Label layoutX="30.0" layoutY="178.0" text="Catégorie"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextField fx:id="categorieTextField"
-               layoutX="30.0" layoutY="197.0"
-               prefWidth="250.0" prefHeight="34.0"
-               editable="false"
-               style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;"/>
+    <Label layoutX="30.0" layoutY="178.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Catégorie" />
+    <TextField fx:id="categorieTextField" editable="false" layoutX="30.0" layoutY="197.0" prefHeight="34.0" prefWidth="250.0" style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;" />
 
-    <Label layoutX="320.0" layoutY="178.0" text="Statut"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextField fx:id="statutTextField"
-               layoutX="320.0" layoutY="197.0"
-               prefWidth="265.0" prefHeight="34.0"
-               editable="false"
-               style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;"/>
+    <Label layoutX="320.0" layoutY="178.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Statut" />
+    <TextField fx:id="statutTextField" editable="false" layoutX="320.0" layoutY="197.0" prefHeight="34.0" prefWidth="265.0" style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;" />
 
     <!-- Contenu -->
-    <Label layoutX="30.0" layoutY="248.0" text="Contenu"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextArea fx:id="contenuTextArea"
-              layoutX="30.0" layoutY="267.0"
-              prefWidth="555.0" prefHeight="100.0"
-              editable="false"
-              wrapText="true"
-              style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;"/>
+    <Label layoutX="30.0" layoutY="248.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Contenu" />
+    <TextArea fx:id="contenuTextArea" editable="false" layoutX="30.0" layoutY="267.0" prefHeight="100.0" prefWidth="555.0" style="-fx-background-color: #eef6fb; -fx-border-color: #cce4f7; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;" wrapText="true" />
 
     <!-- Date -->
-    <Label layoutX="30.0" layoutY="378.0" text="Publié le :"
-           style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
-    <Label fx:id="dateLabel"
-           layoutX="100.0" layoutY="378.0"
-           text=""
-           style="-fx-text-fill: #555; -fx-font-size: 12px;"/>
+    <Label layoutX="30.0" layoutY="378.0" style="-fx-text-fill: #888; -fx-font-size: 12px;" text="Publié le :" />
+    <Label fx:id="dateLabel" layoutX="100.0" layoutY="378.0" style="-fx-text-fill: #555; -fx-font-size: 12px;" text="" />
 
     <!-- Boutons -->
-    <Button layoutX="30.0" layoutY="408.0"
-            text="← Retour à la liste"
-            onAction="#retourListeAction"
-            prefWidth="170.0" prefHeight="36.0"
-            style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;"/>
+    <Button layoutX="30.0" layoutY="408.0" onAction="#retourListeAction" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;" text="← Retour à la liste" />
 
-    <Button layoutX="215.0" layoutY="408.0"
-            text="+ Ajouter un autre post"
-            onAction="#retourAjouterAction"
-            prefWidth="190.0" prefHeight="36.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"/>
+    <Button layoutX="215.0" layoutY="408.0" onAction="#retourAjouterAction" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="+ Ajouter un autre post" />
 
-    <Button layoutX="420.0" layoutY="408.0"
-            text="Voir commentaires"
-            onAction="#voirCommentairesAction"
-            prefWidth="165.0" prefHeight="36.0"
-            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"/>
+    <Button layoutX="420.0" layoutY="408.0" onAction="#voirCommentairesAction" prefHeight="36.0" prefWidth="165.0" style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="Voir commentaires" />
 
 </AnchorPane>

@@ -4,15 +4,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+
 public class ChatbotAideController {
 
     @FXML private ListView<String> chatList;
     @FXML private TextField inputField;
+
     private void ajouterMessageBot(String msg) {
         chatList.getItems().add("Bot: " + msg);
     }
-    @FXML
-    void sendMessage() {
+    @FXML public void initialize() {
+        inputField.setOnAction(event -> sendMessage());
+    }
+
+    @FXML void sendMessage() {
 
         String msg = inputField.getText().toLowerCase().trim();
         if (msg.isEmpty()) return;

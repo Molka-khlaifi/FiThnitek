@@ -8,98 +8,48 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="560.0" prefWidth="620.0"
-            xmlns="http://javafx.com/javafx/26"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.AjouterForumController"
-            style="-fx-background-image: url('/background.jpg');
-                   -fx-background-size: cover;
-                   -fx-background-position: center;">
+<AnchorPane prefHeight="560.0" prefWidth="620.0" style="-fx-background-image: url('/BACKGROUND.png');                    -fx-background-size: cover;                    -fx-background-position: center;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterForumController">
 
-    <Label layoutX="30.0" layoutY="25.0"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
-           text="Nouveau Post " />
+    <Label layoutX="30.0" layoutY="25.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Nouveau Post " />
 
-    <Label layoutX="30.0" layoutY="65.0"
-           style="-fx-text-fill: #cccccc;"
-           text="───────────────────────────────────────────────────" />
+    <Label layoutX="30.0" layoutY="65.0" style="-fx-text-fill: #cccccc;" text="───────────────────────────────────────────────────" />
 
     <!-- Titre -->
-    <Label layoutX="30.0" layoutY="100.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Titre *" />
-    <TextField fx:id="titreTextField" layoutX="30.0" layoutY="120.0"
-               prefHeight="36.0" prefWidth="555.0"
-               promptText="Ex: Trajet Tunis → Sfax disponible vendredi"
-               style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;" />
+    <Label layoutX="30.0" layoutY="100.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Titre *" />
+    <TextField fx:id="titreTextField" layoutX="30.0" layoutY="120.0" prefHeight="36.0" prefWidth="555.0" promptText="Ex: Trajet Tunis → Sfax disponible vendredi" style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;" />
 
     <!-- Categorie -->
-    <Label layoutX="30.0" layoutY="175.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Catégorie *" />
-    <ComboBox fx:id="categorieComboBox" layoutX="30.0" layoutY="195.0"
-              prefHeight="36.0" prefWidth="250.0"
-              style="-fx-background-radius: 6; -fx-border-radius: 6;" />
+    <Label layoutX="30.0" layoutY="175.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Catégorie *" />
+    <ComboBox fx:id="categorieComboBox" layoutX="30.0" layoutY="195.0" prefHeight="36.0" prefWidth="250.0" style="-fx-background-radius: 6; -fx-border-radius: 6;" />
 
     <!-- Statut -->
-    <Label layoutX="320.0" layoutY="175.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Statut" />
-    <ComboBox fx:id="statutComboBox" layoutX="320.0" layoutY="195.0"
-              prefHeight="36.0" prefWidth="265.0"
-              style="-fx-background-radius: 6; -fx-border-radius: 6;" />
+    <Label layoutX="320.0" layoutY="175.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Statut" />
+    <ComboBox fx:id="statutComboBox" layoutX="320.0" layoutY="195.0" prefHeight="36.0" prefWidth="265.0" style="-fx-background-radius: 6; -fx-border-radius: 6;" />
 
     <!-- Contenu -->
-    <Label layoutX="30.0" layoutY="250.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Contenu *" />
-    <TextArea fx:id="contenuTextArea" layoutX="30.0" layoutY="270.0"
-              prefHeight="120.0" prefWidth="555.0"
-              promptText="Décrivez votre post en détail..."
-              style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white;"
-              wrapText="true" />
+    <Label layoutX="30.0" layoutY="250.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Contenu *" />
+    <TextArea fx:id="contenuTextArea" layoutX="30.0" layoutY="270.0" prefHeight="120.0" prefWidth="555.0" promptText="Décrivez votre post en détail..." style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white;" wrapText="true" />
 
     <!-- Compteur caractères -->
-    <Label fx:id="compteurLabel" layoutX="490.0" layoutY="395.0"
-           style="-fx-text-fill: #aaa; -fx-font-size: 11px;" text="0 / 500" />
+    <Label fx:id="compteurLabel" layoutX="490.0" layoutY="395.0" style="-fx-text-fill: #aaa; -fx-font-size: 11px;" text="0 / 500" />
 
     <!-- Upload Image -->
-    <Label layoutX="30.0" layoutY="410.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Image (optionnel)" />
+    <Label layoutX="30.0" layoutY="410.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Image (optionnel)" />
 
-    <TextField fx:id="imagePathTextField" layoutX="30.0" layoutY="430.0"
-               prefHeight="30.0" prefWidth="380.0"
-               promptText="Aucune image sélectionnée"
-               editable="false"
-               style="-fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white;" />
+    <TextField fx:id="imagePathTextField" editable="false" layoutX="30.0" layoutY="430.0" prefHeight="30.0" prefWidth="380.0" promptText="Aucune image sélectionnée" style="-fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white;" />
 
-    <Button layoutX="420.0" layoutY="430.0"
-            text="📁 Choisir"
-            onAction="#choisirImageAction"
-            prefWidth="110.0" prefHeight="30.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" />
+    <Button layoutX="420.0" layoutY="430.0" onAction="#choisirImageAction" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="📁 Choisir" />
 
-    <ImageView fx:id="imagePreview" layoutX="545.0" layoutY="410.0"
-               fitWidth="60.0" fitHeight="50.0"
-               preserveRatio="true" pickOnBounds="true"/>
+    <ImageView fx:id="imagePreview" fitHeight="50.0" fitWidth="60.0" layoutX="545.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
 
     <!-- Message erreur -->
-    <Label fx:id="erreurLabel" layoutX="30.0" layoutY="475.0"
-           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" />
+    <Label fx:id="erreurLabel" layoutX="30.0" layoutY="475.0" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" />
 
     <!-- Boutons -->
-    <Button layoutX="30.0" layoutY="510.0"
-            onAction="#ajouterForumAction"
-            prefHeight="38.0" prefWidth="180.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
-            text="✓  Publier le post" />
+    <Button layoutX="30.0" layoutY="510.0" onAction="#ajouterForumAction" prefHeight="38.0" prefWidth="180.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="✓  Publier le post" />
 
-    <Button layoutX="230.0" layoutY="510.0"
-            onAction="#voirListeAction"
-            prefHeight="38.0" prefWidth="140.0"
-            style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;"
-            text="Voir la liste" />
+    <Button layoutX="230.0" layoutY="510.0" onAction="#voirListeAction" prefHeight="38.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;" text="Voir la liste" />
 
-    <Button layoutX="390.0" layoutY="510.0"
-            onAction="#annulerAction"
-            prefHeight="38.0" prefWidth="100.0"
-            style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;"
-            text="Annuler" />
+    <Button layoutX="390.0" layoutY="510.0" onAction="#annulerAction" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;" text="Initialiser" />
 
 </AnchorPane>

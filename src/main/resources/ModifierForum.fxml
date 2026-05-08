@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -6,81 +7,38 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="480.0" prefWidth="620.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ModifierForumController"
-            style="-fx-background-image: url('/background.jpg');
-                   -fx-background-size: cover;
-                   -fx-background-position: center;">
+<AnchorPane prefHeight="480.0" prefWidth="620.0" style="-fx-background-image: url('/BACKGROUND.png');                    -fx-background-size: cover;                    -fx-background-position: center;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierForumController">
 
-    <Label layoutX="30.0" layoutY="25.0"
-           text="Modifier le Post"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Label layoutX="30.0" layoutY="25.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Modifier le Post" />
 
-    <Label layoutX="30.0" layoutY="65.0"
-           text="───────────────────────────────────────────────────"
-           style="-fx-text-fill: #cccccc;"/>
+    <Label layoutX="30.0" layoutY="65.0" style="-fx-text-fill: #cccccc;" text="───────────────────────────────────────────────────" />
 
     <!-- ID (lecture seule) -->
-    <Label layoutX="30.0" layoutY="90.0" text="ID du post"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextField fx:id="idTextField"
-               layoutX="30.0" layoutY="108.0"
-               prefWidth="100.0" prefHeight="32.0"
-               editable="false"
-               style="-fx-background-color: #eee; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;"/>
+    <Label layoutX="30.0" layoutY="90.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="ID du post" />
+    <TextField fx:id="idTextField" editable="false" layoutX="30.0" layoutY="108.0" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #eee; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6;" />
 
     <!-- Titre -->
-    <Label layoutX="30.0" layoutY="155.0" text="Titre *"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextField fx:id="titreTextField"
-               layoutX="30.0" layoutY="175.0"
-               prefWidth="555.0" prefHeight="36.0"
-               style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;"/>
+    <Label layoutX="30.0" layoutY="155.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Titre *" />
+    <TextField fx:id="titreTextField" layoutX="30.0" layoutY="175.0" prefHeight="36.0" prefWidth="555.0" style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;" />
 
     <!-- Categorie -->
-    <Label layoutX="30.0" layoutY="228.0" text="Catégorie *"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <ComboBox fx:id="categorieComboBox"
-              layoutX="30.0" layoutY="248.0"
-              prefWidth="250.0" prefHeight="36.0"
-              style="-fx-background-radius: 6; -fx-border-radius: 6;"/>
+    <Label layoutX="30.0" layoutY="228.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Catégorie *" />
+    <ComboBox fx:id="categorieComboBox" layoutX="30.0" layoutY="248.0" prefHeight="36.0" prefWidth="250.0" style="-fx-background-radius: 6; -fx-border-radius: 6;" />
 
     <!-- Statut -->
-    <Label layoutX="320.0" layoutY="228.0" text="Statut"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <ComboBox fx:id="statutComboBox"
-              layoutX="320.0" layoutY="248.0"
-              prefWidth="265.0" prefHeight="36.0"
-              style="-fx-background-radius: 6; -fx-border-radius: 6;"/>
+    <Label layoutX="320.0" layoutY="228.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Statut" />
+    <ComboBox fx:id="statutComboBox" layoutX="320.0" layoutY="248.0" prefHeight="36.0" prefWidth="265.0" style="-fx-background-radius: 6; -fx-border-radius: 6;" />
 
     <!-- Contenu -->
-    <Label layoutX="30.0" layoutY="302.0" text="Contenu *"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-    <TextArea fx:id="contenuTextArea"
-              layoutX="30.0" layoutY="322.0"
-              prefWidth="555.0" prefHeight="100.0"
-              wrapText="true"
-              style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white;"/>
+    <Label layoutX="30.0" layoutY="302.0" style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Contenu *" />
+    <TextArea fx:id="contenuTextArea" layoutX="30.0" layoutY="322.0" prefHeight="100.0" prefWidth="555.0" style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white;" wrapText="true" />
 
     <!-- Message erreur -->
-    <Label fx:id="erreurLabel"
-           layoutX="30.0" layoutY="428.0"
-           text=""
-           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"/>
+    <Label fx:id="erreurLabel" layoutX="30.0" layoutY="428.0" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" />
 
     <!-- Boutons -->
-    <Button layoutX="30.0" layoutY="438.0"
-            text="✓  Enregistrer modifications"
-            onAction="#modifierForumAction"
-            prefWidth="220.0" prefHeight="38.0"
-            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"/>
+    <Button layoutX="30.0" layoutY="438.0" onAction="#modifierForumAction" prefHeight="38.0" prefWidth="220.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="✓  Enregistrer modifications" />
 
-    <Button layoutX="270.0" layoutY="438.0"
-            text="Annuler"
-            onAction="#annulerAction"
-            prefWidth="120.0" prefHeight="38.0"
-            style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;"/>
+    <Button layoutX="270.0" layoutY="438.0" onAction="#annulerAction" prefHeight="38.0" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;" text="Annuler" />
 
 </AnchorPane>

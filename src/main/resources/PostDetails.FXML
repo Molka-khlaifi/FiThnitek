@@ -1,119 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.PostDetailsController"
-            style="-fx-background-image: url('/background.jpg');
-                   -fx-background-size: cover;
-                   -fx-background-position: center;">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-image: url('/BACKGROUND.png');                    -fx-background-size: cover;                    -fx-background-position: center;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PostDetailsController">
     <!-- ── Header ── -->
-    <Label layoutX="30" layoutY="22"
-           text="📄  Détails du Post"
-           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #085041;"/>
+    <Label layoutX="30" layoutY="22" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #085041;" text="📄  Détails du Post" />
 
-    <Label layoutX="30" layoutY="52"
-           text="──────────────────────────────────────────────────────────────────"
-           style="-fx-text-fill: #9FE1CB;"/>
+    <Label layoutX="30" layoutY="52" prefHeight="18.0" prefWidth="570.0" style="-fx-text-fill: #9FE1CB;" text="──────────────────────────────────────────────────────────────────" />
 
     <!-- ── Carte centrale ── -->
-    <VBox layoutX="30" layoutY="70" prefWidth="640" spacing="14"
-          style="-fx-background-color: white;
-                 -fx-padding: 20;
-                 -fx-background-radius: 10;
-                 -fx-border-radius: 10;
-                 -fx-border-color: #5DCAA5;
-                 -fx-border-width: 1.5;">
+    <VBox layoutX="30" layoutY="70" prefWidth="640" spacing="14" style="-fx-background-color: white;                  -fx-padding: 20;                  -fx-background-radius: 10;                  -fx-border-radius: 10;                  -fx-border-color: #5DCAA5;                  -fx-border-width: 1.5;">
 
         <!-- Titre -->
-        <Label fx:id="titreLabel"
-               wrapText="true"
-               style="-fx-font-size: 18px;
-                      -fx-font-weight: bold;
-                      -fx-text-fill: #085041;"/>
+        <Label fx:id="titreLabel" style="-fx-font-size: 18px;                       -fx-font-weight: bold;                       -fx-text-fill: #085041;" wrapText="true" />
 
         <!-- Séparateur -->
-        <Label text="────────────────────────────────────────────────────────"
-               style="-fx-text-fill: #9FE1CB;"/>
+        <Label style="-fx-text-fill: #9FE1CB;" text="────────────────────────────────────────────────────────" />
 
         <!-- Image (optionnelle) -->
-        <ImageView fx:id="imageView"
-                   fitWidth="600"
-                   fitHeight="180"
-                   preserveRatio="true"/>
+        <ImageView fx:id="imageView" fitHeight="180" fitWidth="600" preserveRatio="true" />
 
         <!-- Contenu -->
-        <Label text="Contenu :"
-               style="-fx-font-weight: bold; -fx-text-fill: #0F6E56; -fx-font-size: 13px;"/>
+        <Label style="-fx-font-weight: bold; -fx-text-fill: #0F6E56; -fx-font-size: 13px;" text="Contenu :" />
 
-        <Label fx:id="contenuLabel"
-               wrapText="true"
-               style="-fx-text-fill: #333; -fx-font-size: 13px; -fx-line-spacing: 3;"/>
+        <Label fx:id="contenuLabel" style="-fx-text-fill: #333; -fx-font-size: 13px; -fx-line-spacing: 3;" wrapText="true" />
 
         <!-- Séparateur -->
-        <Label text="────────────────────────────────────────────────────────"
-               style="-fx-text-fill: #9FE1CB;"/>
+        <Label style="-fx-text-fill: #9FE1CB;" text="────────────────────────────────────────────────────────" />
 
         <!-- Infos -->
         <HBox spacing="25">
-            <Label fx:id="categorieLabel"
-                   style="-fx-text-fill: white;
-                          -fx-background-color: #1D9E75;
-                          -fx-background-radius: 5;
-                          -fx-padding: 3 10;
-                          -fx-font-size: 11px;
-                          -fx-font-weight: bold;"/>
+            <Label fx:id="categorieLabel" style="-fx-text-fill: white;                           -fx-background-color: #1D9E75;                           -fx-background-radius: 5;                           -fx-padding: 3 10;                           -fx-font-size: 11px;                           -fx-font-weight: bold;" />
 
-            <Label fx:id="dateLabel"
-                   style="-fx-text-fill: #888;
-                          -fx-font-size: 12px;"/>
+            <Label fx:id="dateLabel" style="-fx-text-fill: #888;                           -fx-font-size: 12px;" />
 
-            <Label fx:id="vuesLabel"
-                   style="-fx-text-fill: #888;
-                          -fx-font-size: 12px;"/>
+            <Label fx:id="vuesLabel" style="-fx-text-fill: #888;                           -fx-font-size: 12px;" />
 
-            <Label fx:id="statutLabel"
-                   style="-fx-text-fill: white;
-                          -fx-background-color: #3498db;
-                          -fx-background-radius: 5;
-                          -fx-padding: 3 10;
-                          -fx-font-size: 11px;
-                          -fx-font-weight: bold;"/>
+            <Label fx:id="statutLabel" style="-fx-text-fill: white;                           -fx-background-color: #3498db;                           -fx-background-radius: 5;                           -fx-padding: 3 10;                           -fx-font-size: 11px;                           -fx-font-weight: bold;" />
         </HBox>
 
     </VBox>
 
     <!-- ── Boutons ── -->
-    <Button layoutX="30" layoutY="538"
-            text="← Retour"
-            onAction="#retourAction"
-            prefWidth="120" prefHeight="36"
-            style="-fx-background-color: white;
-                   -fx-border-color: #0F6E56;
-                   -fx-border-width: 1;
-                   -fx-text-fill: #0F6E56;
-                   -fx-background-radius: 7;
-                   -fx-font-size: 12px;
-                   -fx-cursor: hand;"/>
+    <Button layoutX="30" layoutY="538" onAction="#retourAction" prefHeight="36" prefWidth="120" style="-fx-background-color: white;                    -fx-border-color: #0F6E56;                    -fx-border-width: 1;                    -fx-text-fill: #0F6E56;                    -fx-background-radius: 7;                    -fx-font-size: 12px;                    -fx-cursor: hand;" text="← Retour" />
 
-    <Button layoutX="165" layoutY="538"
-            text="💬  Commentaires"
-            onAction="#voirCommentairesAction"
-            prefWidth="155" prefHeight="36"
-            style="-fx-background-color: #1abc9c;
-                   -fx-text-fill: white;
-                   -fx-font-weight: bold;
-                   -fx-background-radius: 7;
-                   -fx-font-size: 12px;
-                   -fx-cursor: hand;"/>
+    <Button layoutX="165" layoutY="538" onAction="#voirCommentairesAction" prefHeight="36" prefWidth="155" style="-fx-background-color: #1abc9c;                    -fx-text-fill: white;                    -fx-font-weight: bold;                    -fx-background-radius: 7;                    -fx-font-size: 12px;                    -fx-cursor: hand;" text="💬  Commentaires" />
 
     <!-- ── Message statut ── -->
-    <Label fx:id="messageLabel"
-           layoutX="30" layoutY="592"
-           text=""
-           style="-fx-text-fill: #0F6E56; -fx-font-size: 12px; -fx-font-style: italic;"/>
+    <Label fx:id="messageLabel" layoutX="30" layoutY="592" style="-fx-text-fill: #0F6E56; -fx-font-size: 12px; -fx-font-style: italic;" text="" />
 
 </AnchorPane>

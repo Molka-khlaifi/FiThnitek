@@ -6,7 +6,7 @@
 <VBox spacing="15" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.ChatbotAideController"
-      style="-fx-padding: 10; -fx-background-color: #A7C7E7;">
+      style="-fx-padding: 10; -fx-background-image: url('BACKGROUND.png')">
 
     <Label text="🤖 Assistant d'aide Forum"
            style="-fx-font-size: 16px; -fx-font-weight: bold;" />

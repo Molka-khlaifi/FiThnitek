@@ -416,4 +416,72 @@ public class forumService implements IService<publication> {
             System.out.println("LIKE ERROR: " + e.getMessage());
         }
     }
+
+    //statistiques-------------------------
+
+    // nombre de posts d’un utilisateur
+    public int countPostsByUser(int userId) {
+        String sql = "SELECT COUNT(*) FROM publication WHERE auteurId = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("COUNT POSTS ERROR: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    // nombre de commentaires
+    public int countCommentairesByUser(int userId) {
+        String sql = "SELECT COUNT(*) FROM commentaire WHERE auteurId = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("COUNT COMMENTS ERROR: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    //  likes reçus
+    public int countLikesByUser(int userId) {
+        String sql = "SELECT SUM(likes) FROM commentaire WHERE auteurId = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // peut être NULL
+            }
+        } catch (SQLException e) {
+            System.out.println("COUNT LIKES ERROR: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    //stats-------------------------
+    public int calculScore(int userId) {
+
+        int posts = countPostsByUser(userId);
+        int commentaires = countCommentairesByUser(userId);
+        int likes = countLikesByUser(userId);
+
+        return (posts * 5) + (commentaires * 2) + likes;
+    }
+    public String getBadge(int userId) {
+
+        int score = calculScore(userId);
+
+        if (score >= 100) return "👑 Legend";
+        if (score >= 50) return "🔥 Super Fan";
+        if (score >= 20) return "⭐ Active User";
+        return "🌱 Newbie";
+    }
+
+
+
 }

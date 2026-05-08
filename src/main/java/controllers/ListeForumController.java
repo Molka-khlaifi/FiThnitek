@@ -4,203 +4,277 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import models.publication;
 import services.forumService;
-import javafx.scene.Scene;
-import javafx.scene.control.ToggleButton;
+
 import java.io.IOException;
 import java.util.List;
 
 public class ListeForumController {
 
-    @FXML private ListView<String> publicationListView;
     @FXML private TextField searchTextField;
     @FXML private TextField idTextField;
     @FXML private ComboBox<String> categorieFilterComboBox;
     @FXML private Label statsLabel;
     @FXML private Label messageLabel;
-    @FXML private ToggleButton themeToggle;
     @FXML private Button btnChatbot;
+    @FXML private ImageView logoImageView;
+
+    @FXML private VBox feedContainer;
 
     private forumService forumService = new forumService();
     private List<publication> publicationList;
 
-    // ───────────────── INIT ─────────────────
+    // ───────── INIT ─────────
+
     @FXML
     public void initialize() {
-        categorieFilterComboBox.getItems().addAll("Tous", "question", "discussion","autre");
+
+
+        logoImageView.setImage(new Image(getClass().getResourceAsStream("/FT.png")));
+        categorieFilterComboBox.getItems().addAll("Tous", "question", "discussion", "autre");
         categorieFilterComboBox.setValue("Tous");
 
         chargerpublications();
 
-        publicationListView.setOnMouseClicked(event -> {
-            int index = publicationListView.getSelectionModel().getSelectedIndex();
-
-            if (index >= 0 && index < publicationList.size()) {
-                publication selected = publicationList.get(index);
-
-                // ✔ clic simple → remplir ID
-                idTextField.setText(String.valueOf(selected.getId()));
-
-                // ✔ double clic → ouvrir détails
-                if (event.getClickCount() == 2) {
-                    afficherDetailsPost(selected);
-                }
-            }
+        //tcherchy wahdha
+        searchTextField.textProperty().addListener((obs, oldVal, newVal) -> {
+            publicationList = forumService.rechercher(newVal);
+            afficherFeed(publicationList);
         });
 
-
+        //BOUTON BEL ENTRE
+        searchTextField.setOnAction(this::rechercherAction);
     }
 
-    // ───────────────── CHARGER ─────────────────
     private void chargerpublications() {
+
         publicationList = forumService.getAll();
-        publicationList.sort((p1, p2) -> Boolean.compare(p2.isEpingle(), p1.isEpingle()));
-        afficher(publicationList);
+
+        //tala3 l epingle l fou9
+        publicationList.sort((p1, p2) ->
+                Boolean.compare(p2.isEpingle(), p1.isEpingle()));
+
+        afficherFeed(publicationList);
+
+        //nb posts
         statsLabel.setText(publicationList.size() + " posts");
     }
 
-    // ───────────────── AFFICHAGE ─────────────────
-    private void afficher(List<publication> list) {
-        publicationListView.getItems().clear();
-        for (publication f : list) {
-            String epingle = f.isEpingle() ? "📌 " : "";
-            String ligne = epingle +
-                    "[" + f.getId() + "] " +
-                    f.getTitre() +
-                    " | " + f.getCategorie().toUpperCase() +
-                    " | " + f.getStatut() +
-                    " | " + f.getNb_vues() + " vues";
-            publicationListView.getItems().add(ligne);
+    private void afficherFeed(List<publication> list) {
+
+        feedContainer.getChildren().clear();
+
+        for (publication post : list) {
+            VBox card = new VBox(10);
+            card.setStyle(
+                    "-fx-background-color: white;" +
+                            "-fx-padding: 15;" +
+                            "-fx-background-radius: 12;" +
+                            "-fx-border-radius: 12;" +
+                            "-fx-border-color: #DDE6ED;"
+            );
+
+            // HEADER
+            HBox header = new HBox(10);
+
+            Label titre = new Label(post.getTitre());
+            titre.setStyle(
+                    "-fx-font-size: 18px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-text-fill: #085041;"
+            );
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            header.getChildren().add(titre);
+
+            if (post.isEpingle()) {
+
+                Label epingle = new Label("📌 Épinglé");
+
+                epingle.setStyle(
+                        "-fx-background-color: #FFE082;" +
+                                "-fx-padding: 4 8;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-font-size: 11px;"
+                );
+
+                header.getChildren().addAll(spacer, epingle);
+            }
+
+            // CONTENU
+            Label contenu = new Label(post.getContenu());
+            contenu.setWrapText(true);
+            contenu.setStyle("-fx-text-fill: #444;");
+
+            // INFOS
+            Label infos = new Label(
+                    "📂 " + post.getCategorie().toUpperCase()
+                            + "   👁 " + post.getNb_vues() + " vues"
+            );
+
+            infos.setStyle("-fx-text-fill: #777; -fx-font-size: 12px;");
+
+            // ACTIONS
+            HBox actions = new HBox(10);
+
+            Button detailsBtn = new Button("Voir détails");
+            detailsBtn.setStyle("-fx-background-color: #0f87cc; -fx-text-fill: white;");
+            detailsBtn.setOnAction(e -> afficherDetailsPost(post));
+
+            Button commentairesBtn = new Button("💬 Commentaires");
+            commentairesBtn.setStyle("-fx-background-color: #4bcad6; -fx-text-fill: white;");
+            commentairesBtn.setOnAction(e -> ouvrirCommentaires(post));
+
+            actions.getChildren().addAll(detailsBtn, commentairesBtn);
+
+            card.getChildren().addAll(header, contenu, infos, actions);
+            card.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1) {
+                    idTextField.setText(String.valueOf(post.getId()));
+                }
+
+                if (event.getClickCount() == 2) {
+                    afficherDetailsPost(post);
+                }
+            });
+            feedContainer.getChildren().add(card);
+
         }
     }
 
-    // ───────────────── RECHERCHE ─────────────────
+
     @FXML
     void rechercherAction(ActionEvent event) {
+
         String keyword = searchTextField.getText().trim();
+
         if (keyword.isEmpty()) {
             chargerpublications();
             return;
         }
         publicationList = forumService.rechercher(keyword);
-        afficher(publicationList);
+
+        afficherFeed(publicationList);
+
         statsLabel.setText(publicationList.size() + " résultats");
     }
 
-    // ───────────────── FILTRE ─────────────────
+
+
     @FXML
     void filtrerCategorieAction(ActionEvent event) {
+
         String cat = categorieFilterComboBox.getValue();
+
         if (cat == null || cat.equals("Tous")) {
             chargerpublications();
         } else {
             publicationList = forumService.getByCategorie(cat);
-            afficher(publicationList);
-            statsLabel.setText(publicationList.size() + " posts");
+            afficherFeed(publicationList);
         }
     }
 
-    // ───────────────── TRI ─────────────────
+    // ───────── TRI ─────────
+
     @FXML
     void trierParDateAction(ActionEvent event) {
+
         publicationList = forumService.trierParDate();
-        afficher(publicationList);
+        afficherFeed(publicationList);
         messageLabel.setText("Tri par date");
     }
 
     @FXML
     void trierParVuesAction(ActionEvent event) {
+
         publicationList = forumService.trierParVues();
-        afficher(publicationList);
+        afficherFeed(publicationList);
         messageLabel.setText("Tri par vues");
     }
 
-    // ───────────────── AJOUT ─────────────────
+    // ───────── NAVIGATION ─────────
+
     @FXML
-    void ajouterAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml")); // ✅
-            publicationListView.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur ajout : " + e.getMessage());
-        }
-    }
-    // ─── Naviguer vers MES posts ──────────────────────────────────────────
-    @FXML
-    void mesPostsAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
-            publicationListView.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur : " + e.getMessage());
-        }
+    void ajouterAction(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml"));
+        feedContainer.getScene().setRoot(root);
     }
 
-    //double click
     @FXML
+    void mesPostsAction(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
+        feedContainer.getScene().setRoot(root);
+    }
+
+    // ───────── DETAILS ─────────
+
     private void afficherDetailsPost(publication post) {
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/PostDetails.fxml"));
+
             Parent root = loader.load();
 
             PostDetailsController controller = loader.getController();
             controller.setPost(post);
 
-            publicationListView.getScene().setRoot(root);
-
             forumService.incrementerVues(post.getId());
 
+            feedContainer.getScene().setRoot(root);
+
         } catch (IOException e) {
-            System.out.println("Erreur affichage détails : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
+    // ───────── COMMENTAIRES ─────────
 
-
-    // ───────────────── COMMENTAIRES ─────────────────
-    @FXML
-    void voirCommentairesAction(ActionEvent event) {
-        int id = getId();
-        if (id == -1) return;
-
-        publication f = forumService.getById(id);
-        if (f == null) {
-            showError("Post introuvable !");
-            return;
-        }
+    private void ouvrirCommentaires(publication post) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CommentaireForum.fxml")); // ✅
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/CommentaireForum.fxml"));
+
             Parent root = loader.load();
+
             CommentaireForumController ctrl = loader.getController();
-            ctrl.initData(f.getId(), f.getTitre());
-            publicationListView.getScene().setRoot(root);
+            ctrl.initData(post.getId(), post.getTitre());
+
+            feedContainer.getScene().setRoot(root);
+
         } catch (IOException e) {
-            System.out.println("Erreur commentaires : " + e.getMessage());
-        }
-    }
-    // ───────────────── HELPERS ─────────────────
-    private int getId() {
-        try {
-            return Integer.parseInt(idTextField.getText().trim());
-        } catch (Exception e) {
-            showError("ID invalide !");
-            return -1;
+            e.printStackTrace();
         }
     }
 
-    private void showError(String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setHeaderText(msg);
-        a.show();
-    }
+    // ───────── CHATBOT ─────────
+
     @FXML
     void openChatbot() {
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatbotAide.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ChatbotAide.fxml"));
+
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -213,7 +287,4 @@ public class ListeForumController {
             e.printStackTrace();
         }
     }
-
-
-
 }

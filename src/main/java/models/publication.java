@@ -3,7 +3,7 @@ package models;
 import java.util.Date;
 
 public class publication {
-    int id;
+    static int id;
     String titre;
     String contenu;
     String categorie;
@@ -43,7 +43,7 @@ public class publication {
         this.image = image;
     }
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 

@@ -1,115 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="580.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ListeForumController"
-            style="-fx-background-image: url('/background.jpg');
-                   -fx-background-size: cover;
-                   -fx-background-position: center;">
+<AnchorPane prefHeight="580.0" prefWidth="682.0" style="-fx-background-image: url('/BACKGROUND.png');                    -fx-background-size: cover;                    -fx-background-position: center;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListeForumController">
     <!-- Header -->
-    <Label layoutX="30.0" layoutY="30.0"
-           text="Forum FiThnitek"
-           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Label layoutX="30.0" layoutY="30.0" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Forum FiThnitek" />
 
-    <Label fx:id="statsLabel"
-           layoutX="540.0" layoutY="30.0"
-           text="0 posts"
-           style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
+    <Label fx:id="statsLabel" layoutX="540.0" layoutY="30.0" style="-fx-text-fill: #888; -fx-font-size: 12px;" text="0 posts" />
 
-    <Label layoutX="30.0" layoutY="62.0"
-           text="────────────────────────────────────────────────────────"
-           style="-fx-text-fill: #ddd;"/>
+    <Label layoutX="30.0" layoutY="62.0" prefHeight="18.0" prefWidth="682.0" style="-fx-text-fill: #ddd;" text="────────────────────────────────────────────────────────" />
 
     <!-- Recherche -->
-    <TextField fx:id="searchTextField"
-               layoutX="30.0" layoutY="80.0"
-               prefWidth="380.0" prefHeight="36.0"
-               promptText="Rechercher un post par titre ou contenu..."
-               style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;"/>
+    <TextField fx:id="searchTextField" layoutX="30.0" layoutY="80.0" prefHeight="36.0" prefWidth="380.0" promptText="Rechercher un post par titre ou contenu..." style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;" />
 
-    <Button layoutX="420.0" layoutY="80.0"
-            text="Rechercher"
-            onAction="#rechercherAction"
-            prefWidth="110.0" prefHeight="36.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand;"/>
+    <Button layoutX="420.0" layoutY="80.0" onAction="#rechercherAction" prefHeight="36.0" prefWidth="110.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand;" text="Rechercher" />
 
     <!-- Filtre categorie -->
-    <ComboBox fx:id="categorieFilterComboBox"
-              layoutX="544.0" layoutY="80.0"
-              prefWidth="130.0" prefHeight="36.0"
-              onAction="#filtrerCategorieAction"
-              style="-fx-background-radius: 6;"/>
+    <ComboBox fx:id="categorieFilterComboBox" layoutX="544.0" layoutY="80.0" onAction="#filtrerCategorieAction" prefHeight="36.0" prefWidth="130.0" style="-fx-background-radius: 6;" />
 
     <!-- Tri -->
-    <Label layoutX="30.0" layoutY="130.0"
-           text="Trier par :"
-           style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
+    <Label layoutX="30.0" layoutY="130.0" style="-fx-text-fill: #888; -fx-font-size: 12px;" text="Trier par :" />
 
-    <Button layoutX="95.0" layoutY="126.0"
-            text="Plus récents"
-            onAction="#trierParDateAction"
-            prefWidth="105.0" prefHeight="26.0"
-            style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 5; -fx-font-size: 11px; -fx-cursor: hand;"/>
+    <Button layoutX="95.0" layoutY="126.0" onAction="#trierParDateAction" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 5; -fx-font-size: 11px; -fx-cursor: hand;" text="Plus récents" />
 
-    <Button layoutX="210.0" layoutY="126.0"
-            text="Plus vus"
-            onAction="#trierParVuesAction"
-            prefWidth="90.0" prefHeight="26.0"
-            style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 5; -fx-font-size: 11px; -fx-cursor: hand;"/>
+    <Button layoutX="210.0" layoutY="126.0" onAction="#trierParVuesAction" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-radius: 5; -fx-font-size: 11px; -fx-cursor: hand;" text="Plus vus" />
 
     <!-- ListView principale -->
-    <ListView fx:id="publicationListView"
-              layoutX="30.0" layoutY="165.0"
-              prefWidth="640.0" prefHeight="240.0"
-              style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 1;"/>
+    <ScrollPane fitToWidth="true" layoutX="28.0" layoutY="122.0" prefHeight="362.0" prefWidth="646.0" style="-fx-background-color: transparent;">
 
-    <!-- Zone actions -->
-    <Label layoutX="30.0" layoutY="418.0"
-           text="────────────────────────────────────────────────────────"
-           style="-fx-text-fill: #ddd;"/>
+        <content>
 
-    <Label layoutX="30.0" layoutY="435.0"
-           text="ID du post sélectionné :"
-           style="-fx-font-weight: bold; -fx-text-fill: #555; -fx-font-size: 12px;"/>
+            <VBox fx:id="feedContainer" spacing="15" style="-fx-padding: 10;" />
 
-    <TextField fx:id="idTextField"
-               layoutX="200.0" layoutY="431.0"
-               prefWidth="80.0" prefHeight="30.0"
-               promptText="ex: 1"
-               style="-fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 8;"/>
+        </content>
+
+    </ScrollPane>
+
+    <Label layoutX="29.0" layoutY="515.0" style="-fx-font-weight: bold; -fx-text-fill: #555; -fx-font-size: 12px;" text="ID du post sélectionné :" />
+
+    <TextField fx:id="idTextField" layoutX="170.0" layoutY="508.0" prefHeight="30.0" prefWidth="80.0" promptText="ex: 1" style="-fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 8;" />
 
     <!-- Boutons actions -->
-    <Button layoutX="30.0" layoutY="478.0"
-            text="+ Ajouter"
-            onAction="#ajouterAction"
-            prefWidth="110.0" prefHeight="36.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+    <Button layoutX="283.0" layoutY="505.0" onAction="#ajouterAction" prefHeight="36.0" prefWidth="110.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;" text="+ Ajouter" />
 
-    <Button layoutX="155.0" layoutY="478.0"
-            text="Commentaires"
-            onAction="#voirCommentairesAction"
-            prefWidth="130.0" prefHeight="36.0"
-            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
+    <Button layoutX="410.0" layoutY="505.0" onAction="#mesPostsAction" prefHeight="36.0" prefWidth="110.0" style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;" text="Mes Posts" />
 
-    <Button layoutX="300.0" layoutY="478.0"
-            text="Mes Posts"
-            onAction="#mesPostsAction"
-            prefWidth="110.0" prefHeight="36.0"
-            style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"/>
-
-    <Label fx:id="messageLabel"
-           layoutX="30.0" layoutY="530.0"
-           text=""
-           style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"/>
-    <Button text="Chatbot Aide"
-            fx:id="btnChatbot"
-            onAction="#openChatbot"
-            style="-fx-background-color: #6C63FF; -fx-text-fill: white;" />
+    <Label fx:id="messageLabel" layoutX="30.0" layoutY="530.0" style="-fx-text-fill: #27ae60; -fx-font-size: 12px;" text="" />
+    <Button fx:id="btnChatbot" onAction="#openChatbot" style="-fx-background-color: #6C63FF; -fx-text-fill: white;" text="Chatbot Aide" />
+    <ImageView fx:id="logoImageView" fitHeight="73.0" fitWidth="90.0" layoutX="594.0" layoutY="488.0" preserveRatio="true" />
+   <Label layoutX="1.0" layoutY="488.0" prefHeight="18.0" prefWidth="710.0" style="-fx-text-fill: #9FE1CB;" text="──────────────────────────────────────────────────────────────────" />
 </AnchorPane>
