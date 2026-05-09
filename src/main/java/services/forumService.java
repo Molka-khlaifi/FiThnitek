@@ -2,7 +2,7 @@ package services;
 
 import models.commentaire;
 import models.publication;
-import util.DBConnection;
+import utils.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
