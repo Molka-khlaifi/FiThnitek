@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * - Met à jour les stats en temps réel
  * - Gère l'horloge dans la status bar
  */
-public class AdminHomePageController {
+public class AdminHomePageController implements Initializable {
 
     /* ── FXML Injections ── */
     @FXML private TabPane mainTabPane;

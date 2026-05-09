@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
  * - Toggle disponibilité
  * - KPIs du jour mis à jour automatiquement
  */
-public class ConducteurHomePageController {
+public class ConducteurHomePageController implements Initializable {
 
     /* ── FXML ── */
     @FXML private TabPane mainTabPane;

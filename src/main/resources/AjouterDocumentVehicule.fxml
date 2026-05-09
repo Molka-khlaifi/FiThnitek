@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="580.0" prefWidth="800.0"
+            style="-fx-background-image: url('/BACKGROUND.png');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterDocumentVehiculeController">
+
+    <Label layoutX="30.0" layoutY="25.0"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+           text="Ajouter un document véhicule" />
+
+    <Label fx:id="vehiculeLabel"
+           layoutX="30.0" layoutY="62.0"
+           style="-fx-text-fill: #555; -fx-font-size: 13px;"
+           text="Aucun véhicule sélectionné" />
+
+    <Label layoutX="30.0" layoutY="90.0"
+           style="-fx-text-fill: #ddd;"
+           text="────────────────────────────────────────────────────────────────────" />
+
+    <Label layoutX="90.0" layoutY="150.0" text="Type document" />
+    <ComboBox fx:id="typeDocumentComboBox"
+              layoutX="250.0" layoutY="145.0"
+              prefWidth="280.0"
+              promptText="Choisir type document" />
+
+    <Label layoutX="90.0" layoutY="205.0" text="Nom fichier" />
+    <TextField fx:id="nomFichierTextField"
+               layoutX="250.0" layoutY="200.0"
+               prefWidth="280.0"
+               promptText="Ex: assurance_2026.pdf" />
+
+    <Label layoutX="90.0" layoutY="260.0" text="Chemin fichier" />
+    <TextField fx:id="cheminFichierTextField"
+               layoutX="250.0" layoutY="255.0"
+               prefWidth="280.0"
+               promptText="Ex: uploads/documents/assurance_2026.pdf" />
+
+    <Button layoutX="250.0" layoutY="340.0"
+            onAction="#ajouterDocumentAction"
+            prefHeight="38.0" prefWidth="140.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Ajouter" />
+
+    <Button layoutX="410.0" layoutY="340.0"
+            onAction="#retourAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Retour" />
+
+    <Label fx:id="messageLabel"
+           layoutX="90.0" layoutY="430.0"
+           style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
+           text="" />
+
+</AnchorPane>

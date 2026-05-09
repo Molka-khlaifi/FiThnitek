@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="580.0" prefWidth="800.0"
+            style="-fx-background-image: url('/BACKGROUND.png');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.DocumentsVehiculeController">
+
+    <Label layoutX="30.0" layoutY="25.0"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+           text="Documents du véhicule" />
+
+    <Label fx:id="vehiculeLabel"
+           layoutX="30.0" layoutY="62.0"
+           style="-fx-text-fill: #555; -fx-font-size: 13px;"
+           text="Aucun véhicule sélectionné" />
+
+    <TableView fx:id="documentsTableView"
+               layoutX="30.0" layoutY="105.0"
+               prefHeight="340.0" prefWidth="730.0"
+               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 1;">
+
+        <columns>
+            <TableColumn fx:id="typeDocumentColumn" prefWidth="160.0" text="Type" />
+            <TableColumn fx:id="nomFichierColumn" prefWidth="220.0" text="Nom fichier" />
+            <TableColumn fx:id="cheminFichierColumn" prefWidth="240.0" text="Chemin" />
+            <TableColumn fx:id="statutDocumentColumn" prefWidth="110.0" text="Statut" />
+        </columns>
+    </TableView>
+
+    <Button layoutX="30.0" layoutY="480.0"
+            onAction="#ajouterDocumentAction"
+            prefHeight="38.0" prefWidth="150.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="+ Ajouter document" />
+
+    <Button layoutX="200.0" layoutY="480.0"
+            onAction="#supprimerDocumentAction"
+            prefHeight="38.0" prefWidth="160.0"
+            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Supprimer document" />
+
+    <Button layoutX="380.0" layoutY="480.0"
+            onAction="#retourAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Retour" />
+
+    <Label fx:id="messageLabel"
+           layoutX="30.0" layoutY="540.0"
+           style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
+           text="" />
+
+</AnchorPane>

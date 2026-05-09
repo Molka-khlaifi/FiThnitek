@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
  *  - Notifications pop-up au démarrage (toasts animés)
  *  - Panneau notifications latéral slide-in
  */
-public class PassagerHomePageController {
+public class PassagerHomePageController implements Initializable {
 
     /* ── FXML ── */
     @FXML private TabPane mainTabPane;

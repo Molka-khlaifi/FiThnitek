@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="580.0" prefWidth="800.0"
+            style="-fx-background-image: url('/BACKGROUND.png');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ModifierVehiculeController">
+
+    <Label layoutX="30.0" layoutY="25.0"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+           text="Modifier un véhicule" />
+
+    <Label layoutX="30.0" layoutY="60.0"
+           style="-fx-text-fill: #ddd;"
+           text="────────────────────────────────────────────────────────────────────" />
+
+    <TextField fx:id="idVehiculeTextField" visible="false" managed="false" />
+
+    <Label layoutX="80.0" layoutY="110.0" text="Marque" />
+    <TextField fx:id="marqueTextField" layoutX="220.0" layoutY="105.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="155.0" text="Modèle" />
+    <TextField fx:id="modeleTextField" layoutX="220.0" layoutY="150.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="200.0" text="Immatriculation" />
+    <TextField fx:id="immatriculationTextField" layoutX="220.0" layoutY="195.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="245.0" text="Couleur" />
+    <TextField fx:id="couleurTextField" layoutX="220.0" layoutY="240.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="290.0" text="Année" />
+    <TextField fx:id="anneeTextField" layoutX="220.0" layoutY="285.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="335.0" text="Nombre de places" />
+    <TextField fx:id="placesTextField" layoutX="220.0" layoutY="330.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="380.0" text="Type véhicule" />
+    <ComboBox fx:id="typeVehiculeComboBox" layoutX="220.0" layoutY="375.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="425.0" text="Énergie" />
+    <ComboBox fx:id="energieComboBox" layoutX="220.0" layoutY="420.0" prefWidth="250.0" />
+
+    <Button layoutX="220.0" layoutY="485.0"
+            onAction="#modifierVehiculeAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Modifier" />
+
+    <Button layoutX="360.0" layoutY="485.0"
+            onAction="#retourAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Retour" />
+
+    <Label fx:id="messageLabel"
+           layoutX="80.0" layoutY="540.0"
+           style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
+           text="" />
+
+</AnchorPane>

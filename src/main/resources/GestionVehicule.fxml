@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="580.0" prefWidth="800.0"
+            style="-fx-background-image: url('/BACKGROUND.png');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.GestionVehiculeController">
+
+    <!-- Header -->
+    <Label layoutX="30.0" layoutY="25.0"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+           text="Gérer vos véhicules!" />
+
+    <Label fx:id="statsLabel" layoutX="660.0" layoutY="32.0"
+           style="-fx-text-fill: #555; -fx-font-size: 12px;"
+           text="0 véhicules" />
+
+    <Label layoutX="30.0" layoutY="60.0"
+           style="-fx-text-fill: #ddd;"
+           text="────────────────────────────────────────────────────────────────────" />
+
+    <!-- Search -->
+    <TextField fx:id="searchTextField"
+               layoutX="30.0" layoutY="82.0"
+               prefHeight="36.0" prefWidth="420.0"
+               promptText="Rechercher par marque, modèle ou immatriculation..."
+               style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;" />
+
+    <Button layoutX="465.0" layoutY="82.0"
+            onAction="#rechercherAction"
+            prefHeight="36.0" prefWidth="110.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand;"
+            text="Rechercher" />
+
+    <ComboBox fx:id="typeFilterComboBox"
+              layoutX="590.0" layoutY="82.0"
+              onAction="#filtrerTypeAction"
+              prefHeight="36.0" prefWidth="170.0"
+              promptText="Type"
+              style="-fx-background-radius: 6;" />
+
+    <!-- Table -->
+    <TableView fx:id="vehiculeTableView"
+               layoutX="30.0" layoutY="140.0"
+               prefHeight="310.0" prefWidth="730.0"
+               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 1;">
+
+        <columns>
+            <TableColumn fx:id="marqueColumn" prefWidth="110.0" text="Marque" />
+            <TableColumn fx:id="modeleColumn" prefWidth="110.0" text="Modèle" />
+            <TableColumn fx:id="immatriculationColumn" prefWidth="150.0" text="Immatriculation" />
+            <TableColumn fx:id="couleurColumn" prefWidth="90.0" text="Couleur" />
+            <TableColumn fx:id="anneeColumn" prefWidth="80.0" text="Année" />
+            <TableColumn fx:id="placesColumn" prefWidth="80.0" text="Places" />
+            <TableColumn fx:id="statutColumn" prefWidth="110.0" text="Statut" />
+        </columns>
+    </TableView>
+
+    <!-- Actions -->
+    <Label layoutX="30.0" layoutY="465.0"
+           style="-fx-text-fill: #ddd;"
+           text="────────────────────────────────────────────────────────────────────" />
+
+    <Button layoutX="30.0" layoutY="500.0"
+            onAction="#ajouterAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="+ Ajouter" />
+
+    <Button layoutX="165.0" layoutY="500.0"
+            onAction="#modifierAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Modifier" />
+
+    <Button layoutX="300.0" layoutY="500.0"
+            onAction="#supprimerAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Supprimer" />
+
+    <Button layoutX="435.0" layoutY="500.0"
+            onAction="#documentsAction"
+            prefHeight="38.0" prefWidth="130.0"
+            style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Documents" />
+
+    <Label fx:id="messageLabel"
+           layoutX="30.0" layoutY="550.0"
+           style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
+           text="" />
+
+</AnchorPane>
