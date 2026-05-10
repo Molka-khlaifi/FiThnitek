@@ -96,15 +96,18 @@ public class VehiculeService implements IService<Vehicule> {
 
         String sql = "UPDATE vehicule SET statut = ?, date_demande_suppression = NOW() WHERE id_vehicule = ?";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, "SUPPRESSION_DEMANDEE");
             preparedStatement.setInt(2, vehicule.getIdVehicule());
 
-            preparedStatement.executeUpdate();
+            int lignesModifiees = preparedStatement.executeUpdate();
 
-            System.out.println("Demande de suppression du véhicule enregistrée !");
+            if (lignesModifiees > 0) {
+                System.out.println("Demande de suppression du véhicule enregistrée !");
+            } else {
+                System.out.println("Aucun véhicule modifié.");
+            }
         } catch (SQLException e) {
             System.out.println("Erreur demande suppression véhicule : " + e.getMessage());
         }
@@ -116,8 +119,7 @@ public class VehiculeService implements IService<Vehicule> {
                 "AND date_demande_suppression IS NOT NULL " +
                 "AND date_demande_suppression <= DATE_SUB(NOW(), INTERVAL 48 HOUR)";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
             preparedStatement.setString(1, "SUPPRESSION_DEMANDEE");
 
@@ -125,7 +127,7 @@ public class VehiculeService implements IService<Vehicule> {
 
             System.out.println(lignesSupprimees + " véhicule(s) supprimé(s) définitivement.");
         } catch (SQLException e) {
-            System.out.println("Erreur suppression définitive véhicules : " + e.getMessage());
+            System.out.println("Erreur suppression définitive véhicules après 48h : " + e.getMessage());
         }
     }
 

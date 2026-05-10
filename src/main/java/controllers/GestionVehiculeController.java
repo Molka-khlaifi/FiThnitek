@@ -55,6 +55,8 @@ public class GestionVehiculeController {
 
         typeFilterComboBox.setValue("Tous");
 
+        // Vérifie et supprime définitivement les véhicules demandés en suppression depuis plus de 48h
+        vehiculeService.supprimerVehiculesApres48h();
         chargerVehicules();
 
         searchTextField.textProperty().addListener((obs, oldVal, newVal) -> appliquerRechercheEtFiltre());
