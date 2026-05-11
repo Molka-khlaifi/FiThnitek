@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane
+        prefHeight="508.0" prefWidth="449.0"
+        style="-fx-background-color: #F5F6FA;"
+        xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controllers.ChatbotAideController">
+
+    <top>
+        <VBox>
+            <HBox prefHeight="52" alignment="CENTER_LEFT"
+                  style="-fx-background-image: url('/BACKGROUND.png');
+           -fx-background-size: cover;
+           -fx-background-position: center;
+           -fx-border-color: #DDE2F0;
+           -fx-border-width: 0 0 1 0;
+           -fx-padding: 0 20 0 20;
+           -fx-spacing: 10;">
+                <Label text="Fi" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #9B8FD4;" />
+                <Label text="Thnitek" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2BBF8A;" />
+                <Label text="— Assistant IA" style="-fx-font-size: 13px; -fx-text-fill: #B0B8D8;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="🤖" style="-fx-font-size: 18px;" />
+            </HBox>
+            <HBox prefHeight="40" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #EEEDF8; -fx-padding: 0 16; -fx-spacing: 8;">
+                <Label text="👋" style="-fx-font-size: 14px;" />
+                <Label text="Bonjour ! Comment puis-je vous aider sur le forum ?"
+                       style="-fx-font-size: 12px; -fx-text-fill: #2D2D6B;" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ListView fx:id="chatList"
+                  style="-fx-background-color: transparent; -fx-border-width: 0; -fx-padding: 6;" />
+    </center>
+
+    <bottom>
+        <HBox prefHeight="52" spacing="8" alignment="CENTER"
+              style="-fx-background-color: white; -fx-border-color: #DDE2F0;
+                   -fx-border-width: 1 0 0 0; -fx-padding: 8 12;">
+            <TextField fx:id="inputField"
+                       promptText="Pose ta question..."
+                       prefHeight="34" HBox.hgrow="ALWAYS"
+                       style="-fx-background-radius: 6; -fx-border-radius: 6;
+                       -fx-border-color: #C8D0E8; -fx-border-width: 1;
+                       -fx-background-color: #F5F6FA; -fx-font-size: 13px;
+                       -fx-padding: 0 10;" />
+            <Button onAction="#sendMessage"
+                    prefHeight="34" prefWidth="80"
+                    style="-fx-background-color: #2BBF8A; -fx-text-fill: white;
+                       -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;"
+                    text="Envoyer" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

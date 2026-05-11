@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane
+        prefHeight="460.0" prefWidth="620.0"
+        style="-fx-background-color: #F5F6FA;"
+        xmlns="http://javafx.com/javafx/26"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controllers.DetailForumController">
+
+    <!-- TOP -->
+    <top>
+        <VBox>
+
+            <HBox prefHeight="56" alignment="CENTER_LEFT"
+                  style="-fx-background-image: url('/BACKGROUND.png');
+                         -fx-background-size: cover;
+                         -fx-background-position: center;
+                         -fx-border-color: #DDE2F0;
+                         -fx-border-width: 0 0 1 0;
+                         -fx-padding: 0 20 0 20;
+                         -fx-spacing: 10;">
+
+                <Label text="Fi"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #9B8FD4;" />
+
+                <Label text="Thnitek"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2BBF8A;" />
+
+                <Label text="— Détail forum"
+                       style="-fx-font-size: 14px; -fx-text-fill: #B0B8D8;" />
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- RETOUR (CORRIGÉ : correspond au controller) -->
+                <Button text="← Retour"
+                        onAction="#retourListeAction"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: #2BBF8A;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;" />
+
+            </HBox>
+
+            <!-- MESSAGE SUCCESS -->
+            <HBox alignment="CENTER_LEFT"
+                  style="-fx-background-color: #E6F9F3;
+                         -fx-padding: 6 20;
+                         -fx-spacing: 8;">
+
+                <Label text="✓"
+                       style="-fx-text-fill: #1A7A55;
+                              -fx-font-size: 14px;
+                              -fx-font-weight: bold;" />
+
+                <Label fx:id="messageLabel"
+                       text=""
+                       style="-fx-text-fill: #1A7A55;
+                              -fx-font-size: 13px;
+                              -fx-font-weight: bold;" />
+
+            </HBox>
+
+        </VBox>
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 16 30 16 30;" VBox.vgrow="ALWAYS">
+
+            <!-- DATE PROPRE -->
+            <HBox spacing="5">
+                <Label text="Publié le :"
+                       style="-fx-font-weight: bold;
+                              -fx-text-fill: #2D2D6B;
+                              -fx-font-size: 12px;" />
+
+                <Label fx:id="dateLabel"
+                       text=""
+                       style="-fx-text-fill: #6B6B6B;
+                              -fx-font-size: 12px;" />
+            </HBox>
+
+            <!-- TITRE -->
+            <Label text="Titre"
+                   style="-fx-font-weight: bold;
+                          -fx-text-fill: #2D2D6B;
+                          -fx-font-size: 12px;" />
+
+            <TextField fx:id="titreTextField"
+                       editable="false"
+                       style="-fx-background-color: #F0F1FA;
+                              -fx-border-color: #C8D0E8;
+                              -fx-border-radius: 6;
+                              -fx-background-radius: 6;" />
+
+            <!-- CAT + STATUT -->
+            <HBox spacing="15">
+
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Catégorie"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+                    <TextField fx:id="categorieTextField"
+                               editable="false"
+                               style="-fx-background-color: #F0F1FA;
+                                      -fx-border-color: #C8D0E8;
+                                      -fx-border-radius: 6;
+                                      -fx-background-radius: 6;" />
+                </VBox>
+
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Statut"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+                    <TextField fx:id="statutTextField"
+                               editable="false"
+                               style="-fx-background-color: #F0F1FA;
+                                      -fx-border-color: #C8D0E8;
+                                      -fx-border-radius: 6;
+                                      -fx-background-radius: 6;" />
+                </VBox>
+
+            </HBox>
+
+            <!-- CONTENU -->
+            <Label text="Contenu"
+                   style="-fx-font-weight: bold;
+                          -fx-text-fill: #2D2D6B;
+                          -fx-font-size: 12px;" />
+
+            <TextArea fx:id="contenuTextArea"
+                      editable="false"
+                      prefHeight="120"
+                      style="-fx-background-color: #F0F1FA;
+                             -fx-border-color: #C8D0E8;
+                             -fx-border-radius: 6;
+                             -fx-background-radius: 6;
+                             -fx-padding: 8;" />
+
+        </VBox>
+    </center>
+
+</BorderPane>
