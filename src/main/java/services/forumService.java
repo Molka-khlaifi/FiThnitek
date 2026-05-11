@@ -341,7 +341,7 @@ public class forumService implements IService<publication> {
 
     // ───────────────── COMMENTAIRES ─────────────────
     public void addcommentaire(commentaire c) {
-        String sql = "INSERT INTO commentaire (contenu, date_comment, likes, forumId, auteurId) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO commentaire (contenu, dateCommentaire, likes, publicationId, auteurId) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, c.getContenu());
@@ -378,21 +378,21 @@ public class forumService implements IService<publication> {
         }
     }
 
-    public List<commentaire> getcommentairesBypublication(int forumId) {
+    public List<commentaire> getcommentairesBypublication(int publicationId) {
         List<commentaire> liste = new ArrayList<>();
         String sql = "SELECT c.*, u.nom AS auteurNom " +
                 "FROM commentaire c " +
-                "JOIN user u ON c.auteurId = u.id " +
-                "WHERE c.forumId = ?";
+                "JOIN utilisateur u ON c.auteurId = u.id " +
+                "WHERE c.publicationId = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, forumId);
+            ps.setInt(1, publicationId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 commentaire c = new commentaire(
                         rs.getString("contenu"),
-                        rs.getTimestamp("date_comment").toLocalDateTime(),
+                        rs.getTimestamp("dateCommentaire").toLocalDateTime(),
                         rs.getInt("likes"),
-                        rs.getInt("forumId"),
+                        rs.getInt("publicationId"),
                         rs.getInt("auteurId")
                 );
                 c.setId(rs.getInt("id"));
@@ -417,11 +417,11 @@ public class forumService implements IService<publication> {
     }
 
     // ───────────────── STATISTIQUES ─────────────────
-    public int countPostsByUser(int userId) {
+    public int countPostsByutilisateur(int utilisateurId) {
         String sql = "SELECT COUNT(*) FROM publication WHERE auteurId = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, userId);
+            ps.setInt(1, utilisateurId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt(1);
         } catch (SQLException e) {
@@ -430,11 +430,11 @@ public class forumService implements IService<publication> {
         return 0;
     }
 
-    public int countCommentairesByUser(int userId) {
+    public int countCommentairesByutilisateur(int utilisateurId) {
         String sql = "SELECT COUNT(*) FROM commentaire WHERE auteurId = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, userId);
+            ps.setInt(1, utilisateurId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt(1);
         } catch (SQLException e) {
@@ -443,11 +443,11 @@ public class forumService implements IService<publication> {
         return 0;
     }
 
-    public int countLikesByUser(int userId) {
+    public int countLikesByutilisateur(int utilisateurId) {
         String sql = "SELECT SUM(likes) FROM commentaire WHERE auteurId = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, userId);
+            ps.setInt(1, utilisateurId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt(1);
         } catch (SQLException e) {
@@ -456,18 +456,18 @@ public class forumService implements IService<publication> {
         return 0;
     }
 
-    public int calculScore(int userId) {
-        int posts = countPostsByUser(userId);
-        int commentaires = countCommentairesByUser(userId);
-        int likes = countLikesByUser(userId);
+    public int calculScore(int utilisateurId) {
+        int posts = countPostsByutilisateur(utilisateurId);
+        int commentaires = countCommentairesByutilisateur(utilisateurId);
+        int likes = countLikesByutilisateur(utilisateurId);
         return (posts * 5) + (commentaires * 2) + likes;
     }
 
-    public String getBadge(int userId) {
-        int score = calculScore(userId);
+    public String getBadge(int utilisateurId) {
+        int score = calculScore(utilisateurId);
         if (score >= 100) return "👑 Legend";
         if (score >= 50)  return "🔥 Super Fan";
-        if (score >= 20)  return "⭐ Active User";
+        if (score >= 20)  return "⭐ Active utilisateur";
         return "🌱 Newbie";
     }
 }

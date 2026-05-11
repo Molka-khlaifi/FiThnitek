@@ -14,7 +14,7 @@
 <BorderPane
         prefHeight="560.0" prefWidth="802.0"
         style="-fx-background-color: #F5F6FA;"
-        xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+        xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="controllers.MonActiviteController">
 
     <top>

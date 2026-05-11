@@ -18,17 +18,13 @@ public class MonActiviteController {
 
     @FXML private Label scoreLabel;
     @FXML private Label badgeLabel;
+    @FXML private BarChart<String, Number> activityChart;
 
-    @FXML
-    private BarChart<String, Number> activityChart;
-
-    private forumService forumService = new forumService();
-
-    private int currentUserId = 1;
+    private final forumService forumService = new forumService();
+    private final int currentUserId = 1;
 
     @FXML
     public void initialize() {
-
         afficherStats();
         chargerDiagramme();
     }
@@ -36,12 +32,11 @@ public class MonActiviteController {
     // ───────────────── STATS ─────────────────
 
     private void afficherStats() {
-
         int score = forumService.calculScore(currentUserId);
         String badge = forumService.getBadge(currentUserId);
 
-        scoreLabel.setText("Score : " + score);
-        badgeLabel.setText("Badge : " + badge);
+        scoreLabel.setText(String.valueOf(score));
+        badgeLabel.setText(badge);
     }
 
     // ───────────────── CHART ─────────────────
@@ -61,15 +56,14 @@ public class MonActiviteController {
                 .filter(publication::isEpingle)
                 .count();
 
-        int discussions = (int) posts.stream()
-                .filter(p -> p.getCategorie().equalsIgnoreCase("discussion"))
-                .count();
-
         int questions = (int) posts.stream()
-                .filter(p -> p.getCategorie().equalsIgnoreCase("question"))
+                .filter(p -> "question".equalsIgnoreCase(p.getCategorie()))
                 .count();
 
-        // données
+        int discussions = (int) posts.stream()
+                .filter(p -> "discussion".equalsIgnoreCase(p.getCategorie()))
+                .count();
+
         series.getData().add(new XYChart.Data<>("Posts", totalPosts));
         series.getData().add(new XYChart.Data<>("Épinglés", epingles));
         series.getData().add(new XYChart.Data<>("Questions", questions));
@@ -84,15 +78,14 @@ public class MonActiviteController {
     void retourMesForumsAction(ActionEvent event) {
 
         try {
-
             Parent root = FXMLLoader.load(
-                    getClass().getResource("/MesForums.fxml"));
+                    getClass().getResource("/MesForums.fxml")
+            );
 
             activityChart.getScene().setRoot(root);
 
         } catch (IOException e) {
-
-            System.out.println("Erreur retour : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

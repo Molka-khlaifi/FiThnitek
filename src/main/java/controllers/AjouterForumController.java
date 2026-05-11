@@ -17,7 +17,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import models.publication;
 import services.forumService;
-import util.AIModeration;
 
 import java.io.IOException;
 
@@ -58,11 +57,7 @@ public class AjouterForumController {
         String titre    = titreTextField.getText().trim();
         String contenu = contenuTextArea.getText();
 
-        if (AIModeration.isInappropriate(contenu)) {
-            erreurLabel.setText("❌ Post rejeté : contenu inapproprié");
-            erreurLabel.setTextFill(javafx.scene.paint.Color.RED);
-            return; // STOP ici
-        }        String categorie = categorieComboBox.getValue();
+        String categorie = categorieComboBox.getValue();
         String statut   = statutComboBox.getValue();
 
         // ── Validation ────────────────────────────────────────────────────

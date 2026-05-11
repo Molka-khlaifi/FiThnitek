@@ -6,7 +6,7 @@
 <BorderPane
         prefHeight="460.0" prefWidth="620.0"
         style="-fx-background-color: #F5F6FA;"
-        xmlns="http://javafx.com/javafx/26"
+        xmlns="http://javafx.com/javafx/17"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="controllers.DetailForumController">
 

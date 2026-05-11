@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import models.publication;
@@ -137,10 +138,17 @@ public class MesForumsController {
             }
 
             // ── Infos ──
+            String categorie = post.getCategorie();
+
+            if (categorie == null || categorie.isBlank()) {
+                categorie = "NON DÉFINIE";
+            } else {
+                categorie = categorie.toUpperCase();
+            }
 
             Label infos = new Label(
-                    "📂 " + post.getCategorie().toUpperCase() +
-                            "   |   👁 " + post.getNb_vues() + " vues"
+                    "📂 " + categorie +
+                            "   👁 " + post.getNb_vues() + " vues"
             );
 
             infos.setStyle(
@@ -336,9 +344,20 @@ public class MesForumsController {
 
     private void loadScene(String fxml) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            feedContainer.getScene().setRoot(root);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+
+            Scene scene = feedContainer.getScene();
+
+            if (scene == null) {
+                System.out.println("Scene NULL !");
+                return;
+            }
+
+            scene.setRoot(root);
+
         } catch (IOException e) {
+            e.printStackTrace();
             showError("Erreur chargement : " + e.getMessage());
         }
     }

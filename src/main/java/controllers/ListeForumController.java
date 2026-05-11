@@ -177,9 +177,16 @@ public class ListeForumController {
             }
 
             // ───────── INFOS ─────────
+            String categorie = post.getCategorie();
+
+            if (categorie == null) {
+                categorie = "NON DÉFINIE";
+            } else {
+                categorie = categorie.toUpperCase();
+            }
 
             Label infos = new Label(
-                    "📂 " + post.getCategorie().toUpperCase() +
+                    "📂 " + categorie +
                             "   👁 " + post.getNb_vues() + " vues"
             );
 

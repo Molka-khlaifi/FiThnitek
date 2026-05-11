@@ -7,7 +7,7 @@
 <BorderPane
         prefHeight="560.0" prefWidth="620.0"
         style="-fx-background-color: #F5F6FA;"
-        xmlns="http://javafx.com/javafx/26"
+        xmlns="http://javafx.com/javafx/17"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="controllers.AjouterForumController">
 
@@ -21,6 +21,17 @@
                      -fx-border-width: 0 0 1 0;
                      -fx-padding: 0 20 0 20;
                      -fx-spacing: 10;">
+
+            <!-- ← Bouton retour liste forum -->
+            <Button text="← Liste Forum" onAction="#voirListeAction"
+                    prefHeight="34"
+                    style="-fx-background-color: #085041;
+                           -fx-text-fill: white;
+                           -fx-font-size: 12px;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 6;
+                           -fx-cursor: hand;
+                           -fx-padding: 0 14;" />
 
             <Label text="Fi" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #9B8FD4;" />
             <Label text="Thnitek" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2BBF8A;" />
@@ -95,7 +106,6 @@
                                -fx-text-fill: white;
                                -fx-cursor: hand;" />
 
-                <!-- PREVIEW IMAGE -->
                 <ImageView fx:id="imagePreview"
                            fitHeight="50"
                            fitWidth="50"
@@ -103,10 +113,6 @@
                            style="-fx-border-color: #ccc;" />
 
             </HBox>
-
-            <!-- MESSAGE IA + SUCCESS -->
-            <Label fx:id="messageLabel"
-                   style="-fx-font-size: 12px; -fx-font-weight: bold;" />
 
             <!-- ERREUR -->
             <Label fx:id="erreurLabel"

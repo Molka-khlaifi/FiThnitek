@@ -17,7 +17,6 @@ public class ChatbotAideController {
     @FXML private TextField inputField;
 
 
-
     private static final String API_KEY = ""; // ← remplace par ta clé Groq
     private static final String API_URL = "https://api.groq.com/openai/v1/chat/completions";
     private static final String MODEL = "llama-3.3-70b-versatile";
