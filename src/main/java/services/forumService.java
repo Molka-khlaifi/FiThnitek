@@ -381,7 +381,6 @@ public class forumService implements IService<publication> {
                         rs.getInt("auteurId")
                 );
                 c.setId(rs.getInt("id"));
-                c.setAuteurNom(rs.getString("auteurNom"));
                 liste.add(c);
             }
         } catch (SQLException e) {

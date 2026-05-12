@@ -68,14 +68,14 @@ public class CommentaireForumController {
 
                 Circle cercle = new Circle(18);
                 cercle.setStyle("-fx-fill: #b5d4f4;");
-                Label initiales = new Label(getInitiales(c.getAuteurNom()));
+                String auteurName= forumService.getNomAuteur(c.getAuteurId());
+                Label initiales = new Label(getInitiales(auteurName));
                 initiales.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #0c447c;");
                 StackPane avatar = new StackPane(cercle, initiales);
                 avatar.setMinSize(36, 36);
                 avatar.setMaxSize(36, 36);
                 Label nom = new Label();
-                String auteur = c.getAuteurNom();
-                nom.setText(auteur != null ? auteur : "Utilisateur inconnu");
+                nom.setText(auteurName!= null ? auteurName : "Utilisateur inconnu");
                 nom.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
                 Label date = new Label("🕐 " + formatDate(c.getDateCommentaire()));
                 date.setStyle("-fx-font-size: 11px; -fx-text-fill: #aaa;");

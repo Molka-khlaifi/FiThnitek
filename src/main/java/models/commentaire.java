@@ -9,7 +9,6 @@ public class commentaire {
     int likes;
     int publicationId;
     int auteurId;
-    String auteurNom;
 
     public commentaire() {}
     public commentaire(String contenu, LocalDateTime dateCommentaire, int likes, int publicationId, int auteurId) {
@@ -67,9 +66,6 @@ public class commentaire {
     public int getAuteurId() {
         return auteurId;
     }
-
-    public String getAuteurNom() {return auteurNom;}
-    public void setAuteurNom(String auteurNom) { this.auteurNom = auteurNom; }
 
     @Override
     public String toString() {
