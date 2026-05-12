@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,23 +36,16 @@ public class ListeForumController {
 
     @FXML
     public void initialize() {
-
         categorieFilterComboBox.getItems().addAll(
-                "Tous",
-                "question",
-                "discussion",
-                "autre"
+                "Tous", "question", "discussion", "autre"
         );
-
         categorieFilterComboBox.setValue("Tous");
 
         chargerpublications();
 
         searchTextField.textProperty().addListener((obs, oldVal, newVal) -> {
-
             publicationList = forumService.rechercher(newVal);
             afficherFeed(publicationList);
-
         });
 
         searchTextField.setOnAction(this::rechercherAction);
@@ -60,31 +54,20 @@ public class ListeForumController {
     // ───────── CHARGER POSTS ─────────
 
     private void chargerpublications() {
-
         publicationList = forumService.getAll();
-
-        publicationList.sort(
-                (p1, p2) -> Boolean.compare(
-                        p2.isEpingle(),
-                        p1.isEpingle()
-                )
-        );
-
+        publicationList.sort((p1, p2) -> Boolean.compare(p2.isEpingle(), p1.isEpingle()));
         afficherFeed(publicationList);
-
         statsLabel.setText(publicationList.size() + " posts");
     }
 
     // ───────── AFFICHAGE FEED ─────────
 
     private void afficherFeed(List<publication> list) {
-
         feedContainer.getChildren().clear();
 
         for (publication post : list) {
 
             VBox card = new VBox(10);
-
             card.setStyle(
                     "-fx-background-color: white;" +
                             "-fx-padding: 15;" +
@@ -95,148 +78,180 @@ public class ListeForumController {
             );
 
             // ───────── HEADER ─────────
-
             HBox header = new HBox(10);
+            header.setStyle("-fx-alignment: CENTER_LEFT;");
 
             Label titre = new Label(post.getTitre());
-
             titre.setStyle(
                     "-fx-font-size: 18px;" +
                             "-fx-font-weight: bold;" +
                             "-fx-text-fill: #085041;"
             );
-
             header.getChildren().add(titre);
 
             if (post.isEpingle()) {
-
-                Region spacer = new Region();
-
-                HBox.setHgrow(spacer, Priority.ALWAYS);
-
+                Region spacerEpingle = new Region();
+                HBox.setHgrow(spacerEpingle, Priority.ALWAYS);
                 Label epingle = new Label("📌 Épinglé");
-
                 epingle.setStyle(
                         "-fx-background-color: #FFE082;" +
                                 "-fx-padding: 4 8;" +
                                 "-fx-background-radius: 10;" +
                                 "-fx-font-size: 11px;"
                 );
-
-                header.getChildren().addAll(
-                        spacer,
-                        epingle
-                );
+                header.getChildren().addAll(spacerEpingle, epingle);
             }
 
-            // ───────── CONTENU ─────────
+            // ───────── AUTEUR CLIQUABLE ─────────
+            String nomAuteur = forumService.getNomAuteur(post.getAuteurId());
+            Label auteurLabel = new Label("👤 " + nomAuteur);
+            auteurLabel.setStyle(
+                    "-fx-text-fill: #9B8FD4;" +
+                            "-fx-font-size: 12px;" +
+                            "-fx-cursor: hand;" +
+                            "-fx-underline: true;"
+            );
+            auteurLabel.setOnMouseClicked(e -> ouvrirProfil(post, nomAuteur));
 
+            // ───────── CONTENU ORIGINAL ─────────
             Label contenu = new Label(post.getContenu());
-
             contenu.setWrapText(true);
+            contenu.setStyle("-fx-text-fill: #444;");
 
-            contenu.setStyle(
-                    "-fx-text-fill: #444;"
+            // ───────── CONTENU TRADUIT (caché) ─────────
+            Label contenuTraduit = new Label("");
+            contenuTraduit.setWrapText(true);
+            contenuTraduit.setVisible(false);
+            contenuTraduit.setManaged(false);
+            contenuTraduit.setStyle(
+                    "-fx-text-fill: #1A6B9A;" +
+                            "-fx-font-style: italic;" +
+                            "-fx-background-color: #EBF5FB;" +
+                            "-fx-background-radius: 6;" +
+                            "-fx-padding: 8 10;"
             );
 
+            Label langueLabel = new Label("🌐 Traduit automatiquement · LibreTranslate");
+            langueLabel.setStyle("-fx-text-fill: #aaa; -fx-font-size: 10px;");
+            langueLabel.setVisible(false);
+            langueLabel.setManaged(false);
+
             // ───────── IMAGE ─────────
-
             ImageView imageView = new ImageView();
-
-            if (post.getImage() != null &&
-                    !post.getImage().trim().isEmpty()) {
-
+            if (post.getImage() != null && !post.getImage().trim().isEmpty()) {
                 try {
-
-                    Image image = new Image(
-                            "file:" + post.getImage()
-                    );
-
+                    Image image = new Image("file:" + post.getImage());
                     imageView.setImage(image);
-
                     imageView.setFitWidth(500);
-
                     imageView.setPreserveRatio(true);
-
                     imageView.setSmooth(true);
-
-                    imageView.setStyle(
-                            "-fx-background-radius: 10;"
-                    );
-
                 } catch (Exception e) {
-
                     imageView.setVisible(false);
                     imageView.setManaged(false);
                 }
-
             } else {
-
                 imageView.setVisible(false);
                 imageView.setManaged(false);
             }
 
             // ───────── INFOS ─────────
             String categorie = post.getCategorie();
-
-            if (categorie == null) {
-                categorie = "NON DÉFINIE";
-            } else {
-                categorie = categorie.toUpperCase();
-            }
+            if (categorie == null) categorie = "NON DÉFINIE";
+            else categorie = categorie.toUpperCase();
 
             Label infos = new Label(
-                    "📂 " + categorie +
-                            "   👁 " + post.getNb_vues() + " vues"
+                    "📂 " + categorie + "   👁 " + post.getNb_vues() + " vues"
             );
+            infos.setStyle("-fx-text-fill: #777; -fx-font-size: 12px;");
 
-            infos.setStyle(
-                    "-fx-text-fill: #777;" +
+            // ───────── BOUTON TRADUCTION ─────────
+            Button traduireBtn = new Button("🌐 Traduire ");
+            traduireBtn.setStyle(
+                    "-fx-background-color: #EBF5FB;" +
+                            "-fx-text-fill: #1A6B9A;" +
+                            "-fx-background-radius: 5;" +
+                            "-fx-cursor: hand;" +
                             "-fx-font-size: 12px;"
             );
 
-            // ───────── BOUTONS ─────────
+            final boolean[] traduit = {false};
+            final String[] texteCache = {""};
 
-            Button commentairesBtn =
-                    new Button("💬 Commentaires");
+            traduireBtn.setOnAction(e -> {
+                if (!traduit[0]) {
+                    // Premier clic → appel API
+                    traduireBtn.setText("⏳ Traduction...");
+                    traduireBtn.setDisable(true);
 
+                    Task<String> task = new Task<>() {
+                        @Override
+                        protected String call() {
+                            return forumService.traduireEnAnglais(post.getContenu());
+                        }
+                    };
+
+                    task.setOnSucceeded(ev -> {
+                        texteCache[0] = task.getValue();
+                        contenuTraduit.setText("🇬🇧 " + texteCache[0]);
+                        contenuTraduit.setVisible(true);
+                        contenuTraduit.setManaged(true);
+                        langueLabel.setVisible(true);
+                        langueLabel.setManaged(true);
+                        traduireBtn.setText("🙈 Masquer la traduction");
+                        traduireBtn.setDisable(false);
+                        traduit[0] = true;
+                    });
+
+                    task.setOnFailed(ev -> {
+                        traduireBtn.setText("❌ Erreur — réessayer");
+                        traduireBtn.setDisable(false);
+                    });
+
+                    new Thread(task).start();
+
+                } else {
+                    // Clics suivants → toggle affichage
+                    boolean visible = contenuTraduit.isVisible();
+                    contenuTraduit.setVisible(!visible);
+                    contenuTraduit.setManaged(!visible);
+                    langueLabel.setVisible(!visible);
+                    langueLabel.setManaged(!visible);
+                    traduireBtn.setText(visible
+                            ? "🌐 Afficher la traduction"
+                            : "🙈 Masquer la traduction");
+                }
+            });
+
+            // ───────── BOUTON COMMENTAIRES ─────────
+            Button commentairesBtn = new Button("💬 Commentaires");
             commentairesBtn.setStyle(
                     "-fx-background-color: #4bcad6;" +
                             "-fx-text-fill: white;" +
                             "-fx-background-radius: 5;" +
                             "-fx-cursor: hand;"
             );
+            commentairesBtn.setOnAction(e -> ouvrirCommentaires(post));
 
-            commentairesBtn.setOnAction(
-                    e -> ouvrirCommentaires(post)
-            );
+            HBox actions = new HBox(10, traduireBtn, commentairesBtn);
 
-            HBox actions = new HBox(
-                    10,
-                    commentairesBtn
-            );
-
-            // ───────── DOUBLE CLIC ─────────
-
+            // ───────── DOUBLE CLIC → DETAILS ─────────
             card.setOnMouseClicked(event -> {
-
                 if (event.getClickCount() == 2) {
-
                     afficherDetailsPost(post);
                 }
             });
 
             // ───────── AJOUT DANS CARD ─────────
-
             card.getChildren().addAll(
                     header,
+                    auteurLabel,
                     contenu,
+                    contenuTraduit,
+                    langueLabel,
                     imageView,
                     infos,
                     actions
             );
-
-            // ───────── AJOUT DANS FEED ─────────
 
             feedContainer.getChildren().add(card);
         }
@@ -246,42 +261,23 @@ public class ListeForumController {
 
     @FXML
     void rechercherAction(ActionEvent event) {
-
-        String keyword =
-                searchTextField.getText().trim();
-
+        String keyword = searchTextField.getText().trim();
         if (keyword.isEmpty()) {
-
             chargerpublications();
-
             return;
         }
-
-        publicationList =
-                forumService.rechercher(keyword);
-
+        publicationList = forumService.rechercher(keyword);
         afficherFeed(publicationList);
-
-        statsLabel.setText(
-                publicationList.size() + " résultats"
-        );
+        statsLabel.setText(publicationList.size() + " résultats");
     }
 
     @FXML
     void filtrerCategorieAction(ActionEvent event) {
-
-        String cat =
-                categorieFilterComboBox.getValue();
-
+        String cat = categorieFilterComboBox.getValue();
         if (cat == null || cat.equals("Tous")) {
-
             chargerpublications();
-
         } else {
-
-            publicationList =
-                    forumService.getByCategorie(cat);
-
+            publicationList = forumService.getByCategorie(cat);
             afficherFeed(publicationList);
         }
     }
@@ -290,89 +286,44 @@ public class ListeForumController {
 
     @FXML
     void trierParDateAction(ActionEvent event) {
-
-        publicationList =
-                forumService.trierParDate();
-
+        publicationList = forumService.trierParDate();
         afficherFeed(publicationList);
-
         messageLabel.setText("Tri par date");
     }
 
     @FXML
     void trierParVuesAction(ActionEvent event) {
-
-        publicationList =
-                forumService.trierParVues();
-
+        publicationList = forumService.trierParVues();
         afficherFeed(publicationList);
-
         messageLabel.setText("Tri par vues");
     }
 
     // ───────── NAVIGATION ─────────
 
     @FXML
-    void ajouterAction(ActionEvent event)
-            throws IOException {
-
-        Parent root =
-                FXMLLoader.load(
-                        getClass().getResource(
-                                "/AjouterForum.fxml"
-                        )
-                );
-
+    void ajouterAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml"));
         feedContainer.getScene().setRoot(root);
     }
 
     @FXML
-    void mesPostsAction(ActionEvent event)
-            throws IOException {
-
-        Parent root =
-                FXMLLoader.load(
-                        getClass().getResource(
-                                "/MesForums.fxml"
-                        )
-                );
-
+    void mesPostsAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
         feedContainer.getScene().setRoot(root);
     }
 
     // ───────── DETAILS POST ─────────
 
     private void afficherDetailsPost(publication post) {
-
         try {
-
-            forumService.incrementerVues(
-                    post.getId()
-            );
-
-            publication fresh =
-                    forumService.getById(
-                            post.getId()
-                    );
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/PostDetails.fxml"
-                            )
-                    );
-
+            forumService.incrementerVues(post.getId());
+            publication fresh = forumService.getById(post.getId());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
             Parent root = loader.load();
-
-            PostDetailsController controller =
-                    loader.getController();
-
+            PostDetailsController controller = loader.getController();
             controller.setPost(fresh);
-
             feedContainer.getScene().setRoot(root);
-
         } catch (IOException e) {
-
             e.printStackTrace();
         }
     }
@@ -380,30 +331,27 @@ public class ListeForumController {
     // ───────── COMMENTAIRES ─────────
 
     private void ouvrirCommentaires(publication post) {
-
         try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/CommentaireForum.fxml"
-                            )
-                    );
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CommentaireForum.fxml"));
             Parent root = loader.load();
-
-            CommentaireForumController ctrl =
-                    loader.getController();
-
-            ctrl.initData(
-                    post.getId(),
-                    post.getTitre()
-            );
-
+            CommentaireForumController ctrl = loader.getController();
+            ctrl.initData(post.getId(), post.getTitre());
             feedContainer.getScene().setRoot(root);
-
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    // ───────── PROFIL AUTEUR ─────────
+
+    private void ouvrirProfil(publication post, String nomAuteur) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilAuteur.fxml"));
+            Parent root = loader.load();
+            ProfilAuteurController ctrl = loader.getController();
+            ctrl.initData(post.getAuteurId(), nomAuteur, "/ListeForum.fxml");
+            feedContainer.getScene().setRoot(root);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -412,30 +360,15 @@ public class ListeForumController {
 
     @FXML
     void openChatbot() {
-
         try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ChatbotAide.fxml"
-                            )
-                    );
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatbotAide.fxml"));
             Parent root = loader.load();
-
             Stage stage = new Stage();
-
             stage.setTitle("Assistant Forum");
-
             stage.setScene(new Scene(root));
-
             stage.setResizable(false);
-
             stage.show();
-
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }

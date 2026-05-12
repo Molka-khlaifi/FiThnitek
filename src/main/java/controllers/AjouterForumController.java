@@ -10,13 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import models.publication;
 import services.forumService;
+import util.SessionManager;
 
 import java.io.IOException;
 
@@ -86,7 +86,7 @@ public class AjouterForumController {
         publication pub = new publication(
                 titre, contenu, categorie,
                 statut,date,
-                0,1, trajetId,false,imageChoisie  // auteur_id=1, remplacer par user connecté
+                0, SessionManager.getCurrentUser().getId(), trajetId,false,imageChoisie  // auteur_id=1, remplacer par user connecté
         );
 
         forumService forumService = new forumService();

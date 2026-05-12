@@ -64,19 +64,11 @@ public class commentaire {
         return publicationId;
     }
 
-    public void setpublicationId(int publicationId) {
-        this.publicationId = publicationId;
-    }
-
     public int getAuteurId() {
         return auteurId;
     }
 
-    public void setAuteurId(int auteurId) {
-        this.auteurId = auteurId;
-    }
-
-    public String getauteurNom() {return auteurNom;}
+    public String getAuteurNom() {return auteurNom;}
     public void setAuteurNom(String auteurNom) { this.auteurNom = auteurNom; }
 
     @Override

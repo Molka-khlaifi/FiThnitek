@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import models.commentaire;
 import services.forumService;
+import util.SessionManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -30,7 +31,6 @@ public class CommentaireForumController {
     private List<commentaire> commentaireList;
     private String retourFxml = "/ListeForum.fxml"; // par défaut
 
-    // ── Appelé depuis PostDetailsController ou MesForumsController ──
     public void setRetourFxml(String fxml) {
         this.retourFxml = fxml;
     }
@@ -68,13 +68,14 @@ public class CommentaireForumController {
 
                 Circle cercle = new Circle(18);
                 cercle.setStyle("-fx-fill: #b5d4f4;");
-                Label initiales = new Label(getInitiales(c.getauteurNom()));
+                Label initiales = new Label(getInitiales(c.getAuteurNom()));
                 initiales.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #0c447c;");
                 StackPane avatar = new StackPane(cercle, initiales);
                 avatar.setMinSize(36, 36);
                 avatar.setMaxSize(36, 36);
-
-                Label nom = new Label(c.getauteurNom() != null ? c.getauteurNom() : "Utilisateur");
+                Label nom = new Label();
+                String auteur = c.getAuteurNom();
+                nom.setText(auteur != null ? auteur : "Utilisateur inconnu");
                 nom.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
                 Label date = new Label("🕐 " + formatDate(c.getDateCommentaire()));
                 date.setStyle("-fx-font-size: 11px; -fx-text-fill: #aaa;");
@@ -157,7 +158,7 @@ public class CommentaireForumController {
             showError("Le commentaire ne doit pas dépasser 300 caractères !");
             return;
         }
-        commentaire c = new commentaire(texte, LocalDateTime.now(), 0, forumId, 1);
+        commentaire c = new commentaire(texte, LocalDateTime.now(), 0, forumId, SessionManager.getCurrentUser().getId());
         forumService.addcommentaire(c);
         nouveauCommentaireArea.clear();
         messageLabel.setText("✅ Commentaire publié !");

@@ -12,6 +12,7 @@ import models.publication;
 import services.forumService;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import util.SessionManager;
 
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class MesForumsController {
     }
 
     private void chargerMesPosts() {
-        mesPosts = forumService.getAll();
+        mesPosts = forumService.getByAuteur(SessionManager.getCurrentUser().getId());
         mesPosts.sort((p1, p2) -> Boolean.compare(p2.isEpingle(), p1.isEpingle()));
         afficherFeed(mesPosts);
         statsLabel.setText(mesPosts.size() + " posts");

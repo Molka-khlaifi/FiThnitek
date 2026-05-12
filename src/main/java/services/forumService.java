@@ -4,16 +4,92 @@ import models.commentaire;
 import models.publication;
 import util.DBConnection;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class forumService implements IService<publication> {
 
     Connection con;
+    private static final String TRANSLATE_URL = "https://api.mymemory.translated.net/get";
 
     public forumService() {
         this.con = DBConnection.getInstance().getConn();
+    }
+
+    // ───────────────── TRADUCTION ─────────────────
+    public String traduireEnAnglais(String texte) {
+        try {
+            // Essai 1 : détection automatique
+            String resultat = essayerTraduction(texte, "autodetect|en");
+            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
+                return resultat;
+            }
+            // Essai 2 : français → anglais
+            resultat = essayerTraduction(texte, "fr|en");
+            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
+                return resultat;
+            }
+            // Essai 3 : arabe → anglais
+            resultat = essayerTraduction(texte, "ar|en");
+            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
+                return resultat;
+            }
+            return texte;
+
+        } catch (Exception e) {
+            System.out.println("Exception traduction : " + e.getMessage());
+            return texte;
+        }
+    }
+
+    private String essayerTraduction(String texte, String langpair) {
+        try {
+            String textEncode = java.net.URLEncoder.encode(texte, StandardCharsets.UTF_8);
+            String urlStr = TRANSLATE_URL + "?q=" + textEncode + "&langpair=" + langpair;
+
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+
+            int status = conn.getResponseCode();
+            System.out.println("MyMemory [" + langpair + "] status : " + status);
+
+            if (status == 200) {
+                Scanner scanner = new Scanner(conn.getInputStream(), StandardCharsets.UTF_8);
+                StringBuilder response = new StringBuilder();
+                while (scanner.hasNextLine()) {
+                    response.append(scanner.nextLine());
+                }
+                scanner.close();
+
+                String json = response.toString();
+                System.out.println("Réponse [" + langpair + "] : " + json);
+
+                // Vérifier responseStatus dans le JSON
+                if (json.contains("\"responseStatus\":200") ||
+                        json.contains("\"responseStatus\": 200")) {
+
+                    String key = "\"translatedText\":\"";
+                    int start = json.indexOf(key) + key.length();
+                    int end = json.indexOf("\"", start);
+
+                    if (start > key.length() && end > start) {
+                        return json.substring(start, end);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur essayerTraduction [" + langpair + "] : " + e.getMessage());
+        }
+        return null;
     }
 
     // ───────────────── ADD ─────────────────
@@ -95,22 +171,7 @@ public class forumService implements IService<publication> {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                list.add(p);
+                list.add(mapPublication(rs));
             }
         } catch (SQLException e) {
             System.out.println("GET ALL ERROR: " + e.getMessage());
@@ -127,22 +188,7 @@ public class forumService implements IService<publication> {
             ps.setInt(1, auteurId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                list.add(p);
+                list.add(mapPublication(rs));
             }
         } catch (SQLException e) {
             System.out.println("Erreur getByAuteur : " + e.getMessage());
@@ -157,28 +203,27 @@ public class forumService implements IService<publication> {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                return p;
-            }
+            if (rs.next()) return mapPublication(rs);
         } catch (SQLException e) {
             System.out.println("GET BY ID ERROR: " + e.getMessage());
         }
         return null;
+    }
+
+    // ───────────────── GET NOM AUTEUR ─────────────────
+    public String getNomAuteur(int auteurId) {
+        String sql = "SELECT nom, prenom FROM utilisateur WHERE id = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, auteurId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("nom") + " " + rs.getString("prenom");
+            }
+        } catch (SQLException e) {
+            System.out.println("GET NOM AUTEUR ERROR: " + e.getMessage());
+        }
+        return "Auteur inconnu";
     }
 
     // ───────────────── BY CATEGORIE ─────────────────
@@ -190,22 +235,7 @@ public class forumService implements IService<publication> {
             ps.setString(1, cat);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                list.add(p);
+                list.add(mapPublication(rs));
             }
         } catch (SQLException e) {
             System.out.println("CATEGORY ERROR: " + e.getMessage());
@@ -223,22 +253,7 @@ public class forumService implements IService<publication> {
             ps.setString(2, "%" + keyword + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                list.add(p);
+                list.add(mapPublication(rs));
             }
         } catch (SQLException e) {
             System.out.println("SEARCH ERROR: " + e.getMessage());
@@ -262,22 +277,7 @@ public class forumService implements IService<publication> {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                list.add(p);
+                list.add(mapPublication(rs));
             }
         } catch (SQLException e) {
             System.out.println("SORT ERROR: " + e.getMessage());
@@ -304,22 +304,7 @@ public class forumService implements IService<publication> {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Integer trajetId = (Integer) rs.getObject("trajetId");
-                publication p = new publication(
-                        rs.getInt("id"),
-                        rs.getString("titre"),
-                        rs.getString("contenu"),
-                        rs.getString("categorie"),
-                        rs.getString("statut"),
-                        rs.getDate("date_creation"),
-                        rs.getInt("nb_vues"),
-                        rs.getInt("auteurId"),
-                        trajetId,
-                        rs.getBoolean("epingle"),
-                        rs.getString("image")
-                );
-                p.setImage(rs.getString("image"));
-                list.add(p);
+                list.add(mapPublication(rs));
             }
         } catch (SQLException e) {
             System.out.println("Erreur getEpingles : " + e.getMessage());
@@ -380,7 +365,7 @@ public class forumService implements IService<publication> {
 
     public List<commentaire> getcommentairesBypublication(int publicationId) {
         List<commentaire> liste = new ArrayList<>();
-        String sql = "SELECT c.*, u.nom AS auteurNom " +
+        String sql = "SELECT c.*, u.nom AS AuteurNom " +
                 "FROM commentaire c " +
                 "JOIN utilisateur u ON c.auteurId = u.id " +
                 "WHERE c.publicationId = ?";
@@ -467,7 +452,27 @@ public class forumService implements IService<publication> {
         int score = calculScore(utilisateurId);
         if (score >= 100) return "👑 Legend";
         if (score >= 50)  return "🔥 Super Fan";
-        if (score >= 20)  return "⭐ Active utilisateur";
+        if (score >= 20)  return "⭐ Utilisateur Actif";
         return "🌱 Newbie";
+    }
+
+    // ───────────────── MAPPER ─────────────────
+    private publication mapPublication(ResultSet rs) throws SQLException {
+        Integer trajetId = (Integer) rs.getObject("trajetId");
+        publication p = new publication(
+                rs.getInt("id"),
+                rs.getString("titre"),
+                rs.getString("contenu"),
+                rs.getString("categorie"),
+                rs.getString("statut"),
+                rs.getDate("date_creation"),
+                rs.getInt("nb_vues"),
+                rs.getInt("auteurId"),
+                trajetId,
+                rs.getBoolean("epingle"),
+                rs.getString("image")
+        );
+        p.setImage(rs.getString("image"));
+        return p;
     }
 }
