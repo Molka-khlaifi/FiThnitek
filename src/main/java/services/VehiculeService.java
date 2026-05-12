@@ -148,19 +148,19 @@ public class VehiculeService implements IService<Vehicule> {
             while (resultSet.next()) {
                 Vehicule vehicule = new Vehicule();
 
-                vehicule.setIdVehicule(resultSet.getInt("id_vehicule"));
-                vehicule.setIdUtilisateur(resultSet.getInt("id_utilisateur"));
+                vehicule.setIdVehicule(resultSet.getInt("idVehicule"));
+                vehicule.setIdUtilisateur(resultSet.getInt("idUtilisateur"));
                 vehicule.setMarque(resultSet.getString("marque"));
                 vehicule.setModele(resultSet.getString("modele"));
                 vehicule.setImmatriculation(resultSet.getString("immatriculation"));
                 vehicule.setCouleur(resultSet.getString("couleur"));
                 vehicule.setAnnee(resultSet.getInt("annee"));
-                vehicule.setNombrePlaces(resultSet.getInt("nombre_places"));
-                vehicule.setTypeVehicule(resultSet.getString("type_vehicule"));
+                vehicule.setNombrePlaces(resultSet.getInt("nombrePlaces"));
+                vehicule.setTypeVehicule(resultSet.getString("typeVehicule"));
                 vehicule.setEnergie(resultSet.getString("energie"));
-                vehicule.setPhotoPath(resultSet.getString("photo_path"));
+                vehicule.setPhotoPath(resultSet.getString("photoPath"));
                 vehicule.setStatut(resultSet.getString("statut"));
-                vehicule.setStatutValidation(resultSet.getString("statut_validation"));
+                vehicule.setStatutValidation(resultSet.getString("statutValidation"));
 
                 vehicules.add(vehicule);
             }

@@ -20,39 +20,39 @@
     <!-- Header -->
     <Label layoutX="30.0" layoutY="25.0"
            style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
-           text="Mon Espace Véhicule 🚗 "/>
+           text="Mon Espace Véhicule 🚗" />
 
-    <Label fx:id="statsLabel" layoutX="660.0" layoutY="32.0"
+    <Label fx:id="statsLabel" layoutX="500.0" layoutY="32.0"
            style="-fx-text-fill: #555; -fx-font-size: 12px;"
            text="0 véhicules" />
 
     <Label layoutX="30.0" layoutY="60.0"
            style="-fx-text-fill: #ddd;"
-           text="────────────────────────────────────────────────────────────────────" />
+           text="──────────────────────────────────────────────" />
 
     <!-- Search -->
     <TextField fx:id="searchTextField"
                layoutX="30.0" layoutY="82.0"
-               prefHeight="36.0" prefWidth="420.0"
-               promptText="Rechercher par marque, modèle ou immatriculation..."
+               prefHeight="36.0" prefWidth="290.0"
+               promptText="Rechercher véhicule..."
                style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd; -fx-border-width: 1; -fx-background-color: white; -fx-padding: 0 10;" />
 
-    <Button layoutX="465.0" layoutY="82.0"
+    <Button layoutX="330.0" layoutY="82.0"
             onAction="#rechercherAction"
-            prefHeight="36.0" prefWidth="110.0"
+            prefHeight="36.0" prefWidth="100.0"
             style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand;"
             text="Rechercher" />
 
     <ComboBox fx:id="typeFilterComboBox"
-              layoutX="590.0" layoutY="82.0"
+              layoutX="445.0" layoutY="82.0"
               onAction="#filtrerTypeAction"
-              prefHeight="36.0" prefWidth="170.0"
+              prefHeight="36.0" prefWidth="145.0"
               promptText="Type"
               style="-fx-background-radius: 6;" />
 
     <!-- Vehicle cards -->
     <ScrollPane layoutX="30.0" layoutY="140.0"
-                prefHeight="310.0" prefWidth="730.0"
+                prefHeight="310.0" prefWidth="560.0"
                 fitToWidth="true"
                 hbarPolicy="NEVER"
                 style="-fx-background: transparent;
@@ -65,42 +65,77 @@
             <VBox fx:id="vehiculeCardsPane"
                   alignment="CENTER"
                   spacing="20.0"
-                  prefWidth="705.0"
+                  prefWidth="535.0"
                   style="-fx-padding: 16; -fx-background-color: transparent;" />
         </content>
     </ScrollPane>
 
+    <!-- Right notebook menu -->
+    <VBox layoutX="610.0" layoutY="140.0"
+          prefWidth="160.0"
+          prefHeight="210.0"
+          spacing="12.0"
+          style="-fx-background-color: rgba(255,255,255,0.90);
+                 -fx-background-radius: 16;
+                 -fx-border-color: #e5e5e5;
+                 -fx-border-radius: 16;
+                 -fx-padding: 14;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 10, 0, 0, 4);">
+
+        <Label text="Carnet"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+        <Button onAction="#monEspaceVehiculeAction"
+                prefHeight="36.0"
+                prefWidth="132.0"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 9; -fx-cursor: hand;"
+                text="Mon espace" />
+
+        <Button onAction="#impactEnergetiqueAction"
+                prefHeight="36.0"
+                prefWidth="132.0"
+                style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold; -fx-background-radius: 9; -fx-border-color: #dcdcdc; -fx-border-radius: 9; -fx-cursor: hand;"
+                text="Impact énergie" />
+
+        <Button onAction="#maintenanceAction"
+                prefHeight="36.0"
+                prefWidth="132.0"
+                style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold; -fx-background-radius: 9; -fx-border-color: #dcdcdc; -fx-border-radius: 9; -fx-cursor: hand;"
+                text="Maintenance" />
+    </VBox>
+
     <!-- Actions -->
     <Label layoutX="30.0" layoutY="465.0"
            style="-fx-text-fill: #ddd;"
-           text="────────────────────────────────────────────────────────────────────" />
+           text="──────────────────────────────────────────────" />
 
     <Button layoutX="30.0" layoutY="500.0"
             onAction="#ajouterAction"
-            prefHeight="38.0" prefWidth="120.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            prefHeight="38.0" prefWidth="115.0"
+            style="-fx-background-color: #6762ef; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
             text="+ Ajouter" />
 
-    <Button layoutX="165.0" layoutY="500.0"
+    <Button layoutX="155.0" layoutY="500.0"
             onAction="#modifierAction"
-            prefHeight="38.0" prefWidth="120.0"
-            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            prefHeight="38.0" prefWidth="115.0"
+            style="-fx-background-color: #6762ef; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
             text="Modifier" />
 
-    <Button layoutX="300.0" layoutY="500.0"
+    <Button layoutX="280.0" layoutY="500.0"
             onAction="#supprimerAction"
-            prefHeight="38.0" prefWidth="120.0"
+            prefHeight="38.0" prefWidth="115.0"
             style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
             text="Supprimer" />
 
-    <Button layoutX="435.0" layoutY="500.0"
+    <Button layoutX="405.0" layoutY="500.0"
             onAction="#documentsAction"
-            prefHeight="38.0" prefWidth="130.0"
+            prefHeight="38.0" prefWidth="125.0"
             style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
             text="Documents" />
 
     <Label fx:id="messageLabel"
            layoutX="30.0" layoutY="550.0"
+           prefWidth="720.0"
            style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
            text="" />
 

@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import models.Vehicule;
 import services.VehiculeService;
-
+import javafx.geometry.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,8 +86,8 @@ public class GestionVehiculeController {
 
     private VBox creerCarteVehicule(Vehicule vehicule) {
         VBox carte = new VBox();
-        carte.setPrefWidth(620);
-        carte.setMinHeight(175);
+        carte.setPrefWidth(500);
+        carte.setMinHeight(165);
         carte.setPadding(new Insets(12));
         carte.setCursor(Cursor.HAND);
 
@@ -118,10 +118,10 @@ public class GestionVehiculeController {
         contenuCarte.setAlignment(Pos.CENTER_LEFT);
 
         StackPane imageContainer = new StackPane();
-        imageContainer.setPrefWidth(220);
-        imageContainer.setPrefHeight(145);
-        imageContainer.setMinWidth(220);
-        imageContainer.setMaxWidth(220);
+        imageContainer.setPrefWidth(170);
+        imageContainer.setPrefHeight(125);
+        imageContainer.setMinWidth(170);
+        imageContainer.setMaxWidth(170);
         imageContainer.setStyle(
                 "-fx-background-color: #ecf0f1;" +
                         "-fx-background-radius: 14;"
@@ -131,9 +131,11 @@ public class GestionVehiculeController {
 
         if (image != null) {
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(220);
-            imageView.setFitHeight(145);
-            imageView.setPreserveRatio(false);
+            imageView.setFitWidth(170);
+            imageView.setFitHeight(125);
+            imageView.setPreserveRatio(true);
+            imageView.setSmooth(true);
+
             imageContainer.getChildren().add(imageView);
         } else {
             Label placeholder = new Label("🚗");
@@ -143,7 +145,7 @@ public class GestionVehiculeController {
 
         VBox detailsBox = new VBox(8);
         detailsBox.setAlignment(Pos.CENTER_LEFT);
-        detailsBox.setPrefWidth(350);
+        detailsBox.setPrefWidth(280);
 
         Label titreLabel = new Label(texteAffichage(vehicule.getMarque()) + " " + texteAffichage(vehicule.getModele()));
         titreLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
@@ -218,14 +220,14 @@ public class GestionVehiculeController {
             }
 
             if (file.exists()) {
-                return new Image(file.toURI().toString(), 220, 145, false, true);
+                return new Image(file.toURI().toString());
             }
 
             String resourcePath = photoPath.startsWith("/") ? photoPath : "/" + photoPath;
             InputStream inputStream = getClass().getResourceAsStream(resourcePath);
 
             if (inputStream != null) {
-                return new Image(inputStream, 220, 145, false, true);
+                return new Image(inputStream);
             }
 
         } catch (Exception e) {
@@ -234,6 +236,8 @@ public class GestionVehiculeController {
 
         return null;
     }
+
+
 
     private void appliquerRechercheEtFiltre() {
         List<Vehicule> resultats = getVehiculesAffiches();
@@ -378,5 +382,24 @@ public class GestionVehiculeController {
             messageLabel.setText("Erreur lors de l'ouverture des documents.");
             System.out.println(e.getMessage());
         }
+    }@FXML
+    private void monEspaceVehiculeAction() {
+        messageLabel.setText("Vous êtes déjà dans Mon Espace Véhicule.");
+    }
+
+    @FXML
+    private void impactEnergetiqueAction() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ImpactEnergetique.fxml"));
+            messageLabel.getScene().setRoot(root);
+        } catch (IOException e) {
+            messageLabel.setText("Erreur lors de l'ouverture de la page Impact énergétique.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void maintenanceAction() {
+        messageLabel.setText("La page Maintenance sera ajoutée plus tard.");
     }
 }

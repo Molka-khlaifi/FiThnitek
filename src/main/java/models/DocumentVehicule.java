@@ -33,7 +33,7 @@ public class DocumentVehicule {
     public DocumentVehicule(int idVehicule, String typeDocument, String nomFichier, String cheminFichier, String dateUpload, String statutDocument) {
         this.idVehicule = idVehicule;
         this.typeDocument = typeDocument;
-        this.nomFichier = nomFichier;
+        this.nomFichier = nomFichier    ;
         this.cheminFichier = cheminFichier;
         this.dateUpload = dateUpload;
         this.statutDocument = statutDocument;

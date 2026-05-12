@@ -7,10 +7,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import models.Vehicule;
 import services.VehiculeService;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class ModifierVehiculeController {
 
@@ -42,11 +48,16 @@ public class ModifierVehiculeController {
     private ComboBox<String> energieComboBox;
 
     @FXML
+    private TextField photoPathTextField;
+
+    @FXML
     private Label messageLabel;
 
-    private VehiculeService vehiculeService = new VehiculeService();
+    private final VehiculeService vehiculeService = new VehiculeService();
 
     private Vehicule vehiculeActuel;
+
+    private File nouvellePhotoSelectionnee;
 
     @FXML
     public void initialize() {
@@ -79,6 +90,27 @@ public class ModifierVehiculeController {
         placesTextField.setText(String.valueOf(vehicule.getNombrePlaces()));
         typeVehiculeComboBox.setValue(vehicule.getTypeVehicule());
         energieComboBox.setValue(vehicule.getEnergie());
+        photoPathTextField.setText(vehicule.getPhotoPath());
+    }
+
+    @FXML
+    private void choisirPhotoAction() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une nouvelle photo du véhicule");
+
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg", "*.jpeg")
+        );
+
+        File fichier = fileChooser.showOpenDialog(messageLabel.getScene().getWindow());
+
+        if (fichier != null) {
+            nouvellePhotoSelectionnee = fichier;
+            photoPathTextField.setText(fichier.getName());
+            messageLabel.setText("Nouvelle photo sélectionnée : " + fichier.getName());
+        }
     }
 
     @FXML
@@ -88,6 +120,30 @@ public class ModifierVehiculeController {
         }
 
         try {
+            String photoPathFinal = vehiculeActuel.getPhotoPath();
+
+            if (nouvellePhotoSelectionnee != null) {
+                Path dossierUpload = Paths.get("uploads", "vehicules");
+
+                if (!Files.exists(dossierUpload)) {
+                    Files.createDirectories(dossierUpload);
+                }
+
+                String nomOriginal = nouvellePhotoSelectionnee.getName();
+                String nomSecurise = nettoyerNomFichier(nomOriginal);
+                String nomFinal = System.currentTimeMillis() + "_" + nomSecurise;
+
+                Path destination = dossierUpload.resolve(nomFinal);
+
+                Files.copy(
+                        nouvellePhotoSelectionnee.toPath(),
+                        destination,
+                        StandardCopyOption.REPLACE_EXISTING
+                );
+
+                photoPathFinal = "uploads/vehicules/" + nomFinal;
+            }
+
             Vehicule vehiculeModifie = new Vehicule(
                     vehiculeActuel.getIdVehicule(),
                     vehiculeActuel.getIdUtilisateur(),
@@ -99,12 +155,16 @@ public class ModifierVehiculeController {
                     Integer.parseInt(placesTextField.getText()),
                     typeVehiculeComboBox.getValue(),
                     energieComboBox.getValue(),
-                    vehiculeActuel.getPhotoPath(),
+                    photoPathFinal,
                     vehiculeActuel.getStatut(),
                     vehiculeActuel.getStatutValidation()
             );
 
             vehiculeService.update(vehiculeModifie);
+
+            vehiculeActuel = vehiculeModifie;
+            nouvellePhotoSelectionnee = null;
+            photoPathTextField.setText(photoPathFinal);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succès");
@@ -114,6 +174,9 @@ public class ModifierVehiculeController {
 
             messageLabel.setText("Véhicule modifié avec succès !");
 
+        } catch (IOException e) {
+            messageLabel.setText("Erreur lors de l'upload de la photo.");
+            System.out.println("Erreur upload photo véhicule : " + e.getMessage());
         } catch (NumberFormatException e) {
             messageLabel.setText("Année et nombre de places doivent être des nombres.");
         }
@@ -128,6 +191,13 @@ public class ModifierVehiculeController {
             System.out.println(e.getMessage());
         }
     }
+
+    private String nettoyerNomFichier(String nomFichier) {
+        return nomFichier
+                .replaceAll("\\s+", "_")
+                .replaceAll("[^a-zA-Z0-9._-]", "_");
+    }
+
     private boolean champsValides() {
         if (marqueTextField.getText().isEmpty()
                 || modeleTextField.getText().isEmpty()

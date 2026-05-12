@@ -24,29 +24,43 @@
 
     <TextField fx:id="idVehiculeTextField" visible="false" managed="false" />
 
-    <Label layoutX="80.0" layoutY="110.0" text="Marque" />
-    <TextField fx:id="marqueTextField" layoutX="220.0" layoutY="105.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="100.0" text="Marque" />
+    <TextField fx:id="marqueTextField" layoutX="220.0" layoutY="95.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="155.0" text="Modèle" />
-    <TextField fx:id="modeleTextField" layoutX="220.0" layoutY="150.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="140.0" text="Modèle" />
+    <TextField fx:id="modeleTextField" layoutX="220.0" layoutY="135.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="200.0" text="Immatriculation" />
-    <TextField fx:id="immatriculationTextField" layoutX="220.0" layoutY="195.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="180.0" text="Immatriculation" />
+    <TextField fx:id="immatriculationTextField" layoutX="220.0" layoutY="175.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="245.0" text="Couleur" />
-    <TextField fx:id="couleurTextField" layoutX="220.0" layoutY="240.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="220.0" text="Couleur" />
+    <TextField fx:id="couleurTextField" layoutX="220.0" layoutY="215.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="290.0" text="Année" />
-    <TextField fx:id="anneeTextField" layoutX="220.0" layoutY="285.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="260.0" text="Année" />
+    <TextField fx:id="anneeTextField" layoutX="220.0" layoutY="255.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="335.0" text="Nombre de places" />
-    <TextField fx:id="placesTextField" layoutX="220.0" layoutY="330.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="300.0" text="Nombre de places" />
+    <TextField fx:id="placesTextField" layoutX="220.0" layoutY="295.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="380.0" text="Type véhicule" />
-    <ComboBox fx:id="typeVehiculeComboBox" layoutX="220.0" layoutY="375.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="340.0" text="Type véhicule" />
+    <ComboBox fx:id="typeVehiculeComboBox" layoutX="220.0" layoutY="335.0" prefWidth="250.0" />
 
-    <Label layoutX="80.0" layoutY="425.0" text="Énergie" />
-    <ComboBox fx:id="energieComboBox" layoutX="220.0" layoutY="420.0" prefWidth="250.0" />
+    <Label layoutX="80.0" layoutY="380.0" text="Énergie" />
+    <ComboBox fx:id="energieComboBox" layoutX="220.0" layoutY="375.0" prefWidth="250.0" />
+
+    <Label layoutX="80.0" layoutY="420.0" text="Photo véhicule" />
+    <TextField fx:id="photoPathTextField"
+               layoutX="220.0" layoutY="415.0"
+               prefWidth="250.0"
+               editable="false"
+               promptText="Aucune photo"
+               style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd;" />
+
+    <Button layoutX="490.0" layoutY="415.0"
+            onAction="#choisirPhotoAction"
+            prefHeight="30.0" prefWidth="145.0"
+            style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Changer photo →" />
 
     <Button layoutX="220.0" layoutY="485.0"
             onAction="#modifierVehiculeAction"
@@ -62,6 +76,7 @@
 
     <Label fx:id="messageLabel"
            layoutX="80.0" layoutY="540.0"
+           prefWidth="650.0"
            style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
            text="" />
 

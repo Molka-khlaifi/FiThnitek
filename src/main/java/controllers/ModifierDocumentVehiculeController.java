@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class AjouterDocumentVehiculeController {
+public class ModifierDocumentVehiculeController {
 
     @FXML
     private Label vehiculeLabel;
@@ -31,13 +31,17 @@ public class AjouterDocumentVehiculeController {
     private TextField nomFichierTextField;
 
     @FXML
+    private Label statutLabel;
+
+    @FXML
     private Label messageLabel;
 
     private final DocumentVehiculeService documentVehiculeService = new DocumentVehiculeService();
 
+    private DocumentVehicule documentActuel;
     private Vehicule vehiculeActuel;
 
-    private File fichierSelectionne;
+    private File nouveauFichierSelectionne;
 
     @FXML
     public void initialize() {
@@ -48,11 +52,10 @@ public class AjouterDocumentVehiculeController {
                 "VIGNETTE",
                 "AUTRE"
         );
-
-        typeDocumentComboBox.setValue("ASSURANCE");
     }
 
-    public void setVehicule(Vehicule vehicule) {
+    public void setDocumentEtVehicule(DocumentVehicule document, Vehicule vehicule) {
+        this.documentActuel = document;
         this.vehiculeActuel = vehicule;
 
         vehiculeLabel.setText(
@@ -60,12 +63,16 @@ public class AjouterDocumentVehiculeController {
                         vehicule.getModele() + " - " +
                         vehicule.getImmatriculation()
         );
+
+        typeDocumentComboBox.setValue(document.getTypeDocument());
+        nomFichierTextField.setText(document.getNomFichier());
+        statutLabel.setText("Statut : " + document.getStatutDocument());
     }
 
     @FXML
-    private void choisirFichierAction() {
+    private void choisirNouveauFichierAction() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir un document véhicule");
+        fileChooser.setTitle("Choisir un nouveau document véhicule");
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Documents et images", "*.pdf", "*.png", "*.jpg", "*.jpeg"),
@@ -76,16 +83,16 @@ public class AjouterDocumentVehiculeController {
         File fichier = fileChooser.showOpenDialog(messageLabel.getScene().getWindow());
 
         if (fichier != null) {
-            fichierSelectionne = fichier;
+            nouveauFichierSelectionne = fichier;
             nomFichierTextField.setText(fichier.getName());
-            messageLabel.setText("Fichier sélectionné : " + fichier.getName());
+            messageLabel.setText("Nouveau fichier sélectionné : " + fichier.getName());
         }
     }
 
     @FXML
-    private void ajouterDocumentAction() {
-        if (vehiculeActuel == null) {
-            messageLabel.setText("Aucun véhicule sélectionné.");
+    private void modifierDocumentAction() {
+        if (documentActuel == null || vehiculeActuel == null) {
+            messageLabel.setText("Aucun document sélectionné.");
             return;
         }
 
@@ -94,54 +101,52 @@ public class AjouterDocumentVehiculeController {
             return;
         }
 
-        if (fichierSelectionne == null) {
-            messageLabel.setText("Veuillez uploader un fichier.");
-            return;
-        }
-
         try {
-            Path dossierUpload = Paths.get("uploads", "documents");
+            String nomFichierFinal = documentActuel.getNomFichier();
+            String cheminFichierFinal = documentActuel.getCheminFichier();
 
-            if (!Files.exists(dossierUpload)) {
-                Files.createDirectories(dossierUpload);
+            if (nouveauFichierSelectionne != null) {
+                Path dossierUpload = Paths.get("uploads", "documents");
+
+                if (!Files.exists(dossierUpload)) {
+                    Files.createDirectories(dossierUpload);
+                }
+
+                String nomOriginal = nouveauFichierSelectionne.getName();
+                String nomSecurise = nettoyerNomFichier(nomOriginal);
+                String nomFinal = System.currentTimeMillis() + "_" + nomSecurise;
+
+                Path destination = dossierUpload.resolve(nomFinal);
+
+                Files.copy(
+                        nouveauFichierSelectionne.toPath(),
+                        destination,
+                        StandardCopyOption.REPLACE_EXISTING
+                );
+
+                nomFichierFinal = nomFinal;
+                cheminFichierFinal = "uploads/documents/" + nomFinal;
             }
 
-            String nomOriginal = fichierSelectionne.getName();
-            String nomSecurise = nettoyerNomFichier(nomOriginal);
-            String nomFinal = System.currentTimeMillis() + "_" + nomSecurise;
+            documentActuel.setTypeDocument(typeDocumentComboBox.getValue());
+            documentActuel.setNomFichier(nomFichierFinal);
+            documentActuel.setCheminFichier(cheminFichierFinal);
 
-            Path destination = dossierUpload.resolve(nomFinal);
-
-            Files.copy(
-                    fichierSelectionne.toPath(),
-                    destination,
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            String cheminFichier = "uploads/documents/" + nomFinal;
-
-            DocumentVehicule document = new DocumentVehicule(
-                    vehiculeActuel.getIdVehicule(),
-                    typeDocumentComboBox.getValue(),
-                    nomFinal,
-                    cheminFichier,
-                    "EN_ATTENTE"
-            );
-
-            documentVehiculeService.add(document);
+            documentVehiculeService.update(documentActuel);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succès");
             alert.setHeaderText(null);
-            alert.setContentText("Document ajouté avec succès !");
+            alert.setContentText("Document modifié avec succès !");
             alert.show();
 
-            messageLabel.setText("Document ajouté avec succès dans uploads/documents/.");
-            viderChamps();
+            messageLabel.setText("Document modifié avec succès.");
+            nouveauFichierSelectionne = null;
+            nomFichierTextField.setText(documentActuel.getNomFichier());
 
         } catch (IOException e) {
-            messageLabel.setText("Erreur lors de l'upload du fichier.");
-            System.out.println("Erreur upload document : " + e.getMessage());
+            messageLabel.setText("Erreur lors de la modification du fichier.");
+            System.out.println("Erreur modification document : " + e.getMessage());
         }
     }
 
@@ -165,11 +170,5 @@ public class AjouterDocumentVehiculeController {
         return nomFichier
                 .replaceAll("\\s+", "_")
                 .replaceAll("[^a-zA-Z0-9._-]", "_");
-    }
-
-    private void viderChamps() {
-        nomFichierTextField.clear();
-        fichierSelectionne = null;
-        typeDocumentComboBox.setValue("ASSURANCE");
     }
 }

@@ -13,7 +13,10 @@ import javafx.scene.layout.VBox;
 import models.DocumentVehicule;
 import models.Vehicule;
 import services.DocumentVehiculeService;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,18 +117,7 @@ public class DocumentsVehiculeController {
         HBox contenuCarte = new HBox(16);
         contenuCarte.setAlignment(Pos.CENTER_LEFT);
 
-        StackPane iconBox = new StackPane();
-        iconBox.setPrefWidth(90);
-        iconBox.setPrefHeight(90);
-        iconBox.setMinWidth(90);
-        iconBox.setStyle(
-                "-fx-background-color: #ecf0f1;" +
-                        "-fx-background-radius: 14;"
-        );
-
-        Label documentIcon = new Label("📄");
-        documentIcon.setStyle("-fx-font-size: 38px;");
-        iconBox.getChildren().add(documentIcon);
+        StackPane iconBox = creerPreviewDocument(document);
 
         VBox infosBox = new VBox(8);
         infosBox.setAlignment(Pos.CENTER_LEFT);
@@ -176,6 +168,124 @@ public class DocumentsVehiculeController {
         });
 
         return carte;
+    }
+
+    private StackPane creerPreviewDocument(DocumentVehicule document) {
+        StackPane previewBox = new StackPane();
+        previewBox.setPrefWidth(115);
+        previewBox.setPrefHeight(90);
+        previewBox.setMinWidth(115);
+        previewBox.setMaxWidth(115);
+        previewBox.setStyle(
+                "-fx-background-color: #ecf0f1;" +
+                        "-fx-background-radius: 14;"
+        );
+
+        String cheminFichier = document.getCheminFichier();
+
+        if (estImage(cheminFichier)) {
+            Image image = chargerImageDocument(cheminFichier);
+
+            if (image != null) {
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(105);
+                imageView.setFitHeight(80);
+                imageView.setPreserveRatio(true);
+                imageView.setSmooth(true);
+
+                previewBox.setCursor(Cursor.HAND);
+                Tooltip.install(previewBox, new Tooltip("Cliquer pour prévisualiser"));
+
+                previewBox.setOnMouseClicked(event -> ouvrirApercuImage(document));
+
+                previewBox.getChildren().add(imageView);
+                return previewBox;
+            }
+        }
+
+        Label documentIcon = new Label("📄");
+        documentIcon.setStyle("-fx-font-size: 38px;");
+        previewBox.getChildren().add(documentIcon);
+
+        Tooltip.install(previewBox, new Tooltip("Aperçu disponible pour les images"));
+
+        return previewBox;
+    }
+
+    private boolean estImage(String cheminFichier) {
+        if (cheminFichier == null) {
+            return false;
+        }
+
+        String chemin = cheminFichier.toLowerCase();
+
+        return chemin.endsWith(".png")
+                || chemin.endsWith(".jpg")
+                || chemin.endsWith(".jpeg");
+    }
+
+    private Image chargerImageDocument(String cheminFichier) {
+        if (cheminFichier == null || cheminFichier.trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            File file = new File(cheminFichier);
+
+            if (!file.isAbsolute()) {
+                file = new File(System.getProperty("user.dir"), cheminFichier);
+            }
+
+            if (file.exists()) {
+                // IMPORTANT: no width/height here
+                // This loads the original image quality
+                return new Image(file.toURI().toString());
+            }
+
+            String resourcePath = cheminFichier.startsWith("/") ? cheminFichier : "/" + cheminFichier;
+            InputStream inputStream = getClass().getResourceAsStream(resourcePath);
+
+            if (inputStream != null) {
+                // IMPORTANT: no width/height here either
+                return new Image(inputStream);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erreur chargement image document : " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    private void ouvrirApercuImage(DocumentVehicule document) {
+        Image image = chargerImageDocument(document.getCheminFichier());
+
+        if (image == null) {
+            messageLabel.setText("Impossible d'ouvrir l'aperçu de cette image.");
+            return;
+        }
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Aperçu du document");
+        dialog.setHeaderText(document.getNomFichier());
+
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(650);
+        imageView.setFitHeight(420);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(false);
+
+        ScrollPane scrollPane = new ScrollPane(imageView);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setPrefWidth(680);
+        scrollPane.setPrefHeight(460);
+        scrollPane.setStyle("-fx-background-color: white;");
+
+        dialog.getDialogPane().setContent(scrollPane);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        dialog.showAndWait();
     }
 
     private Label creerBadge(String texte, String couleur) {
@@ -278,6 +388,28 @@ public class DocumentsVehiculeController {
                 messageLabel.setText("Document supprimé avec succès.");
             }
         });
+    }
+
+    @FXML
+    private void modifierDocumentAction() {
+        if (documentSelectionne == null) {
+            messageLabel.setText("Veuillez sélectionner un document à modifier.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierDocumentVehicule.fxml"));
+            Parent root = loader.load();
+
+            ModifierDocumentVehiculeController controller = loader.getController();
+            controller.setDocumentEtVehicule(documentSelectionne, vehiculeActuel);
+
+            messageLabel.getScene().setRoot(root);
+
+        } catch (IOException e) {
+            messageLabel.setText("Erreur lors de l'ouverture du formulaire de modification.");
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML

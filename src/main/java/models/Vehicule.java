@@ -13,8 +13,8 @@ public class Vehicule {
     private String typeVehicule;
     private String energie;
     private String photoPath;
-    private String statut;
-    private String statutValidation;
+     String statut;
+    public String statutValidation;
 
     public Vehicule() {
     }

@@ -17,7 +17,7 @@ public class DocumentVehiculeService implements IService<DocumentVehicule> {
 
     @Override
     public void add(DocumentVehicule documentVehicule) {
-        String sql = "INSERT INTO document_vehicule " +
+        String sql = "INSERT INTO documentvehicule " +
                 "(id_vehicule, type_document, nom_fichier, chemin_fichier, statut_document) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
@@ -40,7 +40,7 @@ public class DocumentVehiculeService implements IService<DocumentVehicule> {
 
     @Override
     public void update(DocumentVehicule documentVehicule) {
-        String sql = "UPDATE document_vehicule SET " +
+        String sql = "UPDATE documentvehicule SET " +
                 "id_vehicule = ?, " +
                 "type_document = ?, " +
                 "nom_fichier = ?, " +
@@ -73,7 +73,7 @@ public class DocumentVehiculeService implements IService<DocumentVehicule> {
             return;
         }
 
-        String sql = "DELETE FROM document_vehicule WHERE id_document = ?";
+        String sql = "DELETE FROM documentvehicule WHERE id_document = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -92,7 +92,7 @@ public class DocumentVehiculeService implements IService<DocumentVehicule> {
     public List<DocumentVehicule> getAll() {
         List<DocumentVehicule> documents = new ArrayList<>();
 
-        String sql = "SELECT * FROM document_vehicule";
+        String sql = "SELECT * FROM documentvehicule";
 
         try {
             Statement statement = connection.createStatement();
@@ -101,13 +101,13 @@ public class DocumentVehiculeService implements IService<DocumentVehicule> {
             while (resultSet.next()) {
                 DocumentVehicule documentVehicule = new DocumentVehicule();
 
-                documentVehicule.setIdDocument(resultSet.getInt("id_document"));
-                documentVehicule.setIdVehicule(resultSet.getInt("id_vehicule"));
-                documentVehicule.setTypeDocument(resultSet.getString("type_document"));
-                documentVehicule.setNomFichier(resultSet.getString("nom_fichier"));
-                documentVehicule.setCheminFichier(resultSet.getString("chemin_fichier"));
-                documentVehicule.setDateUpload(resultSet.getString("date_upload"));
-                documentVehicule.setStatutDocument(resultSet.getString("statut_document"));
+                documentVehicule.setIdDocument(resultSet.getInt("idDocument"));
+                documentVehicule.setIdVehicule(resultSet.getInt("idVehicule"));
+                documentVehicule.setTypeDocument(resultSet.getString("typeDocument"));
+                documentVehicule.setNomFichier(resultSet.getString("nomFichier"));
+                documentVehicule.setCheminFichier(resultSet.getString("cheminFichier"));
+                documentVehicule.setDateUpload(resultSet.getString("dateUpload"));
+                documentVehicule.setStatutDocument(resultSet.getString("statutDocument"));
 
                 documents.add(documentVehicule);
             }
