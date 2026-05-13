@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+        <?import javafx.scene.chart.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.StatistiquesController"
+      style="-fx-padding: 20px; -fx-background-color: #f9f9f9;">
+
+<Label text="Statistiques des Réclamations"
+       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+<!-- Cartes résumé -->
+<HBox spacing="12">
+    <VBox style="-fx-background-color: #eaf3de; -fx-padding: 12px; -fx-background-radius: 8px;" prefWidth="150">
+        <Label text="Total" style="-fx-font-size: 12px; -fx-text-fill: #3b6d11;"/>
+        <Label fx:id="lblTotal" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27500a;"/>
+    </VBox>
+    <VBox style="-fx-background-color: #faeeda; -fx-padding: 12px; -fx-background-radius: 8px;" prefWidth="150">
+        <Label text="En attente" style="-fx-font-size: 12px; -fx-text-fill: #854f0b;"/>
+        <Label fx:id="lblEnAttente" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #633806;"/>
+    </VBox>
+    <VBox style="-fx-background-color: #e6f1fb; -fx-padding: 12px; -fx-background-radius: 8px;" prefWidth="150">
+        <Label text="En cours" style="-fx-font-size: 12px; -fx-text-fill: #185fa5;"/>
+        <Label fx:id="lblEnCours" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0c447c;"/>
+    </VBox>
+    <VBox style="-fx-background-color: #eeedfe; -fx-padding: 12px; -fx-background-radius: 8px;" prefWidth="150">
+        <Label text="Résolues" style="-fx-font-size: 12px; -fx-text-fill: #534ab7;"/>
+        <Label fx:id="lblResolues" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3c3489;"/>
+    </VBox>
+</HBox>
+
+<!-- Graphique BarChart par type -->
+<Label text="Nombre de réclamations par type"
+       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+<BarChart fx:id="barChartType" prefHeight="280">
+    <xAxis>
+        <CategoryAxis label="Type de réclamation"/>
+    </xAxis>
+    <yAxis>
+        <NumberAxis label="Nombre"/>
+    </yAxis>
+</BarChart>
+
+<!-- Graphique PieChart par type -->
+<Label text="Répartition en camembert"
+       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+<PieChart fx:id="pieChartType" prefHeight="250"/>
+
+<Separator/>
+
+<Button text="Retour à la Liste"
+        onAction="#retourListe"
+        prefWidth="350"
+        style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+
+</VBox>
+

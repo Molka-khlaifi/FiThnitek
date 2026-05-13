@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.AjouterReclamationController"
+      alignment="CENTER"
+      style="-fx-padding: 30px; -fx-background-color: #f9f9f9;">
+
+<Label text="Ajouter une Réclamation"
+       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+<TextField fx:id="txtObjet"
+           promptText="Objet de la réclamation"
+           prefWidth="350"
+           style="-fx-padding: 8px;"/>
+
+<TextArea fx:id="txtDescription"
+          promptText="Description détaillée"
+          prefWidth="350"
+          prefHeight="120"
+          style="-fx-padding: 8px;"/>
+
+<ComboBox fx:id="cbType"
+          promptText="-- Type de réclamation --"
+          prefWidth="350"/>
+
+<ComboBox fx:id="cbUrgence"
+          promptText="-- Niveau d'urgence --"
+          prefWidth="350"/>
+
+<Button text="Soumettre la Réclamation"
+        onAction="#ajouterReclamation"
+        prefWidth="350"
+        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-cursor: hand;"/>
+
+<Label fx:id="lblMessage" style="-fx-font-size: 13px;"/>
+
+<Separator prefWidth="350"/>
+
+<!-- ✅ Bouton utilisateur : voir les réponses de l'admin -->
+<Button text="Voir les réponses de l'admin"
+        onAction="#voirMesReponses"
+        prefWidth="350"
+        style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+
+<!-- Bouton admin : voir la liste -->
+<Button text="Voir la Liste des Réclamations"
+        onAction="#allerVersListe"
+        prefWidth="350"
+        style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+
+</VBox>
+
+

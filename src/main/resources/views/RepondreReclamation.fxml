@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<VBox spacing="12" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.ReponseReclamationController"
+      style="-fx-padding: 20px; -fx-background-color: #f9f9f9;">
+
+<Label text="Répondre à une Réclamation"
+       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+<Label fx:id="lblReclamation"
+       style="-fx-font-size: 13px; -fx-font-style: italic; -fx-text-fill: #555;"/>
+
+<TextArea fx:id="txtReponse"
+          promptText="Votre réponse..."
+          prefHeight="120"
+          style="-fx-padding: 8px;"/>
+
+<Button text="Envoyer la Réponse"
+        onAction="#envoyerReponse"
+        prefWidth="350"
+        style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+
+<Label fx:id="lblMessage" style="-fx-font-size: 13px;"/>
+
+<Separator/>
+
+<Label text="Réponses existantes"
+       style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+<TableView fx:id="tableReponses" prefHeight="200">
+    <columns>
+        <TableColumn fx:id="colIdRec"   text="ID Réclamation" prefWidth="120"/>
+        <TableColumn fx:id="colMessage" text="Message"        prefWidth="250"/>
+        <TableColumn fx:id="colDate"    text="Date"           prefWidth="150"/>
+    </columns>
+</TableView>
+
+<Separator/>
+
+<!-- Bouton retour vers la liste -->
+<Button text="Retour à la Liste"
+        onAction="#retourListe"
+        prefWidth="350"
+        style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+
+</VBox>
+
+

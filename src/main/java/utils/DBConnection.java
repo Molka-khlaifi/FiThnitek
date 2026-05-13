@@ -1,3 +1,4 @@
+
 package utils;
 
 import java.sql.Connection;
@@ -5,28 +6,44 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private String url="jdbc:mysql://localhost:3306/FiThnitek_DB";
-    private String user="root";
-    private String password="";
-    private Connection conn;
-    private static DBConnection instance;
 
-    public static DBConnection getInstance(){
-        if(instance==null){
-            instance=new DBConnection();
-        }
-        return instance;
-    }
+    private static Connection connection;
 
-    public Connection getConn() {
-        return conn;
-    }
-    private  DBConnection(){
+    private static final String URL      = "jdbc:mysql://localhost:3306/fi_thnitek";
+    private static final String USER     = "root";
+    private static final String PASSWORD = "";
+
+    // Constructeur privé (Singleton)
+    private DBConnection() {}
+
+    // ✅ synchronized pour éviter les accès concurrents
+    public static synchronized Connection getConnection() {
+
         try {
-            this.conn= DriverManager.getConnection(url,user,password);
-            System.out.println("Connection established");
-        }  catch (SQLException e) {
-            System.out.println(e.getMessage());
+            // Reconnecter si la connexion est nulle ou fermée
+            if (connection == null || connection.isClosed()) {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                System.out.println("✔ Connexion réussie à la base de données");
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("❌ Driver MySQL introuvable : " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("❌ Erreur connexion DB : " + e.getMessage());
+        }
+
+        return connection;
+    }
+
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null; // ✅ Remettre à null pour permettre une reconnexion
+                System.out.println("✔ Connexion fermée");
+            } catch (SQLException e) {
+                System.out.println("❌ Erreur fermeture : " + e.getMessage());
+            }
         }
     }
 }

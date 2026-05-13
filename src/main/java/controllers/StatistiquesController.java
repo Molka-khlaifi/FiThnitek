@@ -1,85 +1,90 @@
+
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.chart.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import services.ServiceStatistiques;
+import javafx.stage.Stage;
+import models.Reclamation;
+import services.ReclamationService;
 
-import java.net.URL;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
-public class StatistiquesController implements Initializable {
+public class StatistiquesController {
 
-    @FXML private Label    lblTotalTrajets;
-    @FXML private Label    lblTotalReservations;
-    @FXML private Label    lblRevenue;
-    @FXML private Label    lblTauxOccupation;
-    @FXML private Label    lblPlacesVendues;
+    @FXML private Label   lblTotal;
+    @FXML private Label   lblEnAttente;
+    @FXML private Label   lblEnCours;
+    @FXML private Label   lblResolues;
+    @FXML private BarChart<String, Number>  barChartType;
+    @FXML private PieChart                  pieChartType;
 
-    @FXML private PieChart                    pieStatut;
-    @FXML private BarChart<String, Number>    barTrajets;
-    @FXML private LineChart<String, Number>   lineRevenue;
-    @FXML private PieChart                    pieReservations;
+    ReclamationService service = new ReclamationService();
 
-    private final ServiceStatistiques stats = new ServiceStatistiques();
+    @FXML
+    public void initialize() {
+        List<Reclamation> liste = service.getAll();
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        loadStats();
+        // ── Cartes résumé ──────────────────────────────────────────
+        long total      = liste.size();
+        long enAttente  = liste.stream().filter(r -> "En attente".equalsIgnoreCase(r.getEtat())).count();
+        long enCours    = liste.stream().filter(r -> "En cours".equalsIgnoreCase(r.getEtat())).count();
+        long resolues   = liste.stream().filter(r -> "Résolu".equalsIgnoreCase(r.getEtat())).count();
+
+        lblTotal.setText(String.valueOf(total));
+        lblEnAttente.setText(String.valueOf(enAttente));
+        lblEnCours.setText(String.valueOf(enCours));
+        lblResolues.setText(String.valueOf(resolues));
+
+        // ── Comptage par type ──────────────────────────────────────
+        Map<String, Integer> parType = new HashMap<>();
+        for (Reclamation r : liste) {
+            String type = r.getType() != null ? r.getType() : "Inconnu";
+            parType.put(type, parType.getOrDefault(type, 0) + 1);
+        }
+
+        // ── BarChart ───────────────────────────────────────────────
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Réclamations");
+
+        for (Map.Entry<String, Integer> entry : parType.entrySet()) {
+            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+        }
+
+        barChartType.getData().add(series);
+        barChartType.setLegendVisible(false);
+        barChartType.setAnimated(true);
+
+        // ── PieChart ───────────────────────────────────────────────
+        for (Map.Entry<String, Integer> entry : parType.entrySet()) {
+            PieChart.Data slice = new PieChart.Data(
+                    entry.getKey() + " (" + entry.getValue() + ")",
+                    entry.getValue()
+            );
+            pieChartType.getData().add(slice);
+        }
+
+        pieChartType.setAnimated(true);
+        pieChartType.setLegendVisible(true);
     }
 
     @FXML
-    public void loadStats() {
+    public void retourListe() {
         try {
-            // KPIs
-            lblTotalTrajets.setText(String.valueOf(stats.totalTrajets()));
-            lblTotalReservations.setText(String.valueOf(stats.totalReservations()));
-            lblRevenue.setText(String.format("%.2f DT", stats.revenueTotal()));
-            lblTauxOccupation.setText(String.format("%.1f %%", stats.tauxOccupationMoyen()));
-            lblPlacesVendues.setText(String.valueOf(stats.placesVendues()));
-
-            // Pie: trajets par statut
-            pieStatut.getData().clear();
-            for (Map.Entry<String, Integer> e : stats.trajetsByStatut().entrySet()) {
-                pieStatut.getData().add(
-                        new PieChart.Data(e.getKey() + " (" + e.getValue() + ")", e.getValue()));
-            }
-
-            // Bar: top trajets
-            barTrajets.getData().clear();
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Reservations");
-            for (Map.Entry<String, Integer> e : stats.topTrajets().entrySet()) {
-                series.getData().add(new XYChart.Data<>(shorten(e.getKey()), e.getValue()));
-            }
-            barTrajets.getData().add(series);
-
-            // Line: revenue par mois
-            lineRevenue.getData().clear();
-            XYChart.Series<String, Number> rev = new XYChart.Series<>();
-            rev.setName("Chiffre d affaires (DT)");
-            for (Map.Entry<String, Double> e : stats.revenueParMois().entrySet()) {
-                rev.getData().add(new XYChart.Data<>(e.getKey(), e.getValue()));
-            }
-            lineRevenue.getData().add(rev);
-
-            // Pie: reservations par statut
-            pieReservations.getData().clear();
-            for (Map.Entry<String, Integer> e : stats.reservationsByStatut().entrySet()) {
-                pieReservations.getData().add(
-                        new PieChart.Data(e.getKey() + " (" + e.getValue() + ")", e.getValue()));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erreur stats: " + e.getMessage());
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/views/ListeReclamation.fxml")
+            );
+            Stage stage = (Stage) barChartType.getScene().getWindow();
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Liste des Réclamations");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    private String shorten(String route) {
-        if (route == null) return "";
-        return route.length() > 18 ? route.substring(0, 16) + "..." : route;
     }
 }
