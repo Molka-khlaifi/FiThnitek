@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox prefHeight="700.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UserHomeController">
+    
+    <!-- Navbar Horizontale -->
+    <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-navbar">
+        <Label text="FI THNITEK" styleClass="brand-label" />
+        
+        <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+            <Button fx:id="homeNavBtn" mnemonicParsing="false" onAction="#showHomeSection" styleClass="nav-item, nav-item-active" text="ACCUEIL" />
+            <Button fx:id="profileNavBtn" mnemonicParsing="false" onAction="#showProfileSection" styleClass="nav-item" text="MON PROFIL" />
+            <Button fx:id="trajetNavBtn" mnemonicParsing="false" onAction="#showTrajetSection" styleClass="nav-item" text="MES TRAJETS" />
+        </HBox>
+        
+        <HBox alignment="CENTER_RIGHT" spacing="15.0">
+            <Label fx:id="userNameLabel" text="Utilisateur" textFill="WHITE" style="-fx-font-weight: bold;" />
+            <Hyperlink onAction="#handleLogout" styleClass="logout-link" text="DÉCONNEXION" />
+        </HBox>
+    </HBox>
+
+    <!-- Main Content Area -->
+    <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: #f0f2f5;">
+        
+        <!-- Home Section -->
+        <VBox fx:id="homeSection" spacing="30.0">
+            <padding>
+                <Insets bottom="50.0" left="80.0" right="80.0" top="50.0" />
+            </padding>
+            
+            <VBox spacing="5">
+                <Label fx:id="welcomeLabel" text="Bienvenue, Utilisateur !" styleClass="title-label" />
+                <Label text="Heureux de vous revoir sur Fi Thnitek." style="-fx-text-fill: #7f8c8d;" />
+            </VBox>
+            
+            <HBox spacing="30.0">
+                <VBox spacing="10.0" styleClass="stats-card" HBox.hgrow="ALWAYS">
+                    <Label text="TRAJETS EFFECTUÉS" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                    <Label text="12" styleClass="stats-value" />
+                </VBox>
+                <VBox fx:id="earningsCard" spacing="10.0" styleClass="stats-card" HBox.hgrow="ALWAYS" managed="false" visible="false">
+                    <Label text="GAINS TOTAUX" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                    <Label fx:id="earningsLabel" text="0.00 DT" styleClass="stats-value" style="-fx-text-fill: #2ecc71;" />
+                </VBox>
+                <VBox spacing="10.0" styleClass="stats-card" HBox.hgrow="ALWAYS">
+                    <Label text="NOTE MOYENNE" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                    <Label text="4.8/5" styleClass="stats-value" style="-fx-text-fill: #f1c40f;" />
+                </VBox>
+            </HBox>
+            
+            <VBox spacing="20.0" styleClass="card" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                </padding>
+                <Label text="Historique des activités" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+                <ListView fx:id="recentTrajetsList" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 10 0 0 0;" />
+            </VBox>
+        </VBox>
+
+        <!-- Profile Section -->
+        <VBox fx:id="profileSection" spacing="25.0" visible="false" managed="false">
+            <padding>
+                <Insets bottom="40.0" left="60.0" right="60.0" top="40.0" />
+            </padding>
+            <Label text="Gestion du profil" styleClass="title-label" />
+            
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
+                <VBox spacing="20.0" styleClass="card" maxWidth="800">
+                    <padding>
+                        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                    </padding>
+                    
+                    <GridPane hgap="25" vgap="20">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                        </columnConstraints>
+
+                        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Nom" style="-fx-text-fill: #7f8c8d;" />
+                            <TextField fx:id="profileNomField" />
+                        </VBox>
+                        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Prénom" style="-fx-text-fill: #7f8c8d;" />
+                            <TextField fx:id="profilePrenomField" />
+                        </VBox>
+
+                        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Email" style="-fx-text-fill: #7f8c8d;" />
+                            <TextField fx:id="profileEmailField" />
+                        </VBox>
+                        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label text="Téléphone" style="-fx-text-fill: #7f8c8d;" />
+                            <TextField fx:id="profilePhoneField" />
+                        </VBox>
+
+                        <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                            <Label text="Numéro CIN" style="-fx-text-fill: #7f8c8d;" />
+                            <TextField fx:id="profileCinField" />
+                        </VBox>
+                        
+                    <VBox fx:id="profileConducteurFields" spacing="20" GridPane.columnSpan="2" GridPane.rowIndex="5" managed="false" visible="false">
+                        <Separator />
+                        <Label text="Informations du Véhicule" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+                        <HBox spacing="20">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Marque" style="-fx-text-fill: #7f8c8d;" />
+                                <TextField fx:id="profileMarqueField" />
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Modèle" style="-fx-text-fill: #7f8c8d;" />
+                                <TextField fx:id="profileModeleField" />
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Immatriculation" style="-fx-text-fill: #7f8c8d;" />
+                                <TextField fx:id="profileImmatField" />
+                            </VBox>
+                        </HBox>
+                        <Separator />
+                        <Label text="Documents du Conducteur" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+                        
+                        <HBox spacing="30" alignment="CENTER">
+                            <!-- Carte Grise -->
+                            <VBox spacing="10" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label text="Carte Grise" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                                <StackPane style="-fx-background-color: #eee; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" prefWidth="250" prefHeight="180">
+                                    <ImageView fx:id="profileCarteGrisView" fitHeight="170" fitWidth="240" preserveRatio="true" />
+                                    <Label fx:id="profileCarteGrisLabel" text="Image non disponible" visible="false" />
+                                </StackPane>
+                            </VBox>
+                            
+                            <!-- Permis -->
+                            <VBox spacing="10" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label text="Permis de Conduire" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                                <StackPane style="-fx-background-color: #eee; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" prefWidth="250" prefHeight="180">
+                                    <ImageView fx:id="profilePermisView" fitHeight="170" fitWidth="240" preserveRatio="true" />
+                                    <Label fx:id="profilePermisLabel" text="Image non disponible" visible="false" />
+                                </StackPane>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                    </GridPane>
+                    
+                    <HBox alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
+                        <Button text="ENREGISTRER LES MODIFICATIONS" onAction="#handleUpdateProfile" prefHeight="45" prefWidth="300" />
+                    </HBox>
+                    <Label fx:id="profileMessageLabel" wrapText="true" alignment="CENTER" maxWidth="Infinity" />
+                </VBox>
+            </ScrollPane>
+        </VBox>
+        
+    </StackPane>
+</VBox>

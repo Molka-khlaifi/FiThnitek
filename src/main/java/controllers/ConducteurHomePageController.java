@@ -80,7 +80,7 @@ public class ConducteurHomePageController {
         });
 
         // Charger toutes les vues dans leurs conteneurs respectifs
-        chargerVueParDefaut("PROFIL",       "/Profile.fxml");
+        chargerVueParDefaut("PROFIL",       "/user_home.fxml");
         chargerVueParDefaut("TRAJETS",      "/dashboardTrajet.fxml");
         chargerVueParDefaut("VEHICULES",    "/Vehicules.fxml");
         chargerVueParDefaut("MAINTENANCE",  "/Maintenance.fxml");

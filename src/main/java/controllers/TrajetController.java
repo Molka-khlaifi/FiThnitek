@@ -101,7 +101,7 @@ public class TrajetController implements Initializable {
         });
 
         // Actions cell : diamond operator fix <>
-        colActions.setCellFactory(col -> new TableCell<>() {
+        colActions.setCellFactory(col -> new TableCell<Trajet, Void>() {
             private final Button btnEdit = new Button("Modifier");
             private final Button btnAnn = new Button("Annuler");
             private final Button btnDel = new Button("Supprimer");

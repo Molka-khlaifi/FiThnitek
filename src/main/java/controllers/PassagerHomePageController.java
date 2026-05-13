@@ -75,7 +75,7 @@ public class PassagerHomePageController {
         chargerVueParDefaut("RESERVATIONS", "/Reservations.fxml");
         chargerVueParDefaut("FORUM",        "/ListeForum.fxml");
         chargerVueParDefaut("RECLAMATIONS", "/Reclamations.fxml");
-        chargerVueParDefaut("PROFIL",       "/Profile.fxml");
+        chargerVueParDefaut("PROFIL",       "/user_home.fxml");
 
         // Onglet actif par défaut : TRAJETS
         selectTab("TRAJETS");

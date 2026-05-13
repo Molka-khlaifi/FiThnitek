@@ -69,7 +69,7 @@ public class MapController implements Initializable {
         try {
             List<Trajet> trajets = service.getAll();
             cbTrajets.setItems(FXCollections.observableArrayList(trajets));
-            cbTrajets.setConverter(new javafx.util.StringConverter<>() {
+            cbTrajets.setConverter(new javafx.util.StringConverter<Trajet>() {
                 public String toString(Trajet t) {
                     return t == null ? "Selectionner un trajet"
                             : t.getDepart() + " -> " + t.getDestination();

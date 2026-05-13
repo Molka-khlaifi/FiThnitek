@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="700.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminDashboardController">
+    <!-- Sidebar -->
+    <VBox spacing="10.0" styleClass="sidebar" prefWidth="250.0">
+        <Label text="FI THNITEK" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="30.0" />
+            </VBox.margin>
+        </Label>
+        
+        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#showUsersSection" styleClass="nav-button, nav-button-active" text="Utilisateurs" fx:id="usersNavBtn" />
+        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#showLogsSection" styleClass="nav-button" text="Logs Utilisateurs" fx:id="logsNavBtn" />
+        <Button maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Trajets" />
+        <Button maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Paramètres" />
+        
+        <Region VBox.vgrow="ALWAYS" />
+        
+        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#handleLogout" style="-fx-background-color: #e74c3c;" styleClass="button" text="Déconnexion" />
+    </VBox>
+
+    <!-- Main Content -->
+    <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: #f0f2f5;">
+        <!-- Users Section -->
+        <VBox fx:id="usersSection" spacing="30.0">
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
+            
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <VBox>
+                    <Label text="Gestion des Utilisateurs" styleClass="title-label" />
+                    <Label text="Visualisez et gérez tous les membres de la plateforme." style="-fx-text-fill: #7f8c8d;" />
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="+ AJOUTER UTILISATEUR" onAction="#handleAddUser" />
+            </HBox>
+
+            <!-- Stats Row -->
+            <HBox spacing="25.0">
+                <VBox spacing="10.0" styleClass="stats-card" HBox.hgrow="ALWAYS">
+                    <Label text="TOTAL UTILISATEURS" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                    <Label fx:id="totalUsersLabel" text="0" styleClass="stats-value" />
+                </VBox>
+                <VBox spacing="10.0" styleClass="stats-card" HBox.hgrow="ALWAYS">
+                    <Label text="CONDUCTEURS" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                    <Label fx:id="conducteursLabel" text="0" styleClass="stats-value" style="-fx-text-fill: #3498db;" />
+                </VBox>
+                <VBox spacing="10.0" styleClass="stats-card" HBox.hgrow="ALWAYS">
+                    <Label text="PASSAGERS" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                    <Label fx:id="passagersLabel" text="0" styleClass="stats-value" style="-fx-text-fill: #2ecc71;" />
+                </VBox>
+            </HBox>
+
+            <!-- Users Table -->
+            <VBox spacing="20.0" VBox.vgrow="ALWAYS" styleClass="card">
+                <padding>
+                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                </padding>
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <Label text="Répertoire" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="searchField" promptText="Rechercher un membre..." prefWidth="350" />
+                </HBox>
+                <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colNom" prefWidth="100.0" text="Nom" />
+                        <TableColumn fx:id="colPrenom" prefWidth="100.0" text="Prénom" />
+                        <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
+                        <TableColumn fx:id="colRole" prefWidth="100.0" text="Rôle" />
+                        <TableColumn fx:id="colActions" prefWidth="150.0" text="Actions" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+        </VBox>
+
+        <!-- Logs Section -->
+        <VBox fx:id="logsSection" spacing="25.0" visible="false" managed="false">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            <Label text="Logs d'Activité" styleClass="title-label" />
+            
+            <VBox spacing="10.0" VBox.vgrow="ALWAYS" styleClass="card">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+                <TableView fx:id="logTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colLogUser" prefWidth="200.0" text="Utilisateur" />
+                        <TableColumn fx:id="colLogAction" prefWidth="300.0" text="Action" />
+                        <TableColumn fx:id="colLogDate" prefWidth="200.0" text="Date et Heure" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+        </VBox>
+    </StackPane>
+</HBox>
