@@ -27,6 +27,7 @@ import services.StripeService;
 import services.TransactionService;
 import services.UserService;
 import services.exportService;
+import util.SessionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,18 +35,18 @@ import java.util.ResourceBundle;
 public class transactionController implements Initializable {
 
     @FXML private exportService exportService = new exportService();
-    @FXML private TextField userIdField;
-    @FXML private TextField tripIdField;
-    @FXML private TextField montantField;
-    @FXML private TextField commissionField;
-    @FXML private TextField dateField;
+    @FXML private TextField  userIdField;
+    @FXML private TextField  tripIdField;
+    @FXML private TextField  montantField;
+    @FXML private TextField  commissionField;
+    @FXML private TextField  dateField;
     @FXML private ComboBox<String> methodeField;
     @FXML private ComboBox<String> statutField;
-    @FXML private TextField paymentRefField;
-    @FXML private TextField nbPassagersField;
-    @FXML private TextField emailField;
-    @FXML private TextField searchField;
-    @FXML private Label erreurLabel;
+    @FXML private TextField  paymentRefField;
+    @FXML private TextField  nbPassagersField;
+    @FXML private TextField  emailField;
+    @FXML private TextField  searchField;
+    @FXML private Label      erreurLabel;
     @FXML private Button completeTripBtn;
     @FXML private Button updateBtn;
     @FXML private Button refundBtn;
@@ -65,20 +66,41 @@ public class transactionController implements Initializable {
     @FXML private TableColumn<Transaction, String> statutCol;
 
     private TransactionService transactionService = new TransactionService();
-    private UserService userService = new UserService();
-    private StripeService stripeService = new StripeService();
+    private UserService        userService        = new UserService();
+    private StripeService      stripeService      = new StripeService();
     private ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
-    private FilteredList<Transaction> filteredTransactions;
+    private FilteredList<Transaction>   filteredTransactions;
     private int selectedTransactionId = -1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // ── Auto-fill from session ──────────────────────────────────────────
+        if (SessionManager.isLoggedIn() && SessionManager.getCurrentUser() != null) {
+            int uid = SessionManager.getCurrentUser().getId();
+            userIdField.setText(String.valueOf(uid));
+            // Resolve email from session object first, then DB fallback
+            String sessionEmail = SessionManager.getCurrentUser().getEmail();
+            emailField.setText(
+                (sessionEmail != null && !sessionEmail.isBlank())
+                    ? sessionEmail
+                    : userService.getEmailByUserId(uid)
+            );
+        }
+
+        // ── Auto-fill date = today ──────────────────────────────────────────
+        dateField.setText(java.time.LocalDate.now().toString());
+
+        // ── Auto-fill commission default ────────────────────────────────────
+        commissionField.setText("0.10");
+
+        // ── Payment method choices ──────────────────────────────────────────
         methodeField.setItems(FXCollections.observableArrayList("cash", "stripe"));
         methodeField.setValue("cash");
 
         statutField.setItems(FXCollections.observableArrayList("pending", "completed", "refunded", "cancelled"));
         statutField.setValue("pending");
 
+        // ── Table columns ───────────────────────────────────────────────────
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
         tripIdCol.setCellValueFactory(new PropertyValueFactory<>("tripId"));
@@ -92,6 +114,7 @@ public class transactionController implements Initializable {
 
         loadTable();
 
+        // ── Table row selection → populate form ─────────────────────────────
         transactionTable.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> {
                     if (newVal != null) {
@@ -104,17 +127,16 @@ public class transactionController implements Initializable {
                         methodeField.setValue(newVal.getMethodePaiement());
                         paymentRefField.setText(newVal.getPaymentRef());
                         statutField.setValue(newVal.getStatut());
-                        // Try to auto-fill email from users table
                         String resolvedEmail = userService.getEmailByUserId(newVal.getUserId());
-                        emailField.setText(resolvedEmail);
+                        if (!resolvedEmail.isBlank()) emailField.setText(resolvedEmail);
                     }
                 }
         );
 
-        // Show hint when user selects stripe
+        // Hint when user picks Stripe
         methodeField.getSelectionModel().selectedItemProperty().addListener((obs, o, n) -> {
             if ("stripe".equals(n)) {
-                erreurLabel.setText("ℹ Select a row or fill Amount + Trip ID, then click \"Stripe QR\".");
+                erreurLabel.setText("\u2139 Select a row or fill Amount + Trip, then click \"Stripe QR\".");
             } else {
                 erreurLabel.setText("");
             }
@@ -144,16 +166,15 @@ public class transactionController implements Initializable {
     @FXML
     private void completeTrip() {
         try {
-            int userId    = Integer.parseInt(userIdField.getText().trim());
-            int tripId    = Integer.parseInt(tripIdField.getText().trim());
-            double montant = Double.parseDouble(montantField.getText().trim());
-            int nbPassagers = Integer.parseInt(nbPassagersField.getText().trim());
-            String methode  = methodeField.getValue();
-            String email    = emailField.getText().trim();
+            int userId = Integer.parseInt(userIdField.getText().trim());
+            int tripId = Integer.parseInt(tripIdField.getText().trim());
+            double montant   = Double.parseDouble(montantField.getText().trim());
+            int    nbPass    = Integer.parseInt(nbPassagersField.getText().trim());
+            String methode   = methodeField.getValue();
+            String email     = emailField.getText().trim();
 
-            transactionService.completeTrip(userId, tripId, montant, nbPassagers, methode);
+            transactionService.completeTrip(userId, tripId, montant, nbPass, methode);
 
-            // Send notification in background (email may be empty — service handles it)
             double commission = 0.10;
             double montantNet = montant - (montant * commission);
             EmailService.sendTripCompletionEmail(email, tripId, montant, montantNet, methode);
@@ -248,14 +269,21 @@ public class transactionController implements Initializable {
 
     @FXML
     private void clearFields() {
-        userIdField.clear();
+        // Restore session defaults instead of blanking everything
+        if (SessionManager.isLoggedIn() && SessionManager.getCurrentUser() != null) {
+            userIdField.setText(String.valueOf(SessionManager.getCurrentUser().getId()));
+            String email = SessionManager.getCurrentUser().getEmail();
+            emailField.setText(email != null ? email : "");
+        } else {
+            userIdField.clear();
+            emailField.clear();
+        }
         tripIdField.clear();
         montantField.clear();
-        commissionField.clear();
-        dateField.clear();
+        commissionField.setText("0.10");
+        dateField.setText(java.time.LocalDate.now().toString());
         paymentRefField.clear();
         nbPassagersField.clear();
-        emailField.clear();
         erreurLabel.setText("");
         methodeField.setValue("cash");
         statutField.setValue("pending");
