@@ -78,7 +78,6 @@ public class PassagerHomePageController {
         chargerVueParDefaut("PROFIL",       "/Profile.fxml");
 
         // Onglet actif par défaut : TRAJETS
-        setActive(btnTrajets);
         selectTab("TRAJETS");
     }
 
@@ -112,8 +111,7 @@ public class PassagerHomePageController {
 
     private AnchorPane getContainerByName(String tabName) {
         switch (tabName) {
-            case "TRAJETS":      return trajetsContent;
-            case "RESERVATIONS": return reservationsContent;
+            case "TRAJETS ET RESERVATIONS":return trajetsContent;
             case "FORUM":        return forumContent;
             case "RECLAMATIONS": return reclamationsContent;
             case "PROFIL":       return profilContent;
@@ -141,44 +139,6 @@ public class PassagerHomePageController {
         System.err.println("⚠️ Onglet introuvable: " + tabName);
     }
 
-    // ---------------------------------------------------------------
-    //  Actions boutons sidebar
-    // ---------------------------------------------------------------
-
-    @FXML void showTrajets()      { setActive(btnTrajets);      selectTab("TRAJETS");      }
-    @FXML void showReservations() { setActive(btnReservations); selectTab("RESERVATIONS"); }
-    @FXML void showForum()        { setActive(btnForum);        selectTab("FORUM");        }
-    @FXML void showReclamations() { setActive(btnReclamations); selectTab("RECLAMATIONS"); }
-    @FXML void showProfil()       { setActive(btnProfil);       selectTab("PROFIL");       }
-
-    // ---------------------------------------------------------------
-    //  Style bouton actif / inactif
-    // ---------------------------------------------------------------
-
-    private void setActive(Button btn) {
-        for (Button b : allButtons) {
-            if (b == null) continue;
-            b.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-text-fill: #B0B8D8;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-cursor: hand;"
-            );
-        }
-        if (btn != null) {
-            btn.setStyle(
-                    "-fx-background-color: #3D3D8A;" +
-                            "-fx-text-fill: white;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-cursor: hand;"
-            );
-        }
-    }
 
     // ---------------------------------------------------------------
     //  Déconnexion

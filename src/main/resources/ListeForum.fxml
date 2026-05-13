@@ -10,12 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane"        prefHeight="580.0"
-        prefWidth="780.0"
-        style="-fx-background-color: #F5F6FA;"
-        xmlns="http://javafx.com/javafx/17"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="controllers.ListeForumController">
+<BorderPane fx:id="rootPane" prefHeight="580.0" prefWidth="780.0" style="-fx-background-color: #F5F6FA;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListeForumController">
 
     <!-- ═══════════════════════════════ -->
     <!-- TOP -->
@@ -25,130 +20,45 @@
         <VBox>
 
             <!-- HEADER -->
-            <HBox prefHeight="62"
-                  alignment="CENTER_LEFT"
-                  style="-fx-background-color: #ffffff;
-                         -fx-border-color: #3D3D8A;
-                         -fx-border-width: 0 0 1 0;
-                         -fx-padding: 0 20 0 20;
-                         -fx-spacing: 10;">
+            <HBox alignment="CENTER_LEFT" prefHeight="62" style="-fx-background-color:#F5F6FA;                          -fx-border-color: #3D3D8A;                          -fx-border-width: 0 0 1 0;                          -fx-padding: 0 20 0 20;                          -fx-spacing: 10;">
 
 
 
                 <!-- PAGE -->
-                <Label text="— Forum"
-                       style="-fx-font-size: 16px;
-                              -fx-text-fill: ##3d3d8a;
-                              -fx-font-weight: bold;" />
+                <Label style="-fx-font-size: 16px;                               -fx-text-fill: ##3d3d8a;                               -fx-font-weight: bold;" text="— Forum" />
 
                 <Region HBox.hgrow="ALWAYS" />
 
                 <!-- STATS -->
-                <Label fx:id="statsLabel"
-                       text="0 posts"
-                       style="-fx-text-fill: rgba(255,255,255,0.7);
-                              -fx-font-size: 12px;" />
+                <Label fx:id="statsLabel" style="-fx-text-fill: rgba(255,255,255,0.7);                               -fx-font-size: 12px;" text="0 posts" />
 
                 <!-- IA -->
-                <Button fx:id="btnChatbot"
-                        text="🤖 Assistant IA"
-                        onAction="#openChatbot"
-                        prefHeight="34"
-                        prefWidth="125"
-                        style="-fx-background-color: #3D3D8A;
-                               -fx-text-fill: white;
-                               -fx-font-size: 12px;
-                               -fx-background-radius: 6;
-                               -fx-cursor: hand;
-                               -fx-border-color: #5B5BAA;
-                               -fx-border-width: 1;
-                               -fx-border-radius: 6;" />
+                <Button fx:id="btnChatbot" onAction="#openChatbot" prefHeight="34" prefWidth="125" style="-fx-background-color: #3D3D8A;                                -fx-text-fill: white;                                -fx-font-size: 12px;                                -fx-background-radius: 6;                                -fx-cursor: hand;                                -fx-border-color: #5B5BAA;                                -fx-border-width: 1;                                -fx-border-radius: 6;" text="🤖 Assistant IA" />
 
                 <!-- NEW POST -->
-                <Button text="+ Nouveau post"
-                        onAction="#ajouterAction"
-                        prefHeight="34"
-                        prefWidth="135"
-                        style="-fx-background-color: #2BBF8A;
-                               -fx-text-fill: white;
-                               -fx-font-weight: bold;
-                               -fx-font-size: 13px;
-                               -fx-background-radius: 6;
-                               -fx-cursor: hand;" />
+                <Button onAction="#ajouterAction" prefHeight="34" prefWidth="135" style="-fx-background-color: #2BBF8A;                                -fx-text-fill: white;                                -fx-font-weight: bold;                                -fx-font-size: 13px;                                -fx-background-radius: 6;                                -fx-cursor: hand;" text="+ Nouveau post" />
 
             </HBox>
 
             <!-- TOOLBAR -->
-            <HBox prefHeight="50"
-                  alignment="CENTER_LEFT"
-                  style="-fx-background-color: white;
-                         -fx-border-color: #DDE2F0;
-                         -fx-border-width: 0 0 1 0;
-                         -fx-padding: 0 20 0 20;
-                         -fx-spacing: 10;">
+            <HBox alignment="CENTER_LEFT" prefHeight="50" style="-fx-background-color:#F5F6FA;                          -fx-border-color: #DDE2F0;                          -fx-border-width: 0 0 1 0;                          -fx-padding: 0 20 0 20;                          -fx-spacing: 10;">
 
                 <!-- SEARCH -->
-                <TextField fx:id="searchTextField"
-                           prefHeight="33"
-                           prefWidth="235"
-                           promptText="🔍 Rechercher un post..."
-                           onAction="#rechercherAction"
-                           style="-fx-background-radius: 6;
-                                  -fx-border-radius: 6;
-                                  -fx-border-color: #DDE2F0;
-                                  -fx-border-width: 1;
-                                  -fx-background-color: white;
-                                  -fx-font-size: 13px;
-                                  -fx-padding: 0 10;" />
+                <TextField fx:id="searchTextField" onAction="#rechercherAction" prefHeight="33" prefWidth="235" promptText="🔍 Rechercher un post..." style="-fx-background-radius: 6;                                   -fx-border-radius: 6;                                   -fx-border-color: #DDE2F0;                                   -fx-border-width: 1;                                   -fx-background-color: white;                                   -fx-font-size: 13px;                                   -fx-padding: 0 10;" />
 
                 <!-- FILTER -->
-                <ComboBox fx:id="categorieFilterComboBox"
-                          onAction="#filtrerCategorieAction"
-                          prefHeight="33"
-                          prefWidth="140"
-                          style="-fx-background-radius: 6;
-                                 -fx-background-color: white;
-                                 -fx-border-color: #DDE2F0;
-                                 -fx-border-radius: 6;
-                                 -fx-font-size: 13px;" />
+                <ComboBox fx:id="categorieFilterComboBox" onAction="#filtrerCategorieAction" prefHeight="33" prefWidth="140" style="-fx-background-radius: 6;                                  -fx-background-color: white;                                  -fx-border-color: #DDE2F0;                                  -fx-border-radius: 6;                                  -fx-font-size: 13px;" />
 
                 <Region HBox.hgrow="ALWAYS" />
 
                 <!-- SORT -->
-                <Label text="Trier par :"
-                       style="-fx-text-fill: #444;
-                              -fx-font-size: 12px;" />
+                <Label style="-fx-text-fill: #444;                               -fx-font-size: 12px;" text="Trier par :" />
 
-                <Button text="🕐 Récents"
-                        onAction="#trierParDateAction"
-                        prefHeight="32"
-                        prefWidth="95"
-                        style="-fx-background-color: #EEEDF8;
-                               -fx-text-fill: #2D2D6B;
-                               -fx-background-radius: 5;
-                               -fx-font-size: 12px;
-                               -fx-cursor: hand;" />
+                <Button onAction="#trierParDateAction" prefHeight="32" prefWidth="95" style="-fx-background-color: #EEEDF8;                                -fx-text-fill: #2D2D6B;                                -fx-background-radius: 5;                                -fx-font-size: 12px;                                -fx-cursor: hand;" text="🕐 Récents" />
 
-                <Button text="👁 Plus vus"
-                        onAction="#trierParVuesAction"
-                        prefHeight="32"
-                        prefWidth="95"
-                        style="-fx-background-color: #EEEDF8;
-                               -fx-text-fill: #2D2D6B;
-                               -fx-background-radius: 5;
-                               -fx-font-size: 12px;
-                               -fx-cursor: hand;" />
+                <Button onAction="#trierParVuesAction" prefHeight="32" prefWidth="95" style="-fx-background-color: #EEEDF8;                                -fx-text-fill: #2D2D6B;                                -fx-background-radius: 5;                                -fx-font-size: 12px;                                -fx-cursor: hand;" text="👁 Plus vus" />
 
-                <Button text="📋 Mes posts"
-                        onAction="#mesPostsAction"
-                        prefHeight="32"
-                        prefWidth="105"
-                        style="-fx-background-color: #2BBF8A;
-                               -fx-text-fill: white;
-                               -fx-font-size: 12px;
-                               -fx-font-weight: bold;
-                               -fx-background-radius: 5;
-                               -fx-cursor: hand;" />
+                <Button onAction="#mesPostsAction" prefHeight="32" prefWidth="105" style="-fx-background-color: #2BBF8A;                                -fx-text-fill: white;                                -fx-font-size: 12px;                                -fx-font-weight: bold;                                -fx-background-radius: 5;                                -fx-cursor: hand;" text="📋 Mes posts" />
 
             </HBox>
 
@@ -164,122 +74,64 @@
         <HBox>
 
             <!-- FEED -->
-            <ScrollPane fitToWidth="true"
-                        fitToHeight="true"
-                        pannable="true"
-                        HBox.hgrow="ALWAYS"
-                        style="-fx-background-image: url('/BACKGROUND.png');
-           -fx-background-size: cover;
-           -fx-background-position: center;
-           -fx-border-color: #DDE2F0;
-           -fx-border-width: 0 0 1 0;
-           -fx-padding: 0 20 0 20;
-           -fx-spacing: 10;">
+            <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" style="-fx-background-color: ;            -fx-background-size: cover;            -fx-background-position: center;            -fx-border-color: #DDE2F0;            -fx-border-width: 0 0 1 0;            -fx-padding: 0 20 0 20;            -fx-spacing: 10;" HBox.hgrow="ALWAYS">
 
                 <content>
 
-                    <VBox fx:id="feedContainer"
-                          spacing="14"
-                          style="-fx-padding: 18;
-                                 -fx-background-color: #F5F6FA;" />
+                    <VBox fx:id="feedContainer" prefHeight="466.0" prefWidth="516.0" spacing="14" style="-fx-padding: 18; " />
 
                 </content>
 
             </ScrollPane>
 
             <!-- RIGHT SIDEBAR -->
-            <VBox prefWidth="220"
-                  spacing="14"
-                  style="-fx-background-color: #FAFBFF;
-                         -fx-border-color: #DDE2F0;
-                         -fx-border-width: 0 0 0 1;
-                         -fx-padding: 16 14 16 14;">
+            <VBox prefWidth="220" spacing="14" style="-fx-background-color: #FAFBFF;                          -fx-border-color: #DDE2F0;                          -fx-border-width: 0 0 0 1;                          -fx-padding: 16 14 16 14;">
 
                 <!-- ABOUT -->
-                <VBox spacing="8"
-                      style="-fx-background-color: #EEEDF8;
-                             -fx-background-radius: 8;
-                             -fx-padding: 12;
-                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                <VBox spacing="8" style="-fx-background-color: #EEEDF8;                              -fx-background-radius: 8;                              -fx-padding: 12;                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
 
-                    <Label text="🚗 À propos"
-                           style="-fx-font-weight: bold;
-                                  -fx-font-size: 13px;
-                                  -fx-text-fill: #2D2D6B;" />
+                    <Label style="-fx-font-weight: bold;                                   -fx-font-size: 13px;                                   -fx-text-fill: #2D2D6B;" text="🚗 À propos" />
 
-                    <Label text="Bienvenue sur le forum Fi Thnitek ! Posez vos questions, partagez vos trajets et rejoignez la communauté smart carpooling."
-                           wrapText="true"
-                           style="-fx-font-size: 11px;
-                                  -fx-text-fill: #555;" />
+                    <Label style="-fx-font-size: 11px;                                   -fx-text-fill: #555;" text="Bienvenue sur le forum Fi Thnitek ! Posez vos questions, partagez vos trajets et rejoignez la communauté smart carpooling." wrapText="true" />
 
                 </VBox>
 
                 <!-- COMMUNITY -->
-                <VBox spacing="8"
-                      style="-fx-background-color: #E6F9F3;
-                             -fx-background-radius: 8;
-                             -fx-padding: 12;
-                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                <VBox spacing="8" style="-fx-background-color: #E6F9F3;                              -fx-background-radius: 8;                              -fx-padding: 12;                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
 
-                    <Label text="📊 Communauté"
-                           style="-fx-font-weight: bold;
-                                  -fx-font-size: 13px;
-                                  -fx-text-fill: #1A7A55;" />
+                    <Label style="-fx-font-weight: bold;                                   -fx-font-size: 13px;                                   -fx-text-fill: #1A7A55;" text="📊 Communauté" />
 
-                    <HBox spacing="8" alignment="CENTER_LEFT">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
 
-                        <Label text="🟢"
-                               style="-fx-font-size: 11px;" />
+                        <Label style="-fx-font-size: 11px;" text="🟢" />
 
-                        <Label text="Forum actif · réponses rapides"
-                               style="-fx-font-size: 11px;
-                                      -fx-text-fill: #444;" />
+                        <Label style="-fx-font-size: 11px;                                       -fx-text-fill: #444;" text="Forum actif · réponses rapides" />
 
                     </HBox>
 
-                    <HBox spacing="8" alignment="CENTER_LEFT">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
 
-                        <Label text="📌"
-                               style="-fx-font-size: 11px;" />
+                        <Label style="-fx-font-size: 11px;" text="📌" />
 
-                        <Label text="Posts épinglés disponibles"
-                               style="-fx-font-size: 11px;
-                                      -fx-text-fill: #444;" />
+                        <Label style="-fx-font-size: 11px;                                       -fx-text-fill: #444;" text="Posts épinglés disponibles" />
 
                     </HBox>
 
                 </VBox>
 
                 <!-- RULES -->
-                <VBox spacing="6"
-                      style="-fx-background-color: #FFFBEC;
-                             -fx-background-radius: 8;
-                             -fx-padding: 12;
-                             -fx-border-color: #F5C842;
-                             -fx-border-width: 1;
-                             -fx-border-radius: 8;
-                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                <VBox spacing="6" style="-fx-background-color: #FFFBEC;                              -fx-background-radius: 8;                              -fx-padding: 12;                              -fx-border-color: #F5C842;                              -fx-border-width: 1;                              -fx-border-radius: 8;                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
 
-                    <Label text="📜 Règles"
-                           style="-fx-font-weight: bold;
-                                  -fx-font-size: 12px;
-                                  -fx-text-fill: #7A5800;" />
+                    <Label style="-fx-font-weight: bold;                                   -fx-font-size: 12px;                                   -fx-text-fill: #7A5800;" text="📜 Règles" />
 
-                    <Label text="• Soyez respectueux&#10;• Pas de spam&#10;• Restez dans le sujet&#10;• Signalez les abus"
-                           wrapText="true"
-                           style="-fx-font-size: 11px;
-                                  -fx-text-fill: #666;" />
+                    <Label style="-fx-font-size: 11px;                                   -fx-text-fill: #666;" text="• Soyez respectueux&#10;• Pas de spam&#10;• Restez dans le sujet&#10;• Signalez les abus" wrapText="true" />
 
                 </VBox>
 
                 <Region VBox.vgrow="ALWAYS" />
 
                 <!-- MESSAGE -->
-                <Label fx:id="messageLabel"
-                       text=""
-                       wrapText="true"
-                       style="-fx-text-fill: #2BBF8A;
-                              -fx-font-size: 11px;" />
+                <Label fx:id="messageLabel" style="-fx-text-fill: #2BBF8A;                               -fx-font-size: 11px;" text="" wrapText="true" />
 
             </VBox>
 

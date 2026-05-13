@@ -89,7 +89,6 @@ public class ConducteurHomePageController {
         chargerVueParDefaut("RECLAMATIONS", "/Reclamations.fxml");
 
         // Onglet actif par défaut : REVENU
-        setActive(btnRevenue);
         selectTab("REVENU");
     }
 
@@ -124,9 +123,8 @@ public class ConducteurHomePageController {
     private AnchorPane getContainerByName(String tabName) {
         switch (tabName) {
             case "PROFIL":       return profilContent;
-            case "TRAJETS":      return trajetsContent;
+            case "TRAJETS ET RESERVATIONS":      return trajetsContent;
             case "VEHICULES":    return vehiculesContent;
-            case "MAINTENANCE":  return maintenanceContent;
             case "FORUM":        return forumContent;
             case "REVENU":       return revenueContent;
             case "RECLAMATIONS": return reclamationsContent;
@@ -154,46 +152,6 @@ public class ConducteurHomePageController {
         System.err.println("⚠️ Onglet introuvable: " + tabName);
     }
 
-    // ---------------------------------------------------------------
-    //  Actions boutons sidebar
-    // ---------------------------------------------------------------
-
-    @FXML void showProfil()       { setActive(btnProfil);       selectTab("PROFIL");       }
-    @FXML void showTrajets()      { setActive(btnTrajets);      selectTab("TRAJETS");      }
-    @FXML void showVehicules()    { setActive(btnVehicules);    selectTab("VEHICULES");    }
-    @FXML void showMaintenance()  { setActive(btnMaintenance);  selectTab("MAINTENANCE");  }
-    @FXML void showForum()        { setActive(btnForum);        selectTab("FORUM");        }
-    @FXML void showRevenue()      { setActive(btnRevenue);      selectTab("REVENU");       }
-    @FXML void showReclamations() { setActive(btnReclamations); selectTab("RECLAMATIONS"); }
-
-    // ---------------------------------------------------------------
-    //  Style bouton actif / inactif
-    // ---------------------------------------------------------------
-
-    private void setActive(Button btn) {
-        for (Button b : allButtons) {
-            if (b == null) continue;
-            b.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-text-fill: #B0B8D8;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-cursor: hand;"
-            );
-        }
-        if (btn != null) {
-            btn.setStyle(
-                    "-fx-background-color: #3D3D8A;" +
-                            "-fx-text-fill: white;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-cursor: hand;"
-            );
-        }
-    }
 
     // ---------------------------------------------------------------
     //  Déconnexion

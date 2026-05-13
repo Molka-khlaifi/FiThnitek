@@ -60,89 +60,6 @@
                   style="-fx-background-color: #2D2D6B;
                          -fx-padding: 16 0 16 0;">
 
-                <Label text="NAVIGATION"
-                       style="-fx-text-fill: #6670A0;
-                              -fx-font-size: 10px;
-                              -fx-font-weight: bold;
-                              -fx-padding: 8 16 8 16;" />
-
-                <Button fx:id="btnProfil" text="👤   Mon Profil"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showProfil"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
-                <Button fx:id="btnTrajets" text="🛣   Trajets"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showTrajets"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
-                <Button fx:id="btnVehicules" text="🚗   Véhicules"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showVehicules"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
-                <Button fx:id="btnMaintenance" text="🔧   Maintenance"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showMaintenance"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
-                <Button fx:id="btnForum" text="💬   Forum"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showForum"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
-                <Button fx:id="btnRevenue" text="💰   Revenu"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showRevenue"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
-                <Button fx:id="btnReclamations" text="⚠   Réclamations"
-                        maxWidth="Infinity" prefHeight="42"
-                        onAction="#showReclamations"
-                        style="-fx-background-color: transparent;
-                               -fx-text-fill: #B0B8D8;
-                               -fx-font-size: 13px;
-                               -fx-alignment: CENTER_LEFT;
-                               -fx-padding: 0 0 0 20;
-                               -fx-background-radius: 0;
-                               -fx-cursor: hand;" />
-
                 <Region VBox.vgrow="ALWAYS" />
                 <Label text="Fi Thnitek v1.0"
                        style="-fx-text-fill: #4A4A8A;
@@ -158,32 +75,29 @@
                             -fx-tab-max-height: 45px;"
                      HBox.hgrow="ALWAYS">
 
-                <Tab text="👤  PROFIL" closable="false">
+                <Tab text="👤  PROFIL" closable="false" style="-fx-background-color: #F5F6FA">
                     <AnchorPane fx:id="profilContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
-                <Tab text="🛣  TRAJETS" closable="false">
-                    <AnchorPane fx:id="trajetsContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
-                </Tab>
-
-                <Tab text="🚗  VÉHICULES" closable="false">
-                    <AnchorPane fx:id="vehiculesContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
-                </Tab>
-
-                <Tab text="🔧  MAINTENANCE" closable="false">
-                    <AnchorPane fx:id="maintenanceContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
-                </Tab>
-
-                <Tab text="💬  FORUM" closable="false">
-                    <AnchorPane fx:id="forumContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
-                </Tab>
-
-                <Tab text="💰  REVENU" closable="false">
+                <Tab text="💰  REVENU" closable="false" style="-fx-background-color: #F5F6FA">
                     <AnchorPane fx:id="revenueContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
-                <Tab text="⚠  RÉCLAMATIONS" closable="false">
+                <Tab text="🛣  TRAJETS ET RESERVATION" closable="false" style="-fx-background-color: #F5F6FA">
+                    <AnchorPane fx:id="trajetsContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
+                </Tab>
+
+                <Tab text="🚗  VÉHICULES" closable="false" style="-fx-background-color: #F5F6FA">
+                    <AnchorPane fx:id="vehiculesContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
+                </Tab>
+
+
+                <Tab text="⚠  RÉCLAMATIONS" closable="false" style="-fx-background-color: #F5F6FA">
                     <AnchorPane fx:id="reclamationsContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
+                </Tab>
+
+                <Tab text="💬  FORUM" closable="false" style="-fx-background-color: #F5F6FA">
+                    <AnchorPane fx:id="forumContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
             </TabPane>
