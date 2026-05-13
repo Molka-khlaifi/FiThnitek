@@ -111,6 +111,12 @@ public class ImpactEnergetiqueController {
 
     @FXML
     private void maintenanceAction() {
-        messageLabel.setText("La page Maintenance sera ajoutée plus tard.");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/Maintenance.fxml"));
+            messageLabel.getScene().setRoot(root);
+        } catch (IOException e) {
+            messageLabel.setText("Erreur lors de l'ouverture de la page Maintenance.");
+            System.out.println(e.getMessage());
+        }
     }
 }
