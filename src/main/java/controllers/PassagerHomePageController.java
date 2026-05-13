@@ -16,15 +16,8 @@ public class PassagerHomePageController {
 
     @FXML private AnchorPane mainContainer;
     @FXML private Label nomUserLabel;
-
-    @FXML private Button btnTrajets;
-    @FXML private Button btnReservations;
-    @FXML private Button btnForum;
-    @FXML private Button btnReclamations;
-    @FXML private Button btnProfil;
+    @FXML private TabPane tabPane;
     @FXML private BorderPane rootPane;
-
-    private Button[] allButtons;
 
     @FXML
     public void initialize() {
@@ -36,56 +29,55 @@ public class PassagerHomePageController {
             );
         }
 
-        allButtons = new Button[]{
-                btnTrajets,
-                btnReservations,
-                btnForum,
-                btnReclamations,
-                btnProfil
-        };
+        // Ajouter un listener pour charger les vues quand un onglet est sélectionné
+        tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            if (newTab != null) {
+                loadViewForTab(newTab);
+            }
+        });
 
-        setActive(btnTrajets);
-        loadView("/Trajets.fxml");
+        // Sélectionner l'onglet Trajets par défaut
+        selectTab("Trajets");
     }
 
-    // ───────── NAVIGATION ─────────
-    @FXML void showTrajets()      { setActive(btnTrajets);      loadView("/Trajets.fxml"); }
-    @FXML void showReservations() { setActive(btnReservations); loadView("/Reservations.fxml"); }
-    @FXML void showForum()        { setActive(btnForum);        loadView("/ListeForum.fxml"); }
-    @FXML void showReclamations() { setActive(btnReclamations); loadView("/Reclamations.fxml"); }
-    @FXML void showProfil()       { setActive(btnProfil);       loadView("/Profile.fxml"); }
+    private void selectTab(String tabText) {
+        for (Tab tab : tabPane.getTabs()) {
+            if (tab.getText().equals(tabText)) {
+                tabPane.getSelectionModel().select(tab);
+                loadViewForTab(tab);
+                break;
+            }
+        }
+    }
 
-    // ───────── ACTIVE BUTTON STYLE ─────────
-    private void setActive(Button btn) {
+    private void loadViewForTab(Tab tab) {
+        String fxmlPath = null;
 
-        for (Button b : allButtons) {
-            if (b == null) continue;
-
-            b.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-text-fill: #B0B8D8;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-cursor: hand;"
-            );
+        switch (tab.getText()) {
+            case "Trajets":
+                fxmlPath = "/Trajets.fxml";
+                break;
+            case "Réservations":
+                fxmlPath = "/Reservations.fxml";
+                break;
+            case "Forum":
+                fxmlPath = "/ListeForum.fxml";
+                break;
+            case "Réclamations":
+                fxmlPath = "/Reclamations.fxml";
+                break;
+            case "Profil":
+                fxmlPath = "/Profile.fxml";
+                break;
         }
 
-        if (btn != null) {
-            btn.setStyle(
-                    "-fx-background-color: #3D3D8A;" +
-                            "-fx-text-fill: white;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-cursor: hand;"
-            );
+        if (fxmlPath != null) {
+            loadView(fxmlPath);
         }
     }
 
     // ───────── SAFE LOAD VIEW ─────────
     private void loadView(String fxmlPath) {
-
         try {
             if (mainContainer == null) {
                 System.err.println("❌ mainContainer NULL");
@@ -111,13 +103,13 @@ public class PassagerHomePageController {
             e.printStackTrace();
         }
     }
+
+    // ───────── LOAD PAGE (pour BorderPane) ─────────
     public void loadPage(String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent view = loader.load();
-
             rootPane.setCenter(view);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,7 +118,6 @@ public class PassagerHomePageController {
     // ───────── DECONNEXION ─────────
     @FXML
     void deconnecterAction() {
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Déconnexion");
         alert.setHeaderText("Voulez-vous vraiment vous déconnecter ?");
@@ -139,7 +130,6 @@ public class PassagerHomePageController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == oui) {
-
                 SessionManager.logout();
 
                 try {
@@ -148,7 +138,6 @@ public class PassagerHomePageController {
                     stage.setScene(new Scene(root));
                     stage.setTitle("Fi Thnitek — Connexion");
                     stage.show();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

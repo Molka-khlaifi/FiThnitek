@@ -27,7 +27,7 @@
             <!-- HEADER -->
             <HBox prefHeight="62"
                   alignment="CENTER_LEFT"
-                  style="-fx-background-color: #2D2D6B;
+                  style="-fx-background-color: #ffffff;
                          -fx-border-color: #3D3D8A;
                          -fx-border-width: 0 0 1 0;
                          -fx-padding: 0 20 0 20;
@@ -38,7 +38,7 @@
                 <!-- PAGE -->
                 <Label text="— Forum"
                        style="-fx-font-size: 16px;
-                              -fx-text-fill: white;
+                              -fx-text-fill: ##3d3d8a;
                               -fx-font-weight: bold;" />
 
                 <Region HBox.hgrow="ALWAYS" />

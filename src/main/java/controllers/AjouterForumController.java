@@ -14,15 +14,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import models.publication;
 import services.forumService;
 import util.SessionManager;
+import util.ModerationContenu;
 
 import java.io.IOException;
-
 import java.time.LocalDateTime;
 
 public class AjouterForumController {
+
     @FXML private TextField imagePathTextField;
     @FXML private ImageView imagePreview;
     private String imageChoisie = null;
@@ -35,8 +38,7 @@ public class AjouterForumController {
 
     @FXML
     public void initialize() {
-
-        categorieComboBox.getItems().addAll("question", "discussion","autre");
+        categorieComboBox.getItems().addAll("question", "discussion", "autre");
         categorieComboBox.setValue("discussion");
         statutComboBox.getItems().addAll("ouvert", "ferme");
         statutComboBox.setValue("ouvert");
@@ -54,11 +56,11 @@ public class AjouterForumController {
     @FXML
     void ajouterForumAction(ActionEvent event) {
         erreurLabel.setText("");
-        String titre    = titreTextField.getText().trim();
+        String titre = titreTextField.getText().trim();
         String contenu = contenuTextArea.getText();
 
         String categorie = categorieComboBox.getValue();
-        String statut   = statutComboBox.getValue();
+        String statut = statutComboBox.getValue();
 
         // ── Validation ────────────────────────────────────────────────────
         if (titre.isEmpty()) {
@@ -68,8 +70,19 @@ public class AjouterForumController {
         }
         if (titre.length() < 5) {
             erreurLabel.setText("Le titre doit avoir au moins 5 caractères !");
+            titreTextField.requestFocus();
             return;
         }
+
+        // ✅ MODÉRATION DU TITRE
+        String titreModere = ModerationContenu.moderer(titre);
+        if (titreModere == null) {
+            erreurLabel.setText(ModerationContenu.getMessageErreur());
+            titreTextField.requestFocus();
+            titreTextField.clear();
+            return;
+        }
+
         if (contenu.isEmpty()) {
             erreurLabel.setText("Le contenu est obligatoire !");
             contenuTextArea.requestFocus();
@@ -77,16 +90,28 @@ public class AjouterForumController {
         }
         if (contenu.length() > 500) {
             erreurLabel.setText("Le contenu ne doit pas dépasser 500 caractères !");
+            contenuTextArea.requestFocus();
             return;
         }
+
+        // ✅ MODÉRATION DU CONTENU
+        String contenuModere = ModerationContenu.moderer(contenu);
+        if (contenuModere == null) {
+            erreurLabel.setText(ModerationContenu.getMessageErreur());
+            contenuTextArea.requestFocus();
+            contenuTextArea.clear();
+            return;
+        }
+
         Date date = Date.from(LocalDateTime.now()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
         Integer trajetId = null;
+
         publication pub = new publication(
-                titre, contenu, categorie,
-                statut,date,
-                0, SessionManager.getCurrentUser().getId(), trajetId,false,imageChoisie  // auteur_id=1, remplacer par user connecté
+                titreModere, contenuModere, categorie,
+                statut, date,
+                0, SessionManager.getCurrentUser().getId(), trajetId, false, imageChoisie
         );
 
         forumService forumService = new forumService();
@@ -97,15 +122,15 @@ public class AjouterForumController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailForum.fxml"));
             Parent root = loader.load();
             DetailForumController ctrl = loader.getController();
-            ctrl.setTitreTextField(titre);
-            ctrl.setContenuTextArea(contenu);
+            ctrl.setTitreTextField(titreModere);
+            ctrl.setContenuTextArea(contenuModere);
             ctrl.setCategorieTextField(categorie);
             ctrl.setStatutTextField(statut);
             ctrl.setDateLabel(LocalDateTime.now().toString());
             titreTextField.getScene().setRoot(root);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Erreur navigation : " + e.getMessage());
+            erreurLabel.setText("Erreur lors de la création du forum");
         }
     }
 
@@ -125,8 +150,12 @@ public class AjouterForumController {
         contenuTextArea.clear();
         categorieComboBox.setValue("discussion");
         statutComboBox.setValue("ouvert");
+        imageChoisie = null;
+        imagePathTextField.clear();
+        imagePreview.setImage(null);
         erreurLabel.setText("");
     }
+
     @FXML
     void choisirImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
