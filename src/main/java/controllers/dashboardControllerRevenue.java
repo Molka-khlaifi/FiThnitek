@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
@@ -11,7 +10,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class dashboardController implements Initializable {
+public class dashboardControllerRevenue implements Initializable {
 
     // ── KPI Labels ─────────────────────────────────────────────────────────
     @FXML private Label totalTransactionsLabel;

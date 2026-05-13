@@ -81,7 +81,7 @@ public class ConducteurHomePageController {
 
         // Charger toutes les vues dans leurs conteneurs respectifs
         chargerVueParDefaut("PROFIL",       "/Profile.fxml");
-        chargerVueParDefaut("TRAJETS",      "/Trajets.fxml");
+        chargerVueParDefaut("TRAJETS",      "/dashboardTrajet.fxml");
         chargerVueParDefaut("VEHICULES",    "/Vehicules.fxml");
         chargerVueParDefaut("MAINTENANCE",  "/Maintenance.fxml");
         chargerVueParDefaut("FORUM",        "/ListeForum.fxml");

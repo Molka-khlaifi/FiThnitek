@@ -21,4 +21,12 @@ public class SessionManager {
     public static boolean isLoggedIn() {
         return currentUser != null;
     }
+
+    private static Integer selectedTripId;
+    public static void setSelectedTripId(Integer id) {
+        selectedTripId = id;
+    }
+    public static Integer getSelectedTripId() {
+        return selectedTripId;
+    }
 }

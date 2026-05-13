@@ -29,6 +29,12 @@
             <artifactId>javafx-controls</artifactId>
             <version>21.0.2</version>
         </dependency>
+        <!-- WebView (MapController) -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>21.0.2</version>
+        </dependency>
         <!-- PDF export -->
         <dependency>
             <groupId>com.itextpdf</groupId>

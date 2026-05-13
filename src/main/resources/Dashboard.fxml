@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.dashboardController"
+      fx:controller="controllers.dashboardControllerRevenue"
       prefWidth="890.0"
       spacing="20.0"
       style="-fx-background-color: #f0f2f5; -fx-padding: 25 25 30 25;">

@@ -87,6 +87,11 @@ public class transactionController implements Initializable {
             );
         }
 
+        if (SessionManager.getSelectedTripId() != null) {
+            tripIdField.setText(String.valueOf(SessionManager.getSelectedTripId()));
+            SessionManager.setSelectedTripId(null); // Clear after use
+        }
+
         // ── Auto-fill date = today ──────────────────────────────────────────
         dateField.setText(java.time.LocalDate.now().toString());
 

@@ -49,7 +49,7 @@ public class AdminHomePageController {
     @FXML void showUsers()       { setActive(btnUsers);       loadView("/Users.fxml"); }
     @FXML void showVehicles()    { setActive(btnVehicles);    loadView("/Vehicles.fxml"); }
     @FXML void showMaintenance() { setActive(btnMaintenance); loadView("/Maintenance.fxml"); }
-    @FXML void showTrips()       { setActive(btnTrips);       loadView("/Trips.fxml"); }
+    @FXML void showTrips()       { setActive(btnTrips);       loadView("/dashboardTrajet.fxml"); }
     @FXML void showForum()       { setActive(btnForum);       loadView("/AdminForumView.fxml"); }
     @FXML void showClaims()      { setActive(btnClaims);      loadView("/Reclamations.fxml"); }
     @FXML void showRevenue()     { setActive(btnRevenue);     loadView("/Revenue.fxml"); }
