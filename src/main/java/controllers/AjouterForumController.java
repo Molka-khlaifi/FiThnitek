@@ -20,6 +20,7 @@ import models.publication;
 import services.forumService;
 import util.SessionManager;
 import util.ModerationContenu;
+import util.NavigationManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -118,30 +119,26 @@ public class AjouterForumController {
         try {
             forumService.add(pub);
 
-            // ── Naviguer vers DetailForum ──────────────────────────────────
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailForum.fxml"));
-            Parent root = loader.load();
-            DetailForumController ctrl = loader.getController();
-            ctrl.setTitreTextField(titreModere);
-            ctrl.setContenuTextArea(contenuModere);
-            ctrl.setCategorieTextField(categorie);
-            ctrl.setStatutTextField(statut);
-            ctrl.setDateLabel(LocalDateTime.now().toString());
-            titreTextField.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur navigation : " + e.getMessage());
+            // ✅ MODIFIÉ: Retour à ListeForum dans l'onglet FORUM du Dashboard
+            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+
+            // Afficher un message de succès
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Succès");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("✅ Votre publication a été ajoutée avec succès !");
+            successAlert.showAndWait();
+
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e.getMessage());
             erreurLabel.setText("Erreur lors de la création du forum");
         }
     }
 
     @FXML
     void voirListeAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ListeForum.fxml"));
-            titreTextField.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur : " + e.getMessage());
-        }
+        // ✅ MODIFIÉ: Retour à ListeForum dans l'onglet FORUM
+        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
     }
 
     @FXML
@@ -154,6 +151,9 @@ public class AjouterForumController {
         imagePathTextField.clear();
         imagePreview.setImage(null);
         erreurLabel.setText("");
+
+        // ✅ Retour à ListeForum
+        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
     }
 
     @FXML

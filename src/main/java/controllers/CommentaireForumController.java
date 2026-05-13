@@ -12,6 +12,7 @@ import models.commentaire;
 import services.forumService;
 import util.SessionManager;
 import util.ModerationContenu;
+import util.NavigationManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -188,12 +189,8 @@ public class CommentaireForumController {
 
     @FXML
     void retourListeAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(retourFxml));
-            titreForum.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur : " + e.getMessage());
-        }
+        // ✅ MODIFIÉ: Retour à ListeForum dans l'onglet FORUM du Dashboard
+        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
     }
 
     private void showError(String msg) {

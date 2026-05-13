@@ -2,8 +2,6 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -11,9 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import models.publication;
 import services.forumService;
-
-import java.io.IOException;
-import java.sql.SQLException;
+import util.NavigationManager;
 
 public class ModifierForumController {
 
@@ -24,16 +20,15 @@ public class ModifierForumController {
     @FXML private ComboBox<String> statutComboBox;
     @FXML private Label            erreurLabel;
 
-    private publication       forumAModifier;
+    private publication  forumAModifier;
     private forumService forumService = new forumService();
 
     @FXML
     public void initialize() {
-        categorieComboBox.getItems().addAll( "question", "discussion","autre");
+        categorieComboBox.getItems().addAll("question", "discussion", "autre");
         statutComboBox.getItems().addAll("ouvert", "ferme");
     }
 
-    // ─── Recevoir le forum depuis ListeForumController ────────────────────
     public void initData(publication forum) {
         this.forumAModifier = forum;
         idTextField.setText(String.valueOf(forum.getId()));
@@ -51,45 +46,29 @@ public class ModifierForumController {
         String categorie = categorieComboBox.getValue();
         String statut   = statutComboBox.getValue();
 
-        // Validation
-        if (titre.isEmpty()) {
-            erreurLabel.setText("Le titre est obligatoire !");
-            return;
-        }
-        if (titre.length() < 5) {
-            erreurLabel.setText("Le titre doit avoir au moins 5 caractères !");
-            return;
-        }
-        if (contenu.isEmpty()) {
-            erreurLabel.setText("Le contenu est obligatoire !");
-            return;
-        }
+        if (titre.isEmpty()) { erreurLabel.setText("Le titre est obligatoire !"); return; }
+        if (titre.length() < 5) { erreurLabel.setText("Le titre doit avoir au moins 5 caractères !"); return; }
+        if (contenu.isEmpty()) { erreurLabel.setText("Le contenu est obligatoire !"); return; }
 
         forumAModifier.setTitre(titre);
         forumAModifier.setContenu(contenu);
         forumAModifier.setCategorie(categorie);
         forumAModifier.setStatut(statut);
 
-        try {
-            forumService.update(forumAModifier);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setHeaderText("Post modifié avec succès !");
-            alert.show();
-            Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
-            titreTextField.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur navigation : " + e.getMessage());
-        }
+        forumService.update(forumAModifier);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText("Post modifié avec succès !");
+        alert.show();
+
+        // ✅ Retour dans le conteneur FORUM, pas de setRoot()
+        NavigationManager.navigateInTab("FORUM", "/MesForums.fxml");
     }
 
     @FXML
     void annulerAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
-            titreTextField.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur : " + e.getMessage());
-        }
+        // ✅ Retour dans le conteneur FORUM
+        NavigationManager.navigateInTab("FORUM", "/MesForums.fxml");
     }
 }

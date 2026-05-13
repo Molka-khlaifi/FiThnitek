@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.publication;
 import services.forumService;
+import util.NavigationManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -179,7 +180,6 @@ public class ListeForumController {
 
             traduireBtn.setOnAction(e -> {
                 if (!traduit[0]) {
-                    // Premier clic → appel API
                     traduireBtn.setText("⏳ Traduction...");
                     traduireBtn.setDisable(true);
 
@@ -210,7 +210,6 @@ public class ListeForumController {
                     new Thread(task).start();
 
                 } else {
-                    // Clics suivants → toggle affichage
                     boolean visible = contenuTraduit.isVisible();
                     contenuTraduit.setVisible(!visible);
                     contenuTraduit.setManaged(!visible);
@@ -298,37 +297,45 @@ public class ListeForumController {
         messageLabel.setText("Tri par vues");
     }
 
-    // ───────── NAVIGATION ─────────
+    // ───────── NAVIGATION (MODIFIÉE AVEC NAVIGATIONMANAGER) ─────────
 
     @FXML
-    void ajouterAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml"));
-        feedContainer.getScene().setRoot(root);
+    void ajouterAction(ActionEvent event) {
+        // ✅ Reste dans l'onglet FORUM du Dashboard
+        NavigationManager.navigateInTab("FORUM", "/AjouterForum.fxml");
     }
 
     @FXML
-    void mesPostsAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/MesForums.fxml"));
-        feedContainer.getScene().setRoot(root);
+    void mesPostsAction(ActionEvent event) {
+        // ✅ Reste dans l'onglet FORUM du Dashboard
+        NavigationManager.navigateInTab("FORUM", "/MesForums.fxml");
     }
 
-    // ───────── DETAILS POST ─────────
+    // ───────── DETAILS POST (MODIFIÉ) ─────────
 
     private void afficherDetailsPost(publication post) {
         try {
             forumService.incrementerVues(post.getId());
             publication fresh = forumService.getById(post.getId());
+
+            // ✅ Reste dans l'onglet FORUM du Dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostDetails.fxml"));
             Parent root = loader.load();
             PostDetailsController controller = loader.getController();
             controller.setPost(fresh);
-            feedContainer.getScene().setRoot(root);
+
+            // Remplacer le contenu du conteneur FORUM
+            NavigationManager.navigateInTab("FORUM", "/PostDetails.fxml");
+
+            // Passer le post au contrôleur après navigation
+            // Alternative: passer via une méthode statique ou singleton
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // ───────── COMMENTAIRES ─────────
+    // ───────── COMMENTAIRES (MODIFIÉ) ─────────
 
     private void ouvrirCommentaires(publication post) {
         try {
@@ -336,13 +343,16 @@ public class ListeForumController {
             Parent root = loader.load();
             CommentaireForumController ctrl = loader.getController();
             ctrl.initData(post.getId(), post.getTitre());
-            feedContainer.getScene().setRoot(root);
+
+            // ✅ Reste dans l'onglet FORUM du Dashboard
+            NavigationManager.navigateInTab("FORUM", "/CommentaireForum.fxml");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // ───────── PROFIL AUTEUR ─────────
+    // ───────── PROFIL AUTEUR (MODIFIÉ) ─────────
 
     private void ouvrirProfil(publication post, String nomAuteur) {
         try {
@@ -350,13 +360,16 @@ public class ListeForumController {
             Parent root = loader.load();
             ProfilAuteurController ctrl = loader.getController();
             ctrl.initData(post.getAuteurId(), nomAuteur, "/ListeForum.fxml");
-            feedContainer.getScene().setRoot(root);
+
+            // ✅ Reste dans l'onglet FORUM du Dashboard
+            NavigationManager.navigateInTab("FORUM", "/ProfilAuteur.fxml");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // ───────── CHATBOT ─────────
+    // ───────── CHATBOT (garde en fenêtre modale) ─────────
 
     @FXML
     void openChatbot() {

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.publication;
+import util.NavigationManager;
 
 import java.io.IOException;
 
@@ -23,16 +24,13 @@ public class PostDetailsController {
     @FXML private Label messageLabel;
 
     private publication currentPost;
-    private String retourFxml = "/ListeForum.fxml"; // par défaut
+    // retourFxml gardé pour compatibilité mais on navigue toujours dans FORUM
+    private String retourFxml = "/ListeForum.fxml";
 
-    // ── Appelé depuis MesForumsController pour savoir où revenir ──
-    public void setRetourFxml(String fxml) {
-        this.retourFxml = fxml;
-    }
+    public void setRetourFxml(String fxml) { this.retourFxml = fxml; }
 
     public void setPost(publication post) {
         this.currentPost = post;
-
         titreLabel.setText(post.getTitre());
         contenuLabel.setText(post.getContenu());
         categorieLabel.setText(post.getCategorie().toUpperCase());
@@ -41,7 +39,6 @@ public class PostDetailsController {
         statutLabel.setText(post.getStatut().toUpperCase());
 
         if (post.getImage() != null && !post.getImage().isEmpty()) {
-            // ── Avec image : image à gauche + contenu à droite ──
             try {
                 Image img;
                 if (post.getImage().startsWith("C:") || post.getImage().startsWith("/")) {
@@ -53,12 +50,10 @@ public class PostDetailsController {
                 imageView.setVisible(true);
                 imageView.setManaged(true);
             } catch (Exception e) {
-                System.out.println("Erreur chargement image : " + e.getMessage());
                 imageView.setVisible(false);
                 imageView.setManaged(false);
             }
         } else {
-            // ── Sans image : cacher l'ImageView, le contenu prend toute la largeur ──
             imageView.setVisible(false);
             imageView.setManaged(false);
         }
@@ -66,12 +61,8 @@ public class PostDetailsController {
 
     @FXML
     void retourAction() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(retourFxml));
-            titreLabel.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur retour : " + e.getMessage());
-        }
+        // ✅ Retour dans le conteneur FORUM (retourFxml détermine quelle vue)
+        NavigationManager.navigateInTab("FORUM", retourFxml);
     }
 
     @FXML
@@ -86,7 +77,8 @@ public class PostDetailsController {
             CommentaireForumController ctrl = loader.getController();
             ctrl.initData(currentPost.getId(), currentPost.getTitre());
             ctrl.setRetourFxml(retourFxml);
-            titreLabel.getScene().setRoot(root);
+            // ✅ Rester dans le conteneur FORUM
+            NavigationManager.loadIntoTab("FORUM", root);
         } catch (IOException e) {
             System.out.println("Erreur commentaires : " + e.getMessage());
             messageLabel.setText("Erreur ouverture commentaires !");

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import util.NavigationManager;
 
 import java.io.IOException;
 
@@ -18,51 +19,26 @@ public class DetailForumController {
     @FXML private TextField statutTextField;
     @FXML private Label     dateLabel;
 
-    private int forumId; // pour naviguer vers commentaires
+    private int forumId;
 
-    // ─── Setters appelés depuis AjouterForumController ───────────────────
-    public void setTitreTextField(String titre) {
-        titreTextField.setText(titre);
-    }
-    public void setContenuTextArea(String contenu) {
-        contenuTextArea.setText(contenu);
-    }
-    public void setCategorieTextField(String categorie) {
-        categorieTextField.setText(categorie);
-    }
-    public void setStatutTextField(String statut) {
-        statutTextField.setText(statut);
-    }
-    public void setDateLabel(String date) {
-        dateLabel.setText(date);
-    }
-    public void setForumId(int id) {
-        this.forumId = id;
-    }
+    public void setTitreTextField(String titre)       { titreTextField.setText(titre);       }
+    public void setContenuTextArea(String contenu)    { contenuTextArea.setText(contenu);     }
+    public void setCategorieTextField(String cat)     { categorieTextField.setText(cat);      }
+    public void setStatutTextField(String statut)     { statutTextField.setText(statut);      }
+    public void setDateLabel(String date)             { dateLabel.setText(date);              }
+    public void setForumId(int id)                    { this.forumId = id;                    }
 
-    // ─── Retour à la liste ────────────────────────────────────────────────
     @FXML
     void retourListeAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ListeForum.fxml"));
-            titreTextField.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur : " + e.getMessage());
-        }
+        // ✅ Naviguer dans le conteneur FORUM, pas changer la scène entière
+        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
     }
 
-    // ─── Ajouter un autre post ────────────────────────────────────────────
     @FXML
     void retourAjouterAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/AjouterForum.fxml"));
-            titreTextField.getScene().setRoot(root);
-        } catch (IOException e) {
-            System.out.println("Erreur : " + e.getMessage());
-        }
+        NavigationManager.navigateInTab("FORUM", "/AjouterForum.fxml");
     }
 
-    // ─── Voir commentaires de ce post ────────────────────────────────────
     @FXML
     void voirCommentairesAction(ActionEvent event) {
         try {
@@ -70,10 +46,10 @@ public class DetailForumController {
             Parent root = loader.load();
             CommentaireForumController ctrl = loader.getController();
             ctrl.initData(forumId, titreTextField.getText());
-            titreTextField.getScene().setRoot(root);
+            // ✅ Rester dans le conteneur FORUM
+            NavigationManager.loadIntoTab("FORUM", root);
         } catch (IOException e) {
             System.out.println("Erreur navigation commentaires : " + e.getMessage());
         }
     }
 }
-
