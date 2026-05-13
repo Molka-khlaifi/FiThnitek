@@ -26,7 +26,7 @@ public class StripeService {
 
     // ── Configuration ────────────────────────────────────────────────────────
     private static final String STRIPE_SECRET_KEY =
-            "sk_test_51TWDNSL9skvlZvrt8EBbOd5X8f13YrcxjORtuP3A5mzlTmhSA96AkGHBdYWITqM2rQdIT1LjvH6GvUVN3LsqH9ky00hfB5ZMI0";   // ← put your key here
+            "";   // ← put your key here
     private static final String SUCCESS_URL = "https://yourdomain.com/success";
     private static final String CANCEL_URL  = "https://yourdomain.com/cancel";
     private static final String CURRENCY    = "eur";   // Tunisian Dinar (change if needed)
