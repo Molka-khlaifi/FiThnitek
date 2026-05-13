@@ -9,7 +9,7 @@ public class EmailUtil {
     private static final String FROM_EMAIL = "mhadhbichouaib4@gmail.com";
     // ATTENTION: Vous devez générer un "App Password" Google pour que cela fonctionne.
     // Allez sur votre compte Google -> Sécurité -> Validation en deux étapes -> Mots de passe d'application.
-    private static final String APP_PASSWORD = "votre_mot_de_passe_application"; 
+    private static final String APP_PASSWORD = "rxulxupsdtaltcnf"; 
 
     public static void sendResetCode(String toEmail, String code) {
         Properties props = new Properties();
