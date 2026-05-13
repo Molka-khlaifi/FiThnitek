@@ -1,15 +1,29 @@
 package controllers;
 
+import com.google.zxing.WriterException;
+import com.stripe.exception.StripeException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.Transaction;
 import services.EmailService;
+import services.StripeService;
 import services.TransactionService;
 import services.UserService;
 import services.exportService;
@@ -52,13 +66,14 @@ public class transactionController implements Initializable {
 
     private TransactionService transactionService = new TransactionService();
     private UserService userService = new UserService();
+    private StripeService stripeService = new StripeService();
     private ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
     private FilteredList<Transaction> filteredTransactions;
     private int selectedTransactionId = -1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        methodeField.setItems(FXCollections.observableArrayList("cash", "flouci"));
+        methodeField.setItems(FXCollections.observableArrayList("cash", "stripe"));
         methodeField.setValue("cash");
 
         statutField.setItems(FXCollections.observableArrayList("pending", "completed", "refunded", "cancelled"));
@@ -95,6 +110,15 @@ public class transactionController implements Initializable {
                     }
                 }
         );
+
+        // Show hint when user selects stripe
+        methodeField.getSelectionModel().selectedItemProperty().addListener((obs, o, n) -> {
+            if ("stripe".equals(n)) {
+                erreurLabel.setText("ℹ Select a row or fill Amount + Trip ID, then click \"Stripe QR\".");
+            } else {
+                erreurLabel.setText("");
+            }
+        });
     }
 
     private void loadTable() {
@@ -237,6 +261,86 @@ public class transactionController implements Initializable {
         statutField.setValue("pending");
         selectedTransactionId = -1;
         transactionTable.getSelectionModel().clearSelection();
+    }
+
+    /**
+     * Creates a Stripe Checkout Session for the amount shown in montantField
+     * (or the selected transaction's amount) and displays the payment URL as
+     * a scannable QR code in a popup dialog.
+     */
+    @FXML
+    private void showStripeQR() {
+        double montant;
+        int tripId;
+
+        // Prefer the selected table row; fall back to the form fields
+        Transaction selected = transactionTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            montant = selected.getMontant();
+            tripId  = selected.getTripId();
+        } else {
+            try {
+                montant = Double.parseDouble(montantField.getText().trim());
+                tripId  = Integer.parseInt(tripIdField.getText().trim());
+            } catch (NumberFormatException ex) {
+                showAlert("Missing Info",
+                        "Please select a transaction row OR enter Montant and Trip ID first.",
+                        Alert.AlertType.WARNING);
+                return;
+            }
+        }
+
+        try {
+            // 1. Create Stripe Checkout Session
+            String checkoutUrl = stripeService.createCheckoutSession(montant, tripId);
+
+            // 2. Generate QR code image (300×300 px)
+            WritableImage qrImage = stripeService.generateQRImage(checkoutUrl, 300);
+
+            // 3. Build the popup
+            Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.setTitle("Stripe Payment QR Code");
+
+            ImageView qrView = new ImageView(qrImage);
+            qrView.setFitWidth(300);
+            qrView.setFitHeight(300);
+            qrView.setPreserveRatio(true);
+
+            Text header = new Text("Scan to pay " + String.format("%.2f DT", montant) + " via Stripe");
+            header.setFont(Font.font("System", FontWeight.BOLD, 14));
+
+            Hyperlink link = new Hyperlink(checkoutUrl);
+            link.setOnAction(e -> {
+                try {
+                    java.awt.Desktop.getDesktop().browse(java.net.URI.create(checkoutUrl));
+                } catch (Exception ignored) {}
+            });
+
+            Button closeBtn = new Button("Close");
+            closeBtn.setStyle("-fx-background-color: #635BFF; -fx-text-fill: white; "
+                    + "-fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; "
+                    + "-fx-padding: 6 20;");
+            closeBtn.setOnAction(e -> popup.close());
+
+            VBox box = new VBox(12, header, qrView, link, closeBtn);
+            box.setAlignment(Pos.CENTER);
+            box.setPadding(new Insets(20));
+            box.setStyle("-fx-background-color: white;");
+
+            popup.setScene(new Scene(box));
+            popup.setResizable(false);
+            popup.showAndWait();
+
+        } catch (StripeException ex) {
+            showAlert("Stripe Error",
+                    "Could not create Stripe session:\n" + ex.getMessage(),
+                    Alert.AlertType.ERROR);
+        } catch (WriterException ex) {
+            showAlert("QR Error",
+                    "Failed to generate QR code:\n" + ex.getMessage(),
+                    Alert.AlertType.ERROR);
+        }
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {

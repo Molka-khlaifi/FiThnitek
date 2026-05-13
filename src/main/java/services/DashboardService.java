@@ -45,7 +45,7 @@ public class DashboardService {
                 "statut");
     }
 
-    /** Returns { "cash" -> 10, "flouci" -> 5 } */
+    /** Returns { "cash" -> 10, "stripe" -> 5 } */
     public Map<String, Integer> getPaymentMethodCounts() {
         return queryGroupCount(
                 "SELECT methode_paiement, COUNT(*) FROM transaction GROUP BY methode_paiement",

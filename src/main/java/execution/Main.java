@@ -16,9 +16,9 @@ public class Main {
         System.out.println("\n=== Driver completes Trip 1 (cash) ===");
         transactionService.completeTrip(1, 101, 15.0, 2, "cash");
 
-        // ── Simulate driver completing a flouci trip ────────
-        System.out.println("\n=== Driver completes Trip 2 (flouci) ===");
-        transactionService.completeTrip(1, 102, 20.0, 3, "flouci");
+        // ── Simulate driver completing a stripe trip ────────
+        System.out.println("\n=== Driver completes Trip 2 (stripe) ===");
+        transactionService.completeTrip(1, 102, 20.0, 3, "stripe");
 
         // ── Simulate another driver completing a trip ───────
         System.out.println("\n=== Driver 2 completes Trip 3 (cash) ===");

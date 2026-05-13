@@ -149,6 +149,15 @@
             style="-fx-background-color: white; -fx-border-color: #ddd;
                    -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;"
             text="Annuler"/>
+
+    <!-- Stripe QR Code Button -->
+    <Button layoutX="725.0" layoutY="462.0"
+            onAction="#showStripeQR"
+            prefHeight="38.0" prefWidth="140.0"
+            style="-fx-background-color: #635BFF; -fx-text-fill: white;
+                   -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="⚡ Stripe QR Pay"/>
+
     <!-- Export Buttons -->
     <Button layoutX="30.0" layoutY="515.0"
             onAction="#exportPDF"
