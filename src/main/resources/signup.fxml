@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignupController">
+    <StackPane>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+        <VBox alignment="CENTER" spacing="20.0" maxWidth="500" styleClass="card">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+
+            <Label text="Créer un compte" styleClass="title-label" />
+
+            <GridPane hgap="15" vgap="15" alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                </columnConstraints>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Nom" />
+                    <TextField fx:id="nomField" />
+                </VBox>
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Prénom" />
+                    <TextField fx:id="prenomField" />
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="CIN" />
+                    <TextField fx:id="cinField" />
+                </VBox>
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="Téléphone" />
+                    <TextField fx:id="telephoneField" />
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                    <Label text="Email" />
+                    <TextField fx:id="emailField" />
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                    <Label text="Mot de passe" />
+                    <PasswordField fx:id="passwordField" />
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                    <Label text="Je suis un..." />
+                    <ComboBox fx:id="roleComboBox" onAction="#handleRoleSelection" maxWidth="Infinity" promptText="Choisir un rôle" />
+                </VBox>
+            </GridPane>
+
+            <VBox fx:id="conducteurFields" spacing="15" managed="false" visible="false" style="-fx-border-color: #eee; -fx-border-width: 1 0 0 0; -fx-padding: 15 0 0 0;">
+                <Label text="Détails du véhicule" style="-fx-font-weight: bold;" />
+                <GridPane hgap="15" vgap="15">
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Marque" />
+                        <TextField fx:id="marqueField" />
+                    </VBox>
+                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Modèle" />
+                        <TextField fx:id="modeleField" />
+                    </VBox>
+                    <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        <Label text="Immatriculation" />
+                        <TextField fx:id="immatriculationField" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox spacing="10" alignment="CENTER">
+                <Button text="S'INSCRIRE" onAction="#handleSignup" maxWidth="Infinity" />
+                <Hyperlink text="Déjà inscrit ? Se connecter" onAction="#goToLogin" />
+            </VBox>
+
+            <Label fx:id="messageLabel" textFill="#e74c3c" wrapText="true" />
+        </VBox>
+    </StackPane>
+</ScrollPane>

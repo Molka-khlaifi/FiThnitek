@@ -1,0 +1,135 @@
+package util;
+
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class NavigationManager {
+
+    private static Stage primaryStage;
+    private static Map<String, AnchorPane> tabContainers = new HashMap<>();
+
+    // Navigation en attente si le conteneur n'est pas encore prêt
+    private static Map<String, String> pendingNavigations = new HashMap<>();
+
+    public static void registerTabContainer(String tabName, AnchorPane container) {
+        tabContainers.put(tabName, container);
+        System.out.println("✅ Conteneur enregistré: " + tabName);
+
+        // Exécuter la navigation en attente s'il y en a une
+        if (pendingNavigations.containsKey(tabName)) {
+            String fxmlPath = pendingNavigations.remove(tabName);
+            System.out.println("▶️ Navigation en attente exécutée: " + tabName + " → " + fxmlPath);
+            navigateInTab(tabName, fxmlPath);
+        }
+    }
+
+    public static void setPrimaryStage(Stage stage) {
+        primaryStage = stage;
+    }
+
+    public static void navigateInTab(String tabName, String fxmlPath) {
+        AnchorPane container = tabContainers.get(tabName);
+
+        if (container == null) {
+            // Mettre en file d'attente au lieu d'abandonner
+            System.out.println("⏳ Conteneur pas encore prêt, navigation mise en attente: " + tabName);
+            pendingNavigations.put(tabName, fxmlPath);
+            return;
+        }
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        NavigationManager.class.getResource(fxmlPath)
+                );
+
+                if (loader.getLocation() == null) {
+                    System.err.println("❌ FXML introuvable: " + fxmlPath);
+                    return;
+                }
+
+                Parent view = loader.load();
+
+                container.getChildren().clear();
+                container.getChildren().add(view);
+
+                AnchorPane.setTopAnchor(view, 0.0);
+                AnchorPane.setBottomAnchor(view, 0.0);
+                AnchorPane.setLeftAnchor(view, 0.0);
+                AnchorPane.setRightAnchor(view, 0.0);
+
+                System.out.println("✅ Navigation réussie: " + tabName + " → " + fxmlPath);
+
+            } catch (IOException e) {
+                System.err.println("❌ Erreur chargement FXML: " + fxmlPath);
+                e.printStackTrace();
+            }
+        });
+    }
+
+    // Sélectionner l'onglet ET charger le contenu en même temps
+    public static void navigateTo(String tabName, String fxmlPath) {
+        selectTab(tabName);
+        navigateInTab(tabName, fxmlPath);
+    }
+
+    public static void selectTab(String tabName) {
+        if (primaryStage == null) {
+            System.err.println("❌ PrimaryStage non défini");
+            return;
+        }
+
+        Platform.runLater(() -> {
+            try {
+                TabPane mainTabPane = (TabPane) primaryStage.getScene().lookup("#mainTabPane");
+
+                if (mainTabPane == null) {
+                    System.err.println("❌ #mainTabPane introuvable dans la scène");
+                    return;
+                }
+
+                for (Tab tab : mainTabPane.getTabs()) {
+                    String tabId = tab.getId() != null ? tab.getId() : "";
+                    String tabText = tab.getText() != null ? tab.getText() : "";
+
+                    if (tabId.equalsIgnoreCase(tabName) || tabText.equalsIgnoreCase(tabName)) {
+                        mainTabPane.getSelectionModel().select(tab);
+                        System.out.println("✅ Onglet sélectionné: " + tab.getText());
+                        return;
+                    }
+                }
+
+                System.err.println("❌ Aucun onglet trouvé avec le nom: " + tabName);
+
+            } catch (Exception e) {
+                System.err.println("❌ Erreur sélection onglet: " + e.getMessage());
+            }
+        });
+
+    }
+    // Dans NavigationManager.java — à ajouter
+    public static void loadIntoTab(String tabName, Parent view) {
+        AnchorPane container = tabContainers.get(tabName);
+        if (container == null) {
+            System.err.println("❌ Conteneur non trouvé: " + tabName);
+            return;
+        }
+        Platform.runLater(() -> {
+            container.getChildren().clear();
+            container.getChildren().add(view);
+            AnchorPane.setTopAnchor(view, 0.0);
+            AnchorPane.setBottomAnchor(view, 0.0);
+            AnchorPane.setLeftAnchor(view, 0.0);
+            AnchorPane.setRightAnchor(view, 0.0);
+        });
+    }
+}

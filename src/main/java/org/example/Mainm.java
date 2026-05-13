@@ -1,4 +1,4 @@
-package execution;
+package org.example;
 
 import models.Revenue;
 import models.Transaction;
@@ -6,7 +6,7 @@ import services.IService;
 import services.RevenueService;
 import services.TransactionService;
 
-public class Main {
+public class Mainm {
     public static void main(String[] args) {
 
         TransactionService transactionService = new TransactionService();

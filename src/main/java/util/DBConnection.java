@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private String url = "jdbc:mysql://localhost:3306/fi_thnitek_db";
+    private String url = "jdbc:mysql://localhost:3306/fithnitek?autoReconnect=true&useSSL=false";
     private String user = "root";
     private String password = "";
     private Connection conn;
@@ -18,7 +18,17 @@ public class DBConnection {
         return instance;
     }
 
-    public Connection getConn() { return conn; }
+    public Connection getConn() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                this.conn = DriverManager.getConnection(url, user, password);
+                System.out.println("Connection re-established");
+            }
+        } catch (SQLException e) {
+            System.out.println("Reconnection error: " + e.getMessage());
+        }
+        return conn;
+    }
 
     private DBConnection() {
         try {

@@ -1,65 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.loginController"
-            prefHeight="400.0" prefWidth="450.0"
-            style="-fx-background-color: white;">
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+    <VBox alignment="CENTER" spacing="30.0" maxWidth="350" maxHeight="450" styleClass="card">
+        <padding>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+        </padding>
 
-    <!-- Title -->
-    <Label layoutX="0.0" layoutY="40.0"
-           prefWidth="450.0"
-           style="-fx-font-size: 26px; -fx-font-weight: bold;
-                  -fx-text-fill: #3498db; -fx-alignment: center;"
-           text="Fi Thniytek"/>
+        <Label text="Connexion" styleClass="title-label" />
 
-    <Label layoutX="0.0" layoutY="80.0"
-           prefWidth="450.0"
-           style="-fx-font-size: 13px; -fx-text-fill: #aaa;
-                  -fx-alignment: center;"
-           text="Admin Panel — Please sign in"/>
+        <VBox spacing="15.0">
+            <VBox spacing="5.0">
+                <Label text="Email" />
+                <TextField fx:id="emailField" promptText="votre@email.com" />
+            </VBox>
 
-    <!-- Username -->
-    <Label layoutX="60.0" layoutY="140.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"
-           text="Username"/>
-    <TextField fx:id="usernameField"
-               layoutX="60.0" layoutY="162.0"
-               prefHeight="38.0" prefWidth="330.0"
-               promptText="Enter your username"
-               style="-fx-background-radius: 6; -fx-border-radius: 6;
-                      -fx-border-color: #ddd; -fx-border-width: 1;
-                      -fx-background-color: white; -fx-padding: 0 10;"/>
+            <VBox spacing="5.0">
+                <Label text="Mot de passe" />
+                <PasswordField fx:id="passwordField" promptText="••••••••" />
+            </VBox>
+        </VBox>
 
-    <!-- Password -->
-    <Label layoutX="60.0" layoutY="215.0"
-           style="-fx-font-weight: bold; -fx-text-fill: #555;"
-           text="Password"/>
-    <PasswordField fx:id="passwordField"
-                   layoutX="60.0" layoutY="237.0"
-                   prefHeight="38.0" prefWidth="330.0"
-                   promptText="Enter your password"
-                   style="-fx-background-radius: 6; -fx-border-radius: 6;
-                          -fx-border-color: #ddd; -fx-border-width: 1;
-                          -fx-background-color: white; -fx-padding: 0 10;"/>
+        <VBox spacing="10.0" alignment="CENTER">
+            <Button text="SE CONNECTER" onAction="#handleLogin" maxWidth="Infinity" />
+            <Hyperlink text="Pas encore de compte ? S'inscrire" onAction="#goToSignup" />
+        </VBox>
 
-    <!-- Error Label -->
-    <Label fx:id="erreurLabel"
-           layoutX="60.0" layoutY="285.0"
-           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"
-           text=""/>
-
-    <!-- Login Button -->
-    <Button layoutX="60.0" layoutY="310.0"
-            fx:id="loginBtn"
-            onAction="#login"
-            prefHeight="38.0" prefWidth="330.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white;
-                   -fx-font-weight: bold; -fx-font-size: 14px;
-                   -fx-background-radius: 8; -fx-cursor: hand;"
-            text="Sign In"/>
-
-</AnchorPane>
+        <Label fx:id="messageLabel" textFill="#e74c3c" wrapText="true" />
+    </VBox>
+</StackPane>

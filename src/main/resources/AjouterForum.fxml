@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane
+        prefHeight="560.0" prefWidth="620.0"
+        style="-fx-background-color: #F5F6FA;"
+        xmlns="http://javafx.com/javafx/17"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controllers.AjouterForumController">
+
+    <!-- TOP -->
+    <top>
+        <HBox prefHeight="56" alignment="CENTER_LEFT"
+              style="-fx-background-color:
+                     -fx-background-size: cover;
+                     -fx-background-position: center;
+                     -fx-border-color: #DDE2F0;
+                     -fx-border-width: 0 0 1 0;
+                     -fx-padding: 0 20 0 20;
+                     -fx-spacing: 10;">
+
+            <!-- ← Bouton retour liste forum -->
+            <Button text="← Liste Forum" onAction="#voirListeAction"
+                    prefHeight="34"
+                    style="-fx-background-color: #085041;
+                           -fx-text-fill: white;
+                           -fx-font-size: 12px;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 6;
+                           -fx-cursor: hand;
+                           -fx-padding: 0 14;" />
+
+            <Label text="— Nouveau Post" style="-fx-font-size: 14px; -fx-text-fill: #B0B8D8;" />
+
+        </HBox>
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 20 30 20 30;" VBox.vgrow="ALWAYS">
+
+            <!-- TITRE -->
+            <Label text="Titre *"
+                   style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+
+            <TextField fx:id="titreTextField"
+                       prefHeight="36"
+                       promptText="Ex: Trajet Tunis → Sfax"
+                       style="-fx-background-radius: 6; -fx-border-radius: 6;
+                              -fx-border-color: #C8D0E8; -fx-background-color: white;" />
+
+            <!-- CAT + STATUT -->
+            <HBox spacing="15">
+
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Catégorie *"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+                    <ComboBox fx:id="categorieComboBox" prefHeight="36" maxWidth="Infinity"/>
+                </VBox>
+
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Statut"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+                    <ComboBox fx:id="statutComboBox" prefHeight="36" maxWidth="Infinity"/>
+                </VBox>
+
+            </HBox>
+
+            <!-- CONTENU -->
+            <Label text="Contenu *"
+                   style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+
+            <TextArea fx:id="contenuTextArea"
+                      prefHeight="130"
+                      promptText="Décrivez votre post..."
+                      wrapText="true"
+                      style="-fx-background-radius: 6; -fx-border-radius: 6;
+                             -fx-border-color: #C8D0E8; -fx-background-color: white;" />
+
+            <Label fx:id="compteurLabel"
+                   text="0 / 500"
+                   style="-fx-text-fill: #aaa; -fx-font-size: 11px;" />
+
+            <!-- IMAGE -->
+            <Label text="Image (optionnel)"
+                   style="-fx-font-weight: bold; -fx-text-fill: #2D2D6B; -fx-font-size: 12px;" />
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+
+                <TextField fx:id="imagePathTextField"
+                           editable="false"
+                           promptText="Aucune image"
+                           HBox.hgrow="ALWAYS"
+                           style="-fx-background-color: white;
+                                  -fx-border-color: #C8D0E8;
+                                  -fx-background-radius: 5;" />
+
+                <Button text="📁 Choisir"
+                        onAction="#choisirImageAction"
+                        style="-fx-background-color: #9B8FD4;
+                               -fx-text-fill: white;
+                               -fx-cursor: hand;" />
+
+                <ImageView fx:id="imagePreview"
+                           fitHeight="50"
+                           fitWidth="50"
+                           preserveRatio="true"
+                           style="-fx-border-color: #ccc;" />
+
+            </HBox>
+
+            <!-- ERREUR -->
+            <Label fx:id="erreurLabel"
+                   style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" />
+
+            <!-- BUTTONS -->
+            <HBox spacing="12">
+
+                <Button text="✓ Publier"
+                        onAction="#ajouterForumAction"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #2BBF8A;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;" />
+
+                <Button text="Voir liste"
+                        onAction="#voirListeAction"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #EDEDF8;
+                               -fx-text-fill: #2D2D6B;
+                               -fx-font-weight: bold;" />
+
+                <Button text="Reset"
+                        onAction="#annulerAction"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: white;
+                               -fx-border-color: #9B8FD4;
+                               -fx-text-fill: #9B8FD4;" />
+
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
