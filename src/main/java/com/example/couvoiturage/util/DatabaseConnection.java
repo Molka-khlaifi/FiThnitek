@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     private static final String SERVER_URL = "jdbc:mysql://localhost:3306/";
-    private static final String DB_NAME = "couvoiturage_db";
+    private static final String DB_NAME = "fithnitek";
     private static final String USER = "root";
     private static final String PASSWORD = ""; 
 
@@ -78,6 +78,7 @@ public class DatabaseConnection {
                 stmt.execute("ALTER TABLE conducteur_info ADD COLUMN IF NOT EXISTS permis_path VARCHAR(255)");
                 
                 // Add reset columns to utilisateur
+                stmt.execute("ALTER TABLE utilisateur ADD COLUMN IF NOT EXISTS banned BOOLEAN DEFAULT FALSE");
                 stmt.execute("ALTER TABLE utilisateur ADD COLUMN IF NOT EXISTS reset_code VARCHAR(10)");
                 stmt.execute("ALTER TABLE utilisateur ADD COLUMN IF NOT EXISTS reset_expiry DATETIME");
             } catch (SQLException e) {

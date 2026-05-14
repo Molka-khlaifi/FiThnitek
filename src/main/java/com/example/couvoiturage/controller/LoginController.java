@@ -74,7 +74,7 @@ public class LoginController {
                     return;
                 }
 
-                if (PasswordUtil.verify(password, storedHash)) {
+                if (motDePasseValide(conn, email, password, storedHash)) {
                     String roleStr = rs.getString("role");
                     Role role = Role.valueOf(roleStr);
 
@@ -113,6 +113,26 @@ public class LoginController {
     private void showMessage(String msg, String color) {
         messageLabel.setText(msg);
         messageLabel.setStyle("-fx-text-fill: " + color + ";");
+    }
+
+    private boolean motDePasseValide(Connection conn, String email, String password, String storedPassword) throws SQLException {
+        if (PasswordUtil.verify(password, storedPassword)) {
+            return true;
+        }
+
+        if (storedPassword != null && storedPassword.equals(password)) {
+            String sql = "UPDATE utilisateur SET password = ? WHERE email = ?";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, PasswordUtil.hash(password));
+                pstmt.setString(2, email);
+                pstmt.executeUpdate();
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     @FXML

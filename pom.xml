@@ -166,7 +166,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.example.Main</mainClass>
+                    <mainClass>com.example.couvoiturage.HelloApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
