@@ -14,16 +14,22 @@ import javafx.scene.layout.VBox;
 import models.DocumentVehicule;
 import models.Vehicule;
 import services.DocumentVehiculeService;
+import services.MaintenanceVehiculeService;
 import services.OcrService;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DocumentsVehiculeController {
 
@@ -37,6 +43,8 @@ public class DocumentsVehiculeController {
     private VBox documentsCardsPane;
 
     private final DocumentVehiculeService documentVehiculeService = new DocumentVehiculeService();
+
+    private final MaintenanceVehiculeService maintenanceVehiculeService = new MaintenanceVehiculeService();
 
     private final OcrService ocrService = new OcrService();
 
@@ -358,12 +366,14 @@ public class DocumentsVehiculeController {
         ocrTask.setOnSucceeded(event -> {
             documentsScannesOcr.add(document.getIdDocument());
             messageLabel.setText("OCR termin\u00e9 pour " + texteAffichage(document.getNomFichier()) + ".");
+            OcrService.OcrResult resultat = ocrTask.getValue();
             afficherAlerte(
                     Alert.AlertType.INFORMATION,
                     "Scanner OCR",
                     "R\u00e9sultat OCR",
-                    ocrTask.getValue().toDisplayText()
+                    resultat.toDisplayText()
             );
+            proposerMiseAJourMaintenance(document, resultat);
             chargerDocuments();
         });
 
@@ -419,6 +429,194 @@ public class DocumentsVehiculeController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void proposerMiseAJourMaintenance(DocumentVehicule document, OcrService.OcrResult resultat) {
+        String typeDocument = document.getTypeDocument();
+
+        if (!peutMettreAJourMaintenance(typeDocument)) {
+            return;
+        }
+
+        String dateNormalisee = normaliserDate(resultat.getDateExpiration());
+
+        if (dateNormalisee == null) {
+            if ("VIGNETTE".equals(typeDocument)) {
+                dateNormalisee = demanderDateVignetteManuelle(resultat.getDateExpiration());
+
+                if (dateNormalisee == null) {
+                    return;
+                }
+            } else {
+                afficherAlerte(
+                        Alert.AlertType.INFORMATION,
+                        "Mise \u00e0 jour maintenance",
+                        "Aucune date valide",
+                        "Aucune date d'expiration valide n'a \u00e9t\u00e9 d\u00e9tect\u00e9e par OCR."
+                );
+                return;
+            }
+        }
+
+        confirmerMiseAJourMaintenance(document, typeDocument, dateNormalisee);
+    }
+
+    private void confirmerMiseAJourMaintenance(DocumentVehicule document, String typeDocument, String dateNormalisee) {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Mise \u00e0 jour maintenance");
+        confirmation.setHeaderText("Date d\u00e9tect\u00e9e par OCR");
+        confirmation.setContentText(
+                "Document : " + typeDocument + "\n" +
+                        "Date d\u00e9tect\u00e9e : " + dateNormalisee + "\n" +
+                        "Voulez-vous mettre \u00e0 jour la maintenance de ce v\u00e9hicule ?"
+        );
+
+        confirmation.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                boolean updated = mettreAJourMaintenance(document, dateNormalisee);
+
+                if (updated) {
+                    messageLabel.setText("Maintenance mise \u00e0 jour avec succ\u00e8s.");
+                    afficherAlerte(
+                            Alert.AlertType.INFORMATION,
+                            "Mise \u00e0 jour maintenance",
+                            "Maintenance mise \u00e0 jour",
+                            "La date " + dateNormalisee + " a \u00e9t\u00e9 enregistr\u00e9e pour " + typeDocument + "."
+                    );
+                } else {
+                    afficherAlerte(
+                            Alert.AlertType.INFORMATION,
+                            "Mise \u00e0 jour maintenance",
+                            "Aucune fiche maintenance",
+                            "Aucune fiche maintenance n'existe encore pour ce v\u00e9hicule."
+                    );
+                }
+            }
+        });
+    }
+
+    private String demanderDateVignetteManuelle(String valeurOcr) {
+        String suggestion = suggererDateVignette(valeurOcr);
+        String valeurAffichee = texteAffichage(valeurOcr);
+
+        TextInputDialog dialog = new TextInputDialog(suggestion == null ? "" : suggestion);
+        dialog.setTitle("Date vignette");
+        dialog.setHeaderText("Date partielle d\u00e9tect\u00e9e par OCR");
+        dialog.setContentText(
+                "OCR a d\u00e9tect\u00e9 : " + valeurAffichee + "\n" +
+                        "Veuillez confirmer ou corriger la date d'expiration au format yyyy-MM-dd."
+        );
+
+        return dialog.showAndWait()
+                .map(String::trim)
+                .map(this::validerDateUtilisateur)
+                .orElse(null);
+    }
+
+    private String validerDateUtilisateur(String valeur) {
+        String date = normaliserDate(valeur);
+
+        if (date == null || !valeur.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            afficherAlerte(
+                    Alert.AlertType.ERROR,
+                    "Mise \u00e0 jour maintenance",
+                    "Date invalide",
+                    "La date doit \u00eatre au format yyyy-MM-dd."
+            );
+            return null;
+        }
+
+        return date;
+    }
+
+    private String suggererDateVignette(String valeurOcr) {
+        if (valeurOcr == null || valeurOcr.trim().isEmpty() || "Non d\u00e9tect\u00e9".equalsIgnoreCase(valeurOcr.trim())) {
+            return "";
+        }
+
+        String valeur = valeurOcr.trim().toLowerCase();
+        Matcher moisAnneeMatcher = Pattern.compile("(janvier|f[e\u00e9]vrier|mars|avril|mai|juin|juillet|ao[u\u00fb]t|septembre|octobre|novembre|d[e\u00e9]cembre)\\s+(\\d{4})", Pattern.CASE_INSENSITIVE).matcher(valeur);
+
+        if (moisAnneeMatcher.find()) {
+            int mois = numeroMoisFrancais(moisAnneeMatcher.group(1));
+            int annee = Integer.parseInt(moisAnneeMatcher.group(2));
+            return LocalDate.of(annee, mois, 1).withDayOfMonth(LocalDate.of(annee, mois, 1).lengthOfMonth()).toString();
+        }
+
+        Matcher anneeMatcher = Pattern.compile("\\b(\\d{4})\\b").matcher(valeur);
+
+        if (anneeMatcher.find()) {
+            return anneeMatcher.group(1) + "-12-31";
+        }
+
+        return "";
+    }
+
+    private int numeroMoisFrancais(String mois) {
+        String valeur = mois.toLowerCase();
+
+        if (valeur.equals("janvier")) return 1;
+        if (valeur.equals("f\u00e9vrier") || valeur.equals("fevrier")) return 2;
+        if (valeur.equals("mars")) return 3;
+        if (valeur.equals("avril")) return 4;
+        if (valeur.equals("mai")) return 5;
+        if (valeur.equals("juin")) return 6;
+        if (valeur.equals("juillet")) return 7;
+        if (valeur.equals("ao\u00fbt") || valeur.equals("aout")) return 8;
+        if (valeur.equals("septembre")) return 9;
+        if (valeur.equals("octobre")) return 10;
+        if (valeur.equals("novembre")) return 11;
+        return 12;
+    }
+
+    private boolean peutMettreAJourMaintenance(String typeDocument) {
+        return "ASSURANCE".equals(typeDocument)
+                || "VISITE_TECHNIQUE".equals(typeDocument)
+                || "VIGNETTE".equals(typeDocument);
+    }
+
+    private boolean mettreAJourMaintenance(DocumentVehicule document, String dateNormalisee) {
+        switch (document.getTypeDocument()) {
+            case "ASSURANCE":
+                return maintenanceVehiculeService.updateDateExpirationAssurance(document.getIdVehicule(), dateNormalisee);
+            case "VISITE_TECHNIQUE":
+                return maintenanceVehiculeService.updateDateVisiteTechnique(document.getIdVehicule(), dateNormalisee);
+            case "VIGNETTE":
+                return maintenanceVehiculeService.updateDateExpirationVignette(document.getIdVehicule(), dateNormalisee);
+            default:
+                return false;
+        }
+    }
+
+    private String normaliserDate(String valeur) {
+        if (valeur == null || valeur.trim().isEmpty() || "Non d\u00e9tect\u00e9".equalsIgnoreCase(valeur.trim())) {
+            return null;
+        }
+
+        String date = valeur.trim();
+
+        Matcher matcher = Pattern.compile("\\d{4}[-/]\\d{1,2}[-/]\\d{1,2}|\\d{1,2}[-/]\\d{1,2}[-/]\\d{4}").matcher(date);
+
+        if (matcher.find()) {
+            date = matcher.group();
+        }
+
+        DateTimeFormatter[] formats = {
+                DateTimeFormatter.ISO_LOCAL_DATE,
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                DateTimeFormatter.ofPattern("yyyy/MM/dd"),
+                DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        };
+
+        for (DateTimeFormatter format : formats) {
+            try {
+                return LocalDate.parse(date, format).toString();
+            } catch (DateTimeParseException ignored) {
+                // Try next known OCR date format.
+            }
+        }
+
+        return null;
     }
 
     private Label creerBadge(String texte, String couleur) {

@@ -106,6 +106,31 @@ public class MaintenanceVehiculeService implements IService<MaintenanceVehicule>
         return null;
     }
 
+    public boolean updateDateExpirationAssurance(int idVehicule, String date) {
+        return updateDateMaintenance(idVehicule, date, "dateExpirationAssurance");
+    }
+
+    public boolean updateDateVisiteTechnique(int idVehicule, String date) {
+        return updateDateMaintenance(idVehicule, date, "dateVisiteTechnique");
+    }
+
+    public boolean updateDateExpirationVignette(int idVehicule, String date) {
+        return updateDateMaintenance(idVehicule, date, "dateExpirationVignette");
+    }
+
+    private boolean updateDateMaintenance(int idVehicule, String date, String colonne) {
+        String sql = "UPDATE maintenance_vehicule SET " + colonne + " = ? WHERE idVehicule = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setDate(1, Date.valueOf(date));
+            preparedStatement.setInt(2, idVehicule);
+            return preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Erreur mise a jour date maintenance vehicule : " + e.getMessage());
+            return false;
+        }
+    }
+
     private void remplirStatement(PreparedStatement preparedStatement, MaintenanceVehicule maintenance) throws SQLException {
         preparedStatement.setInt(1, maintenance.getIdVehicule());
         preparedStatement.setInt(2, maintenance.getKilometrageActuel());

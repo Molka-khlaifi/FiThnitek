@@ -348,6 +348,10 @@ public class OcrService {
                     "Date mise en circulation : " + dateMiseEnCirculation + "\n\n" +
                     "R\u00e9sum\u00e9 :\n" + resumeTexteExtrait;
         }
+
+        public String getDateExpiration() {
+            return dateExpiration;
+        }
     }
 
     public static class OcrException extends Exception {
