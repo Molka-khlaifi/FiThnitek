@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" prefWidth="500">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label text="Ajouter un nouvel utilisateur" styleClass="title-label" style="-fx-font-size: 18px;" />
+
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+
+        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <Label text="Nom *" />
+            <TextField fx:id="addNomField" />
+        </VBox>
+        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <Label text="Prénom" />
+            <TextField fx:id="addPrenomField" />
+        </VBox>
+
+        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <Label text="CIN *" />
+            <TextField fx:id="addCinField" />
+        </VBox>
+        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label text="Téléphone" />
+            <TextField fx:id="addPhoneField" />
+        </VBox>
+
+        <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <Label text="Email *" />
+            <TextField fx:id="addEmailField" />
+        </VBox>
+
+        <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <Label text="Mot de passe *" />
+            <PasswordField fx:id="addPasswordField" />
+        </VBox>
+
+        <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <Label text="Rôle *" />
+            <ComboBox fx:id="addRoleComboBox" onAction="#handleAddRoleSelection" maxWidth="Infinity" />
+        </VBox>
+    </GridPane>
+
+    <!-- Documents conducteur (masqués par défaut) -->
+    <VBox fx:id="addConducteurFields" spacing="10" managed="false" visible="false" style="-fx-border-color: #eee; -fx-border-width: 1 0 0 0; -fx-padding: 10 0 0 0;">
+        <Label text="Documents requis" style="-fx-font-weight: bold;" />
+
+        <!-- Carte Grise -->
+        <VBox spacing="5">
+            <Label text="Carte Grise *" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label fx:id="addCarteGrisFileLabel" text="Aucun fichier sélectionné"
+                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                <Button text="Parcourir..." onAction="#handleAddChooseCarteGris"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+            </HBox>
+        </VBox>
+
+        <!-- Permis de Conduire -->
+        <VBox spacing="5">
+            <Label text="Permis de Conduire *" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label fx:id="addPermisFileLabel" text="Aucun fichier sélectionné"
+                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                <Button text="Parcourir..." onAction="#handleAddChoosePermis"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancelAdd" style="-fx-background-color: #95a5a6;" />
+        <Button text="Créer l'utilisateur" onAction="#handleConfirmAdd" />
+    </HBox>
+
+    <Label fx:id="addMessageLabel" textFill="#e74c3c" wrapText="true" />
+</VBox>

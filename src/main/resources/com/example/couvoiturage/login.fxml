@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.couvoiturage.controller.LoginController">
+    <VBox alignment="CENTER" spacing="25.0" maxWidth="380" maxHeight="600" styleClass="card">
+        <padding>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+        </padding>
+
+        <Label text="Connexion" styleClass="title-label" />
+
+        <VBox spacing="15.0">
+            <VBox spacing="5.0">
+                <Label text="Email" />
+                <TextField fx:id="emailField" promptText="votre@email.com" />
+            </VBox>
+
+            <VBox spacing="5.0">
+                <Label text="Mot de passe" />
+                <PasswordField fx:id="passwordField" promptText="••••••••" />
+            </VBox>
+            
+            <!-- CAPTCHA Section -->
+            <VBox spacing="10.0" styleClass="captcha-box">
+                <Label text="VÉRIFICATION DE SÉCURITÉ" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #95a5a6; -fx-letter-spacing: 1;" />
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <StackPane style="-fx-background-color: white; -fx-padding: 5; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                        <Canvas fx:id="captchaCanvas" width="180" height="50" />
+                    </StackPane>
+                    <Button onAction="#refreshCaptcha" style="-fx-background-color: #f1f2f6; -fx-text-fill: #2ecc71; -fx-font-size: 18px; -fx-padding: 5 12; -fx-background-radius: 50; -fx-effect: none;" text="↻" />
+                </HBox>
+                <TextField fx:id="captchaField" promptText="Saisir le code" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+            </VBox>
+        </VBox>
+
+        <VBox spacing="10.0" alignment="CENTER">
+            <Button text="SE CONNECTER" onAction="#handleLogin" maxWidth="Infinity" />
+            <Hyperlink text="Mot de passe oublié ?" onAction="#goToForgotPassword" style="-fx-font-size: 12px;" />
+            <Hyperlink text="Pas encore de compte ? S'inscrire" onAction="#goToSignup" />
+        </VBox>
+
+        <Label fx:id="messageLabel" textFill="#e74c3c" wrapText="true" />
+    </VBox>
+</StackPane>
