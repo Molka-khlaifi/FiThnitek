@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+        <?import javafx.scene.chart.*?>
+
+<AnchorPane
+xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controllers.StatistiquesController"
+prefWidth="720" prefHeight="760"
+style="-fx-background-image: url('/BACKGROUND.png');
+               -fx-background-size: cover;
+               -fx-background-position: center;">
+
+<ScrollPane fitToWidth="true"
+            AnchorPane.topAnchor="20"
+            AnchorPane.bottomAnchor="20"
+            AnchorPane.leftAnchor="20"
+            AnchorPane.rightAnchor="20"
+            style="-fx-background: transparent; -fx-background-color: transparent;
+                       -fx-background-radius: 16;">
+
+    <VBox spacing="14"
+          style="-fx-background-color: rgba(255,255,255,0.82);
+                     -fx-background-radius: 16;
+                     -fx-padding: 25px;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 4);">
+
+        <Label text="Statistiques des Réclamations"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <!-- Cartes résumé -->
+        <HBox spacing="12">
+            <VBox style="-fx-background-color: #eaf3de; -fx-padding: 12px;
+                             -fx-background-radius: 8px;" prefWidth="148">
+                <Label text="Total" style="-fx-font-size: 12px; -fx-text-fill: #3b6d11;"/>
+                <Label fx:id="lblTotal" text="0"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27500a;"/>
+            </VBox>
+            <VBox style="-fx-background-color: #faeeda; -fx-padding: 12px;
+                             -fx-background-radius: 8px;" prefWidth="148">
+                <Label text="En attente" style="-fx-font-size: 12px; -fx-text-fill: #854f0b;"/>
+                <Label fx:id="lblEnAttente" text="0"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #633806;"/>
+            </VBox>
+            <VBox style="-fx-background-color: #e6f1fb; -fx-padding: 12px;
+                             -fx-background-radius: 8px;" prefWidth="148">
+                <Label text="En cours" style="-fx-font-size: 12px; -fx-text-fill: #185fa5;"/>
+                <Label fx:id="lblEnCours" text="0"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0c447c;"/>
+            </VBox>
+            <VBox style="-fx-background-color: #eeedfe; -fx-padding: 12px;
+                             -fx-background-radius: 8px;" prefWidth="148">
+                <Label text="Résolues" style="-fx-font-size: 12px; -fx-text-fill: #534ab7;"/>
+                <Label fx:id="lblResolues" text="0"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3c3489;"/>
+            </VBox>
+        </HBox>
+
+        <Label text="Nombre de réclamations par type"
+               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <BarChart fx:id="barChartType" prefHeight="260"
+                  style="-fx-tick-label-fill: #2c3e50;">
+            <xAxis>
+                <CategoryAxis label="Type de réclamation"
+                              style="-fx-tick-label-fill: #2c3e50;
+                                         -fx-text-fill: #2c3e50;"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Nombre"
+                            style="-fx-tick-label-fill: #2c3e50;
+                                       -fx-text-fill: #2c3e50;"/>
+            </yAxis>
+        </BarChart>
+
+        <Label text="Répartition en camembert"
+               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <PieChart fx:id="pieChartType" prefHeight="240"/>
+
+        <Separator/>
+
+        <Button text="&#8592; Retour à la Liste"
+                onAction="#retourListe"
+                prefWidth="350"
+                style="-fx-background-color: #7f8c8d; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-padding: 8px;
+                           -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+    </VBox>
+</ScrollPane>
+
+</AnchorPane>
+
+
+
+

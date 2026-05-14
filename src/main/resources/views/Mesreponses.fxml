@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<AnchorPane
+xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controllers.MesReponsesController"
+prefWidth="580" prefHeight="620"
+style="-fx-background-image: url('/BACKGROUND.png');
+               -fx-background-size: cover;
+               -fx-background-position: center;">
+
+<VBox spacing="14"
+      AnchorPane.topAnchor="25"
+      AnchorPane.bottomAnchor="25"
+      AnchorPane.leftAnchor="25"
+      AnchorPane.rightAnchor="25"
+      style="-fx-background-color: rgba(255,255,255,0.82);
+                 -fx-background-radius: 16;
+                 -fx-padding: 25px;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 4);">
+
+    <Label text="Mes Réclamations et Réponses"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <Label text="Sélectionne une réclamation pour voir la réponse de l'admin"
+           style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+
+    <TableView fx:id="tableReclamations" prefHeight="200">
+        <columns>
+            <TableColumn fx:id="colId"      text="ID"      prefWidth="50"/>
+            <TableColumn fx:id="colObjet"   text="Objet"   prefWidth="150"/>
+            <TableColumn fx:id="colType"    text="Type"    prefWidth="100"/>
+            <TableColumn fx:id="colUrgence" text="Urgence" prefWidth="80"/>
+            <TableColumn fx:id="colEtat"    text="Etat"    prefWidth="110"/>
+        </columns>
+    </TableView>
+
+    <Button text="Voir la réponse de l'admin"
+            onAction="#voirReponse"
+            prefWidth="350"
+            style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-font-weight: bold;
+                       -fx-padding: 8px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+    <Separator/>
+
+    <Label text="Réponse de l'admin :"
+           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <TextArea fx:id="txtReponseAdmin"
+              prefHeight="110"
+              editable="false"
+              style="-fx-background-radius: 6; -fx-border-radius: 6;
+                         -fx-border-color: #ddd; -fx-border-width: 1;
+                         -fx-background-color: #f8f9fa; -fx-font-size: 13px; -fx-padding: 8px;"/>
+
+    <Label fx:id="lblInfo" style="-fx-font-size: 12px;"/>
+
+    <Separator/>
+
+    <Button text="+ Ajouter une Réclamation"
+            onAction="#retourAjouter"
+            prefWidth="350"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 8px;
+                       -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+</VBox>
+
+</AnchorPane>
+
+

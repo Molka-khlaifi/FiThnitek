@@ -1,5 +1,4 @@
 package services;
-
 import java.util.List;
 
 public interface IService<T> {
@@ -8,5 +7,3 @@ public interface IService<T> {
     void delete(T t);
     List<T> getAll();
 }
-
-
