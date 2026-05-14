@@ -24,14 +24,6 @@ public class PassagerHomePageController {
 
     @FXML private TabPane mainTabPane;
 
-    @FXML private Button btnTrajets;
-    @FXML private Button btnReservations;
-    @FXML private Button btnForum;
-    @FXML private Button btnReclamations;
-    @FXML private Button btnProfil;
-
-    private Button[] allButtons;
-
     @FXML
     public void initialize() {
 
@@ -43,11 +35,7 @@ public class PassagerHomePageController {
             );
         }
 
-        // Initialiser les boutons
-        allButtons = new Button[]{
-                btnTrajets, btnReservations, btnForum,
-                btnReclamations, btnProfil
-        };
+
 
         // Enregistrer les conteneurs dans le NavigationManager
         NavigationManager.registerTabContainer("TRAJETS",      trajetsContent);
@@ -71,8 +59,8 @@ public class PassagerHomePageController {
         });
 
         // Charger toutes les vues dans leurs conteneurs respectifs
-        chargerVueParDefaut("TRAJETS",      "/TrajetsPassager.fxml");
-        chargerVueParDefaut("RESERVATIONS", "/Reservations.fxml");
+        chargerVueParDefaut("TRAJETS",      "/dashboard.fxml");
+        chargerVueParDefaut("REVENUES", "/Reservations.fxml");
         chargerVueParDefaut("FORUM",        "/ListeForum.fxml");
         chargerVueParDefaut("RECLAMATIONS", "/Reclamations.fxml");
         chargerVueParDefaut("PROFIL",       "/Profile.fxml");
@@ -81,9 +69,6 @@ public class PassagerHomePageController {
         selectTab("TRAJETS");
     }
 
-    // ---------------------------------------------------------------
-    //  Chargement d'une vue dans son conteneur
-    // ---------------------------------------------------------------
 
     private void chargerVueParDefaut(String tabName, String fxmlPath) {
         if (getClass().getResource(fxmlPath) != null) {

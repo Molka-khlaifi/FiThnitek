@@ -9,7 +9,7 @@ public class ModerationContenu {
 
     // Liste des mots irrespectueux (Solution 1)
     private static final Set<String> MOTS_IRRESPECTUEUX = new HashSet<>(Arrays.asList(
-            "stupide", "idiot", "con", "merde", "bite", "putain",
+            "stupide", "idiot", "merde", "bite", "putain",
             "connard", "salope", "enculé", "fuck", "shit", "damn",
             "nul", "imbécile", "abruti", "crétin", "moron"
     ));

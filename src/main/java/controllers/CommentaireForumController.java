@@ -27,6 +27,11 @@ public class CommentaireForumController {
     @FXML private ListView<commentaire> commentairesListView;
     @FXML private TextArea nouveauCommentaireArea;
     @FXML private Label messageLabel;
+    private String source = "CONDUCTEUR";
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     private forumService forumService = new forumService();
     private int forumId;
@@ -189,8 +194,11 @@ public class CommentaireForumController {
 
     @FXML
     void retourListeAction(ActionEvent event) {
-        // ✅ MODIFIÉ: Retour à ListeForum dans l'onglet FORUM du Dashboard
-        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        }
     }
 
     private void showError(String msg) {

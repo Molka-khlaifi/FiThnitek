@@ -22,9 +22,13 @@ public class PostDetailsController {
     @FXML private Label vuesLabel;
     @FXML private Label statutLabel;
     @FXML private Label messageLabel;
+    private String source = "CONDUCTEUR";
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     private publication currentPost;
-    // retourFxml gardé pour compatibilité mais on navigue toujours dans FORUM
     private String retourFxml = "/ListeForum.fxml";
 
     public void setRetourFxml(String fxml) { this.retourFxml = fxml; }
@@ -61,8 +65,11 @@ public class PostDetailsController {
 
     @FXML
     void retourAction() {
-        // ✅ Retour dans le conteneur FORUM (retourFxml détermine quelle vue)
-        NavigationManager.navigateInTab("FORUM", retourFxml);
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", "/listeForum.fxml");
+        }
     }
 
     @FXML

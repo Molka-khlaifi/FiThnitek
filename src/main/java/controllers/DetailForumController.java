@@ -18,6 +18,11 @@ public class DetailForumController {
     @FXML private TextField categorieTextField;
     @FXML private TextField statutTextField;
     @FXML private Label     dateLabel;
+    private String source = "CONDUCTEUR";
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     private int forumId;
 
@@ -30,13 +35,19 @@ public class DetailForumController {
 
     @FXML
     void retourListeAction(ActionEvent event) {
-        // ✅ Naviguer dans le conteneur FORUM, pas changer la scène entière
-        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
-    }
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        }    }
 
     @FXML
     void retourAjouterAction(ActionEvent event) {
-        NavigationManager.navigateInTab("FORUM", "/AjouterForum.fxml");
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        }
     }
 
     @FXML

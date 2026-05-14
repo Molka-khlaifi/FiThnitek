@@ -3,13 +3,17 @@ package controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.SessionManager;
 import util.NavigationManager;
+import util.WeatherWidget;
+import util.TipOfTheDayWidget;
 
 import java.io.IOException;
 
@@ -34,11 +38,19 @@ public class ConducteurHomePageController {
     @FXML private Button btnForum;
     @FXML private Button btnRevenue;
     @FXML private Button btnReclamations;
+    @FXML private VBox sidebarVBox;
 
     private Button[] allButtons;
 
     @FXML
     public void initialize() {
+
+        WeatherWidget weather = new WeatherWidget();
+        TipOfTheDayWidget tip = new TipOfTheDayWidget();
+
+        sidebarVBox.getChildren().addAll(weather, tip);
+        VBox.setMargin(weather, new Insets(0, 0, 5, 0));
+        VBox.setMargin(tip,     new Insets(0, 0, 5, 0));
 
         // Afficher le nom de l'utilisateur
         if (SessionManager.isLoggedIn() && SessionManager.getCurrentUser() != null) {
@@ -81,7 +93,7 @@ public class ConducteurHomePageController {
 
         // Charger toutes les vues dans leurs conteneurs respectifs
         chargerVueParDefaut("PROFIL",       "/Profile.fxml");
-        chargerVueParDefaut("TRAJETS",      "/Trajets.fxml");
+        chargerVueParDefaut("TRAJETS",      "/dashboard.fxml");
         chargerVueParDefaut("VEHICULES",    "/Vehicules.fxml");
         chargerVueParDefaut("MAINTENANCE",  "/Maintenance.fxml");
         chargerVueParDefaut("FORUM",        "/ListeForum.fxml");

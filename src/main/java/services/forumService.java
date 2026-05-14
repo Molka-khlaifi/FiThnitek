@@ -21,76 +21,7 @@ public class forumService implements IService<publication> {
         this.con = DBConnection.getInstance().getConn();
     }
 
-    // ───────────────── TRADUCTION ─────────────────
-    public String traduireEnAnglais(String texte) {
-        try {
-            // Essai 1 : détection automatique
-            String resultat = essayerTraduction(texte, "autodetect|en");
-            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
-                return resultat;
-            }
-            // Essai 2 : français → anglais
-            resultat = essayerTraduction(texte, "fr|en");
-            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
-                return resultat;
-            }
-            // Essai 3 : arabe → anglais
-            resultat = essayerTraduction(texte, "ar|en");
-            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
-                return resultat;
-            }
-            return texte;
 
-        } catch (Exception e) {
-            System.out.println("Exception traduction : " + e.getMessage());
-            return texte;
-        }
-    }
-
-    private String essayerTraduction(String texte, String langpair) {
-        try {
-            String textEncode = java.net.URLEncoder.encode(texte, StandardCharsets.UTF_8);
-            String urlStr = TRANSLATE_URL + "?q=" + textEncode + "&langpair=" + langpair;
-
-            URL url = new URL(urlStr);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setConnectTimeout(5000);
-            conn.setReadTimeout(5000);
-
-            int status = conn.getResponseCode();
-            System.out.println("MyMemory [" + langpair + "] status : " + status);
-
-            if (status == 200) {
-                Scanner scanner = new Scanner(conn.getInputStream(), StandardCharsets.UTF_8);
-                StringBuilder response = new StringBuilder();
-                while (scanner.hasNextLine()) {
-                    response.append(scanner.nextLine());
-                }
-                scanner.close();
-
-                String json = response.toString();
-                System.out.println("Réponse [" + langpair + "] : " + json);
-
-                // Vérifier responseStatus dans le JSON
-                if (json.contains("\"responseStatus\":200") ||
-                        json.contains("\"responseStatus\": 200")) {
-
-                    String key = "\"translatedText\":\"";
-                    int start = json.indexOf(key) + key.length();
-                    int end = json.indexOf("\"", start);
-
-                    if (start > key.length() && end > start) {
-                        return json.substring(start, end);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Erreur essayerTraduction [" + langpair + "] : " + e.getMessage());
-        }
-        return null;
-    }
 
     // ───────────────── ADD ─────────────────
     @Override
@@ -178,6 +109,12 @@ public class forumService implements IService<publication> {
         }
         return list;
     }
+
+
+
+
+
+    //HEDHOUMA LES POSTES -------------------------------------------------------------------------------
 
     // ───────────────── GET BY AUTEUR ─────────────────
     public List<publication> getByAuteur(int auteurId) {
@@ -324,7 +261,84 @@ public class forumService implements IService<publication> {
         }
     }
 
-    // ───────────────── COMMENTAIRES ─────────────────
+    // ───────────────── TRADUCTION ─────────────────
+    public String traduireEnAnglais(String texte) {
+        try {
+            // Essai 1 : détection automatique
+            String resultat = essayerTraduction(texte, "autodetect|en");
+            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
+                return resultat;
+            }
+            // Essai 2 : français → anglais
+            resultat = essayerTraduction(texte, "fr|en");
+            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
+                return resultat;
+            }
+            // Essai 3 : arabe → anglais
+            resultat = essayerTraduction(texte, "ar|en");
+            if (resultat != null && !resultat.equalsIgnoreCase(texte)) {
+                return resultat;
+            }
+            return texte;
+
+        } catch (Exception e) {
+            System.out.println("Exception traduction : " + e.getMessage());
+            return texte;
+        }
+    }
+
+    private String essayerTraduction(String texte, String langpair) {
+        try {
+            String textEncode = java.net.URLEncoder.encode(texte, StandardCharsets.UTF_8);
+            String urlStr = TRANSLATE_URL + "?q=" + textEncode + "&langpair=" + langpair;
+
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+
+            int status = conn.getResponseCode();
+            System.out.println("MyMemory [" + langpair + "] status : " + status);
+
+            if (status == 200) {
+                Scanner scanner = new Scanner(conn.getInputStream(), StandardCharsets.UTF_8);
+                StringBuilder response = new StringBuilder();
+                while (scanner.hasNextLine()) {
+                    response.append(scanner.nextLine());
+                }
+                scanner.close();
+
+                String json = response.toString();
+                System.out.println("Réponse [" + langpair + "] : " + json);
+
+                // Vérifier responseStatus dans le JSON
+                if (json.contains("\"responseStatus\":200") ||
+                        json.contains("\"responseStatus\": 200")) {
+
+                    String key = "\"translatedText\":\"";
+                    int start = json.indexOf(key) + key.length();
+                    int end = json.indexOf("\"", start);
+
+                    if (start > key.length() && end > start) {
+                        return json.substring(start, end);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur essayerTraduction [" + langpair + "] : " + e.getMessage());
+        }
+        return null;
+    }
+
+
+
+
+
+
+    // hedhouma commentaires -------------------------------------------------
+
     public void addcommentaire(commentaire c) {
         String sql = "INSERT INTO commentaire (contenu, dateCommentaire, likes, publicationId, auteurId) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -440,6 +454,12 @@ public class forumService implements IService<publication> {
         return 0;
     }
 
+
+
+
+
+    //HEDHOUMA ACTIVITE ----------------------------------------------------------------------------------------------
+
     public int calculScore(int utilisateurId) {
         int posts = countPostsByutilisateur(utilisateurId);
         int commentaires = countCommentairesByutilisateur(utilisateurId);
@@ -473,5 +493,63 @@ public class forumService implements IService<publication> {
         );
         p.setImage(rs.getString("image"));
         return p;
+    }
+
+
+
+    // HEDHOUMA LEL ADMIN ---------------------------------------------------------------------------------------
+
+
+
+    // 1. Récupérer les posts par statut (masqué, supprimé, etc.)
+    public List<publication> getPostsByStatut(String statut) {
+        List<publication> list = new ArrayList<>();
+        String sql = "SELECT * FROM publication WHERE statut = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, statut);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapPublication(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getPostsByStatut: " + e.getMessage());
+        }
+        return list;
+    }
+
+    // 2. Masquer un post
+    public void masquerPost(int id) {
+        String sql = "UPDATE publication SET statut = 'masque' WHERE id = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur masquerPost: " + e.getMessage());
+        }
+    }
+
+    // 3. Restaurer un post
+    public void restaurerPost(int id) {
+        String sql = "UPDATE publication SET statut = 'ouvert' WHERE id = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur restaurerPost: " + e.getMessage());
+        }
+    }
+
+    public void changerStatut(int id, String statut) {
+        String sql = "UPDATE publication SET statut = ? WHERE id = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {  // ← Utilise la connexion existante
+            ps.setString(1, statut);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erreur changerStatut: " + e.getMessage());
+        }
     }
 }

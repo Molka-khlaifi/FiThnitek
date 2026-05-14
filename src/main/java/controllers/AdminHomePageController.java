@@ -4,91 +4,120 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import util.SessionManager;
+import util.NavigationManager;
 
 import java.io.IOException;
 
 public class AdminHomePageController {
 
-    @FXML private AnchorPane mainContainer;
     @FXML private Label nomUserLabel;
 
-    @FXML private Button btnUsers;
-    @FXML private Button btnVehicles;
-    @FXML private Button btnMaintenance;
-    @FXML private Button btnTrips;
-    @FXML private Button btnForum;
-    @FXML private Button btnClaims;
-    @FXML private Button btnRevenue;
-    @FXML private Button btnStats;
+    // Conteneurs des onglets
+    @FXML private AnchorPane profilContent;
+    @FXML private AnchorPane usersContent;
+    @FXML private AnchorPane vehiclesContent;
+    @FXML private AnchorPane maintenanceContent;
+    @FXML private AnchorPane tripsContent;
+    @FXML private AnchorPane forumContent;
+    @FXML private AnchorPane claimsContent;
+    @FXML private AnchorPane revenueContent;
+    @FXML private AnchorPane statsContent;
 
-    private Button[] allButtons;
+    @FXML private TabPane mainTabPane;
 
     @FXML
     public void initialize() {
-        if (SessionManager.isLoggedIn()) {
+        // Afficher le nom de l'utilisateur
+        if (SessionManager.isLoggedIn() && SessionManager.getCurrentUser() != null) {
             nomUserLabel.setText(
                     SessionManager.getCurrentUser().getNom() + " " +
                             SessionManager.getCurrentUser().getPrenom()
             );
         }
-        allButtons = new Button[]{btnUsers, btnVehicles, btnMaintenance,
-                btnTrips, btnForum, btnClaims, btnRevenue, btnStats};
-        // Vue par défaut : Réclamations (index 5)
-        setActive(btnClaims);
-        loadView("/Reclamations.fxml");
+
+        // Enregistrer les conteneurs dans le NavigationManager
+        NavigationManager.registerTabContainer("PROFIL", profilContent);
+        NavigationManager.registerTabContainer("USERS", usersContent);
+        NavigationManager.registerTabContainer("VEHICLES", vehiclesContent);
+        NavigationManager.registerTabContainer("TRIPS", tripsContent);
+        NavigationManager.registerTabContainer("FORUM", forumContent);
+        NavigationManager.registerTabContainer("CLAIMS", claimsContent);
+        NavigationManager.registerTabContainer("REVENUE", revenueContent);
+        NavigationManager.registerTabContainer("STATS", statsContent);
+
+        // Attendre que le nœud soit attaché à la scène
+        nomUserLabel.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                if (newScene.getWindow() instanceof Stage) {
+                    NavigationManager.setPrimaryStage((Stage) newScene.getWindow());
+                }
+                newScene.windowProperty().addListener((obs2, oldWin, newWin) -> {
+                    if (newWin instanceof Stage) {
+                        NavigationManager.setPrimaryStage((Stage) newWin);
+                    }
+                });
+            }
+        });
+
+        // Charger les vues par défaut
+        chargerVueParDefaut("USERS", "/AdminUsers.fxml");
+        chargerVueParDefaut("VEHICLES", "/AdminVehicles.fxml");
+        chargerVueParDefaut("TRIPS", "/AdminTrips.fxml");
+        chargerVueParDefaut("FORUM", "/ForumAdmin.fxml");
+        chargerVueParDefaut("CLAIMS", "/AdminClaims.fxml");
+        chargerVueParDefaut("REVENUE", "/AdminRevenue.fxml");
+        chargerVueParDefaut("STATS", "/AdminStats.fxml");
+        chargerVueParDefaut("PROFIL", "/AdminProfile.fxml");
+
+        // Onglet actif par défaut
+        selectTab("USERS");
     }
 
-    @FXML void showUsers()       { setActive(btnUsers);       loadView("/Users.fxml"); }
-    @FXML void showVehicles()    { setActive(btnVehicles);    loadView("/Vehicles.fxml"); }
-    @FXML void showMaintenance() { setActive(btnMaintenance); loadView("/Maintenance.fxml"); }
-    @FXML void showTrips()       { setActive(btnTrips);       loadView("/Trips.fxml"); }
-    @FXML void showForum()       { setActive(btnForum);       loadView("/AdminForumView.fxml"); }
-    @FXML void showClaims()      { setActive(btnClaims);      loadView("/Reclamations.fxml"); }
-    @FXML void showRevenue()     { setActive(btnRevenue);     loadView("/Revenue.fxml"); }
-    @FXML void showStats()       { setActive(btnStats);       loadView("/Stats.fxml"); }
-
-    private void setActive(Button btn) {
-        for (Button b : allButtons) {
-            b.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-text-fill: #B0B8D8;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-alignment: CENTER_LEFT;" +
-                            "-fx-padding: 0 0 0 20;" +
-                            "-fx-background-radius: 0;" +
-                            "-fx-cursor: hand;"
-            );
+    private void chargerVueParDefaut(String tabName, String fxmlPath) {
+        if (getClass().getResource(fxmlPath) != null) {
+            NavigationManager.navigateInTab(tabName, fxmlPath);
+        } else {
+            System.err.println("⚠️ Fichier FXML non trouvé: " + fxmlPath);
+            AnchorPane container = getContainerByName(tabName);
+            if (container != null) {
+                Label placeholder = new Label("⚙️  " + tabName + "\nContenu en cours de développement");
+                placeholder.setStyle("-fx-font-size: 15px; -fx-text-fill: #888; -fx-alignment: CENTER;");
+                AnchorPane.setTopAnchor(placeholder, 0.0);
+                AnchorPane.setBottomAnchor(placeholder, 0.0);
+                AnchorPane.setLeftAnchor(placeholder, 0.0);
+                AnchorPane.setRightAnchor(placeholder, 0.0);
+                container.getChildren().setAll(placeholder);
+            }
         }
-        btn.setStyle(
-                "-fx-background-color: #3D3D8A;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 13px;" +
-                        "-fx-alignment: CENTER_LEFT;" +
-                        "-fx-padding: 0 0 0 20;" +
-                        "-fx-background-radius: 0;" +
-                        "-fx-cursor: hand;"
-        );
     }
 
-    private void loadView(String fxmlPath) {
-        try {
-            Parent view = FXMLLoader.load(getClass().getResource(fxmlPath));
-            mainContainer.getChildren().setAll(view);
-            AnchorPane.setTopAnchor(view, 0.0);
-            AnchorPane.setBottomAnchor(view, 0.0);
-            AnchorPane.setLeftAnchor(view, 0.0);
-            AnchorPane.setRightAnchor(view, 0.0);
-        } catch (Exception e) {
-            System.out.println("Erreur chargement : " + fxmlPath);
-            e.printStackTrace();
+    private AnchorPane getContainerByName(String tabName) {
+        switch (tabName) {
+            case "PROFIL": return profilContent;
+            case "USERS": return usersContent;
+            case "VEHICLES": return vehiclesContent;
+            case "MAINTENANCE": return maintenanceContent;
+            case "TRIPS": return tripsContent;
+            case "FORUM": return forumContent;
+            case "CLAIMS": return claimsContent;
+            case "REVENUE": return revenueContent;
+            case "STATS": return statsContent;
+            default: return null;
+        }
+    }
+
+    private void selectTab(String tabName) {
+        if (mainTabPane == null) return;
+        for (Tab tab : mainTabPane.getTabs()) {
+            String text = tab.getText() != null ? tab.getText().toUpperCase() : "";
+            if (text.contains(tabName)) {
+                mainTabPane.getSelectionModel().select(tab);
+                break;
+            }
         }
     }
 
@@ -98,20 +127,23 @@ public class AdminHomePageController {
         alert.setTitle("Déconnexion");
         alert.setHeaderText("Voulez-vous vraiment vous déconnecter ?");
         alert.setContentText("Vous serez redirigé vers la page de connexion.");
-        alert.getDialogPane().setStyle("-fx-background-color: #F5F6FA; -fx-font-size: 13px;");
-        ButtonType btnOui = new ButtonType("Oui, déconnecter", ButtonBar.ButtonData.OK_DONE);
-        ButtonType btnNon = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(btnOui, btnNon);
+
+        ButtonType oui = new ButtonType("Oui", ButtonBar.ButtonData.OK_DONE);
+        ButtonType non = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(oui, non);
+
         alert.showAndWait().ifPresent(response -> {
-            if (response == btnOui) {
+            if (response == oui) {
                 SessionManager.logout();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
-                    Stage stage = (Stage) mainContainer.getScene().getWindow();
+                    Stage stage = (Stage) nomUserLabel.getScene().getWindow();
                     stage.setScene(new Scene(root));
-                    stage.setTitle("Fi Thnitek — Connexion");
+                    stage.setTitle("FiThnitek — Connexion");
                     stage.show();
-                } catch (IOException e) { e.printStackTrace(); }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

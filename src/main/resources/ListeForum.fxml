@@ -17,17 +17,17 @@
     <!-- ═══════════════════════════════ -->
 
     <top>
-        <VBox>
+        <VBox prefHeight="83.0" prefWidth="780.0">
 
             <!-- HEADER -->
-            <HBox alignment="CENTER_LEFT" prefHeight="62" style="-fx-background-color:#F5F6FA;                          -fx-border-color: #3D3D8A;                          -fx-border-width: 0 0 1 0;                          -fx-padding: 0 20 0 20;                          -fx-spacing: 10;">
+            <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="778.0" style="-fx-background-color: #F5F6FA;                          -fx-border-color: #3D3D8A;                          -fx-border-width: 0 0 1 0;                          -fx-padding: 0 20 0 20;                          -fx-spacing: 10;">
 
 
 
                 <!-- PAGE -->
-                <Label style="-fx-font-size: 16px;                               -fx-text-fill: ##3d3d8a;                               -fx-font-weight: bold;" text="— Forum" />
+                <Label prefHeight="26.0" prefWidth="119.0" style="-fx-font-size: 16px;                               -fx-text-fill: ##3d3d8a;                               -fx-font-weight: bold;" text="— Forum" />
 
-                <Region HBox.hgrow="ALWAYS" />
+                <Region prefHeight="25.0" prefWidth="315.0" HBox.hgrow="ALWAYS" />
 
                 <!-- STATS -->
                 <Label fx:id="statsLabel" style="-fx-text-fill: rgba(255,255,255,0.7);                               -fx-font-size: 12px;" text="0 posts" />
@@ -41,7 +41,7 @@
             </HBox>
 
             <!-- TOOLBAR -->
-            <HBox alignment="CENTER_LEFT" prefHeight="50" style="-fx-background-color:#F5F6FA;                          -fx-border-color: #DDE2F0;                          -fx-border-width: 0 0 1 0;                          -fx-padding: 0 20 0 20;                          -fx-spacing: 10;">
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="780.0" style="-fx-background-color: #F5F6FA;                          -fx-border-color: #DDE2F0;                          -fx-border-width: 0 0 1 0;                          -fx-padding: 0 20 0 20;                          -fx-spacing: 10;">
 
                 <!-- SEARCH -->
                 <TextField fx:id="searchTextField" onAction="#rechercherAction" prefHeight="33" prefWidth="235" promptText="🔍 Rechercher un post..." style="-fx-background-radius: 6;                                   -fx-border-radius: 6;                                   -fx-border-color: #DDE2F0;                                   -fx-border-width: 1;                                   -fx-background-color: white;                                   -fx-font-size: 13px;                                   -fx-padding: 0 10;" />
@@ -52,7 +52,7 @@
                 <Region HBox.hgrow="ALWAYS" />
 
                 <!-- SORT -->
-                <Label style="-fx-text-fill: #444;                               -fx-font-size: 12px;" text="Trier par :" />
+                <Label prefHeight="18.0" prefWidth="65.0" style="-fx-text-fill: #444;                               -fx-font-size: 12px;" text="Trier par :" />
 
                 <Button onAction="#trierParDateAction" prefHeight="32" prefWidth="95" style="-fx-background-color: #EEEDF8;                                -fx-text-fill: #2D2D6B;                                -fx-background-radius: 5;                                -fx-font-size: 12px;                                -fx-cursor: hand;" text="🕐 Récents" />
 
@@ -78,7 +78,7 @@
 
                 <content>
 
-                    <VBox fx:id="feedContainer" prefHeight="466.0" prefWidth="516.0" spacing="14" style="-fx-padding: 18; " />
+                    <VBox fx:id="feedContainer" prefHeight="487.0" prefWidth="528.0" spacing="14" style="-fx-padding: 18; " />
 
                 </content>
 

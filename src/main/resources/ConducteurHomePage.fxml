@@ -10,93 +10,62 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ConducteurHomePageController"
-            prefWidth="1100.0" prefHeight="700.0"
-            style="-fx-background-color: #F5F6FA;">
+<BorderPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: #F5F6FA;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConducteurHomePageController">
 
     <!-- TOP BAR -->
     <top>
-        <HBox prefHeight="62" alignment="CENTER_LEFT"
-              style="-fx-background-color: #2D2D6B">
-            <VBox alignment="CENTER_LEFT" spacing="1" style="-fx-padding: 0 0 0 20;">
-                <HBox spacing="5" alignment="CENTER_LEFT">
-                    <Label text="Fi"
-                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #9B8FD4;" />
-                    <Label text="Thnitek"
-                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2BBF8A;" />
+        <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="1101.0" style="-fx-background-color: #2D2D6B">
+            <VBox alignment="CENTER_LEFT" prefHeight="86.0" prefWidth="158.0" spacing="1" style="-fx-padding: 0 0 0 20;">
+                <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="314.0" spacing="5">
+                    <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #9B8FD4;" text="Fi" />
+                    <Label prefHeight="28.0" prefWidth="105.0" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2BBF8A;" text="Thnitek" />
                 </HBox>
-                <Label text="SMART CARPOOLING"
-                       style="-fx-font-size: 8px; -fx-text-fill: rgba(255,255,255,0.6);" />
+                <Label prefHeight="21.0" prefWidth="81.0" style="-fx-font-size: 8px; -fx-text-fill: rgba(255,255,255,0.6);" text="SMART CARPOOLING" />
             </VBox>
             <Region HBox.hgrow="ALWAYS" />
             <VBox alignment="CENTER_RIGHT" spacing="1" style="-fx-padding: 0 20 0 0;">
-                <Label fx:id="nomUserLabel" text="Nom Prénom"
-                       style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" />
-                <Label text="Conducteur"
-                       style="-fx-text-fill: #2BBF8A; -fx-font-size: 11px;" />
+                <Label fx:id="nomUserLabel" style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" text="Nom Prénom" />
+                <Label style="-fx-text-fill: #2BBF8A; -fx-font-size: 11px;" text="Conducteur" />
             </VBox>
-            <Button text="⏻  Déconnexion" onAction="#deconnecterAction"
-                    prefHeight="34"
-                    style="-fx-background-color: transparent;
-                           -fx-text-fill: #FF6B6B;
-                           -fx-font-size: 12px;
-                           -fx-font-weight: bold;
-                           -fx-border-color: #FF6B6B;
-                           -fx-border-width: 1;
-                           -fx-border-radius: 6;
-                           -fx-background-radius: 6;
-                           -fx-cursor: hand;
-                           -fx-padding: 0 14;" />
+            <Button onAction="#deconnecterAction" prefHeight="34" style="-fx-background-color: transparent;                            -fx-text-fill: #FF6B6B;                            -fx-font-size: 12px;                            -fx-font-weight: bold;                            -fx-border-color: #FF6B6B;                            -fx-border-width: 1;                            -fx-border-radius: 6;                            -fx-background-radius: 6;                            -fx-cursor: hand;                            -fx-padding: 0 14;" text="⏻  Déconnexion" />
         </HBox>
     </top>
 
     <!-- SIDEBAR + TABPANE -->
     <center>
-        <HBox>
+        <HBox prefHeight="610.0" prefWidth="1021.0">
             <!-- SIDEBAR GAUCHE -->
-            <VBox prefWidth="200" spacing="4"
-                  style="-fx-background-color: #2D2D6B;
-                         -fx-padding: 16 0 16 0;">
+            <VBox fx:id="sidebarVBox" prefHeight="601.0" prefWidth="131.0" spacing="4" style="-fx-background-color: #2D2D6B;                          -fx-padding: 16 0 16 0;">
 
-                <Region VBox.vgrow="ALWAYS" />
-                <Label text="Fi Thnitek v1.0"
-                       style="-fx-text-fill: #4A4A8A;
-                              -fx-font-size: 10px;
-                              -fx-padding: 16 0 12 16;" />
+                <Region prefHeight="490.0" prefWidth="104.0" VBox.vgrow="ALWAYS" />
+                <Label style="-fx-text-fill: #4A4A8A;                               -fx-font-size: 10px;                               -fx-padding: 16 0 12 16;" text="Fi Thnitek v1.0" />
             </VBox>
 
             <!-- TABPANE CENTRAL -->
-            <TabPane fx:id="mainTabPane"
-                     tabClosingPolicy="UNAVAILABLE"
-                     style="-fx-background-color: #F5F6FA;
-                            -fx-tab-min-height: 45px;
-                            -fx-tab-max-height: 45px;"
-                     HBox.hgrow="ALWAYS">
+            <TabPane fx:id="mainTabPane" prefHeight="638.0" prefWidth="951.0" style="-fx-background-color: #F5F6FA;                             -fx-tab-min-height: 45px;                             -fx-tab-max-height: 45px;" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
 
-                <Tab text="👤  PROFIL" closable="false" style="-fx-background-color: #F5F6FA">
-                    <AnchorPane fx:id="profilContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
+                <Tab closable="false" style="-fx-background-color: #F5F6FA" text="👤  PROFIL">
+                    <AnchorPane fx:id="profilContent" prefHeight="579.0" prefWidth="970.0" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
-                <Tab text="💰  REVENU" closable="false" style="-fx-background-color: #F5F6FA">
+                <Tab closable="false" style="-fx-background-color: #F5F6FA" text="💰  REVENU">
                     <AnchorPane fx:id="revenueContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
-                <Tab text="🛣  TRAJETS ET RESERVATION" closable="false" style="-fx-background-color: #F5F6FA">
+                <Tab closable="false" style="-fx-background-color: #F5F6FA" text="🛣  TRAJETS ET RESERVATION">
                     <AnchorPane fx:id="trajetsContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
-                <Tab text="🚗  VÉHICULES" closable="false" style="-fx-background-color: #F5F6FA">
+                <Tab closable="false" style="-fx-background-color: #F5F6FA" text="🚗  VÉHICULES">
                     <AnchorPane fx:id="vehiculesContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
 
-                <Tab text="⚠  RÉCLAMATIONS" closable="false" style="-fx-background-color: #F5F6FA">
+                <Tab closable="false" style="-fx-background-color: #F5F6FA" text="⚠  RÉCLAMATIONS">
                     <AnchorPane fx:id="reclamationsContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 
-                <Tab text="💬  FORUM" closable="false" style="-fx-background-color: #F5F6FA">
+                <Tab closable="false" style="-fx-background-color: #F5F6FA" text="💬  FORUM">
                     <AnchorPane fx:id="forumContent" style="-fx-background-color: #F5F6FA; -fx-padding: 20;" />
                 </Tab>
 

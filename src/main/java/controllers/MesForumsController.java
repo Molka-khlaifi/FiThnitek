@@ -22,6 +22,11 @@ public class MesForumsController {
     @FXML private Label statsLabel;
     @FXML private Label messageLabel;
     @FXML private VBox  feedContainer;
+    private String source = "CONDUCTEUR";
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     private final forumService forumService = new forumService();
     private List<publication> mesPosts;
@@ -103,19 +108,19 @@ public class MesForumsController {
 
             // ── Boutons ──
             Button commentairesBtn = new Button("💬 Commentaires");
-            commentairesBtn.setStyle("-fx-background-color: #2389c8; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+            commentairesBtn.setStyle("-fx-background-color: #F5F6FA; -fx-text-fill: #444; -fx-background-radius: 5; -fx-cursor: hand;");
             commentairesBtn.setOnAction(e -> ouvrirCommentaires(post));
 
             Button modifierBtn = new Button("✏ Modifier");
-            modifierBtn.setStyle("-fx-background-color: #3aa3e3; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+            modifierBtn.setStyle("-fx-background-color: #F5F6FA; -fx-text-fill: #444; -fx-background-radius: 5; -fx-cursor: hand;");
             modifierBtn.setOnAction(e -> modifierPost(post));
 
             Button supprimerBtn = new Button("🗑 Supprimer");
-            supprimerBtn.setStyle("-fx-background-color: #5bbcf5; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+            supprimerBtn.setStyle("-fx-background-color: #F5F6FA; -fx-text-fill: #444; -fx-background-radius: 5; -fx-cursor: hand;");
             supprimerBtn.setOnAction(e -> supprimerPost(post));
 
             Button epinglerBtn = new Button(post.isEpingle() ? "📌 Désépingler" : "📌 Épingler");
-            epinglerBtn.setStyle("-fx-background-color: #85d0ff; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+            epinglerBtn.setStyle("-fx-background-color: #F5F6FA; -fx-text-fill: #444; -fx-background-radius: 5; -fx-cursor: hand;");
             epinglerBtn.setOnAction(e -> {
                 forumService.toggleEpingle(post.getId());
                 messageLabel.setText("📌 Post mis à jour");

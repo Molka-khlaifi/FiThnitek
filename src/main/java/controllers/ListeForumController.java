@@ -17,9 +17,11 @@ import javafx.stage.Stage;
 import models.publication;
 import services.forumService;
 import util.NavigationManager;
+import util.SessionManager;
 
 import java.io.IOException;
 import java.util.List;
+
 
 public class ListeForumController {
 
@@ -29,6 +31,11 @@ public class ListeForumController {
     @FXML private Label messageLabel;
     @FXML private Button btnChatbot;
     @FXML private VBox feedContainer;
+    private String source = "CONDUCTEUR";
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     private forumService forumService = new forumService();
     private List<publication> publicationList;
@@ -301,14 +308,38 @@ public class ListeForumController {
 
     @FXML
     void ajouterAction(ActionEvent event) {
-        // ✅ Reste dans l'onglet FORUM du Dashboard
-        NavigationManager.navigateInTab("FORUM", "/AjouterForum.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterForum.fxml"));
+            Parent root = loader.load();
+
+            NavigationManager.loadIntoTab("FORUM", root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void mesPostsAction(ActionEvent event) {
-        // ✅ Reste dans l'onglet FORUM du Dashboard
-        NavigationManager.navigateInTab("FORUM", "/MesForums.fxml");
+        try {
+            System.out.println("🔍 Chargement de MesForums.fxml...");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MesForums.fxml"));
+            Parent root = loader.load();
+            System.out.println("✅ MesForums.fxml chargé avec succès");
+
+            MesForumsController controller = loader.getController();
+
+            if (SessionManager.getCurrentUser() != null &&
+                    "ADMIN".equals(SessionManager.getCurrentUser().getRole())) {
+                controller.setSource("ADMIN");
+            }
+
+            NavigationManager.loadIntoTab("FORUM", root);
+
+        } catch (IOException e) {
+            System.err.println("❌ Erreur: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // ───────── DETAILS POST (MODIFIÉ) ─────────
@@ -325,10 +356,8 @@ public class ListeForumController {
             controller.setPost(fresh);
 
             // Remplacer le contenu du conteneur FORUM
-            NavigationManager.navigateInTab("FORUM", "/PostDetails.fxml");
+            NavigationManager.loadIntoTab("FORUM", root);
 
-            // Passer le post au contrôleur après navigation
-            // Alternative: passer via une méthode statique ou singleton
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -345,31 +374,40 @@ public class ListeForumController {
             ctrl.initData(post.getId(), post.getTitre());
 
             // ✅ Reste dans l'onglet FORUM du Dashboard
-            NavigationManager.navigateInTab("FORUM", "/CommentaireForum.fxml");
+            NavigationManager.loadIntoTab("FORUM", root);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // ───────── PROFIL AUTEUR (MODIFIÉ) ─────────
+    // ───────── PROFIL AUTEUR ────────
 
     private void ouvrirProfil(publication post, String nomAuteur) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilAuteur.fxml"));
             Parent root = loader.load();
             ProfilAuteurController ctrl = loader.getController();
+
             ctrl.initData(post.getAuteurId(), nomAuteur, "/ListeForum.fxml");
 
-            // ✅ Reste dans l'onglet FORUM du Dashboard
-            NavigationManager.navigateInTab("FORUM", "/ProfilAuteur.fxml");
+            // ✅ Vérifier si l'utilisateur est Admin
+            if (SessionManager.getCurrentUser() != null &&
+                    "ADMIN".equals(SessionManager.getCurrentUser().getRole())) {
+                ctrl.setSource("ADMIN");
+                System.out.println("🔍 Profil ouvert en mode ADMIN");
+            }
+
+            NavigationManager.loadIntoTab("FORUM", root);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    // ───────── CHATBOT (garde en fenêtre modale) ─────────
+
+    // ───────── CHATBOT  ─────────
 
     @FXML
     void openChatbot() {

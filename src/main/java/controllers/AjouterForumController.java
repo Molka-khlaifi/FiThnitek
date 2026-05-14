@@ -25,6 +25,9 @@ import util.NavigationManager;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+
+
+
 public class AjouterForumController {
 
     @FXML private TextField imagePathTextField;
@@ -36,6 +39,11 @@ public class AjouterForumController {
     @FXML private ComboBox<String> statutComboBox;
     @FXML private Label            erreurLabel;
     @FXML private Label            compteurLabel;
+    private String source = "CONDUCTEUR";
+    public void setSource(String source) {
+        this.source = source;
+    }
+
 
     @FXML
     public void initialize() {
@@ -119,9 +127,11 @@ public class AjouterForumController {
         try {
             forumService.add(pub);
 
-            // ✅ MODIFIÉ: Retour à ListeForum dans l'onglet FORUM du Dashboard
-            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
-
+            if ("ADMIN".equals(source)) {
+                NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+            } else {
+                NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+            }
             // Afficher un message de succès
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Succès");
@@ -137,8 +147,11 @@ public class AjouterForumController {
 
     @FXML
     void voirListeAction(ActionEvent event) {
-        // ✅ MODIFIÉ: Retour à ListeForum dans l'onglet FORUM
-        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        }
     }
 
     @FXML
@@ -152,8 +165,11 @@ public class AjouterForumController {
         imagePreview.setImage(null);
         erreurLabel.setText("");
 
-        // ✅ Retour à ListeForum
-        NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", "/ListeForum.fxml");
+        }
     }
 
     @FXML

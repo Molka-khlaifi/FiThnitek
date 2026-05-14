@@ -1,8 +1,6 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -10,8 +8,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import models.publication;
 import services.forumService;
+import util.NavigationManager;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ProfilAuteurController {
@@ -25,11 +23,18 @@ public class ProfilAuteurController {
     private forumService forumService = new forumService();
     private String retourFxml = "/ListeForum.fxml";
 
+    // ✅ AJOUT : Variable pour la source
+    private String source = "CONDUCTEUR";
+
     // ───────── INIT ─────────
 
     public void initData(int auteurId, String nomAuteur, String retourFxml) {
         this.retourFxml = retourFxml;
         initData(auteurId, nomAuteur);
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public void initData(int auteurId, String nomAuteur) {
@@ -141,15 +146,14 @@ public class ProfilAuteurController {
         }
     }
 
-    // ───────── RETOUR ─────────
+    // ───────── RETOUR  ─────────
 
     @FXML
     void retourAction() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(retourFxml));
-            postsContainer.getScene().setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if ("ADMIN".equals(source)) {
+            NavigationManager.navigateInTab("FORUM", "/ForumAdmin.fxml");
+        } else {
+            NavigationManager.navigateInTab("FORUM", retourFxml);
         }
     }
 }
