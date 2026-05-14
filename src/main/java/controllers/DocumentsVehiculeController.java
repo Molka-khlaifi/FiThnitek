@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import models.DocumentVehicule;
 import models.Vehicule;
 import services.DocumentVehiculeService;
+import services.OcrService;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
@@ -33,6 +35,8 @@ public class DocumentsVehiculeController {
     private VBox documentsCardsPane;
 
     private final DocumentVehiculeService documentVehiculeService = new DocumentVehiculeService();
+
+    private final OcrService ocrService = new OcrService();
 
     private Vehicule vehiculeActuel;
 
@@ -304,13 +308,108 @@ public class DocumentsVehiculeController {
     }
 
     private void scannerOcrAction(DocumentVehicule document) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Scanner OCR");
-        alert.setHeaderText("Reconnaissance de caract\u00e8res");
-        alert.setContentText(
-                "OCR bient\u00f4t disponible pour ce document.\n" +
-                        "Fichier : " + texteAffichage(document.getCheminFichier())
-        );
+        File fichier = obtenirFichierDocument(document.getCheminFichier());
+
+        if (fichier == null || !fichier.exists() || !fichier.isFile()) {
+            afficherAlerte(
+                    Alert.AlertType.ERROR,
+                    "Scanner OCR",
+                    "Fichier introuvable",
+                    "Impossible de trouver le fichier du document.\nFichier : " + texteAffichage(document.getCheminFichier())
+            );
+            return;
+        }
+
+        if (estPdf(document.getCheminFichier())) {
+            afficherAlerte(
+                    Alert.AlertType.INFORMATION,
+                    "Scanner OCR",
+                    "OCR PDF",
+                    "L'OCR des fichiers PDF sera ajout\u00e9 plus tard.\nFichier : " + fichier.getPath()
+            );
+            return;
+        }
+
+        if (!estImage(document.getCheminFichier())) {
+            afficherAlerte(
+                    Alert.AlertType.ERROR,
+                    "Scanner OCR",
+                    "Format non support\u00e9",
+                    "Phase 2 supporte uniquement les images .jpg, .jpeg et .png.\nFichier : " + fichier.getPath()
+            );
+            return;
+        }
+
+        messageLabel.setText("Analyse OCR en cours...");
+
+        Task<OcrService.OcrResult> ocrTask = new Task<>() {
+            @Override
+            protected OcrService.OcrResult call() throws Exception {
+                return ocrService.scannerImage(fichier, document.getTypeDocument());
+            }
+        };
+
+        ocrTask.setOnSucceeded(event -> {
+            messageLabel.setText("OCR termin\u00e9 pour " + texteAffichage(document.getNomFichier()) + ".");
+            afficherAlerte(
+                    Alert.AlertType.INFORMATION,
+                    "Scanner OCR",
+                    "R\u00e9sultat OCR",
+                    ocrTask.getValue().toDisplayText()
+            );
+        });
+
+        ocrTask.setOnFailed(event -> {
+            Throwable exception = ocrTask.getException();
+
+            if (exception instanceof OcrService.MissingApiKeyException) {
+                messageLabel.setText("Cl\u00e9 API Gemini manquante.");
+                afficherAlerte(
+                        Alert.AlertType.WARNING,
+                        "Scanner OCR",
+                        "Configuration Gemini manquante",
+                        exception.getMessage()
+                );
+            } else {
+                String message = exception == null ? "Erreur OCR inconnue." : exception.getMessage();
+                messageLabel.setText("Erreur pendant l'analyse OCR.");
+                afficherAlerte(
+                        Alert.AlertType.ERROR,
+                        "Scanner OCR",
+                        "Erreur OCR",
+                        message
+                );
+            }
+        });
+
+        Thread thread = new Thread(ocrTask);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private File obtenirFichierDocument(String cheminFichier) {
+        if (cheminFichier == null || cheminFichier.trim().isEmpty()) {
+            return null;
+        }
+
+        File fichier = new File(cheminFichier);
+
+        if (!fichier.isAbsolute()) {
+            fichier = new File(System.getProperty("user.dir"), cheminFichier);
+        }
+
+        return fichier;
+    }
+
+    private boolean estPdf(String cheminFichier) {
+        return cheminFichier != null && cheminFichier.toLowerCase().endsWith(".pdf");
+    }
+
+    private void afficherAlerte(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
