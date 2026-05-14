@@ -3,50 +3,73 @@
         <?import javafx.scene.control.*?>
         <?import javafx.scene.layout.*?>
 
-<VBox spacing="12" xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.ReponseReclamationController"
-      style="-fx-padding: 20px; -fx-background-color: #f9f9f9;">
+<AnchorPane
+xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controllers.ReponseReclamationController"
+prefWidth="580" prefHeight="600"
+style="-fx-background-image: url('/BACKGROUND.png');
+               -fx-background-size: cover;
+               -fx-background-position: center;">
 
-<Label text="Répondre à une Réclamation"
-       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+<VBox spacing="14"
+      AnchorPane.topAnchor="25"
+      AnchorPane.bottomAnchor="25"
+      AnchorPane.leftAnchor="25"
+      AnchorPane.rightAnchor="25"
+      style="-fx-background-color: rgba(255,255,255,0.82);
+                 -fx-background-radius: 16;
+                 -fx-padding: 25px;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 4);">
 
-<Label fx:id="lblReclamation"
-       style="-fx-font-size: 13px; -fx-font-style: italic; -fx-text-fill: #555;"/>
+    <Label text="Répondre à une Réclamation"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
 
-<TextArea fx:id="txtReponse"
-          promptText="Votre réponse..."
-          prefHeight="120"
-          style="-fx-padding: 8px;"/>
+    <Label fx:id="lblReclamation"
+           style="-fx-font-size: 13px; -fx-font-style: italic; -fx-text-fill: #555;"/>
 
-<Button text="Envoyer la Réponse"
-        onAction="#envoyerReponse"
-        prefWidth="350"
-        style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+    <TextArea fx:id="txtReponse"
+              promptText="Votre réponse..."
+              prefHeight="110"
+              style="-fx-background-radius: 6; -fx-border-radius: 6;
+                         -fx-border-color: #ddd; -fx-border-width: 1;
+                         -fx-background-color: white; -fx-padding: 8px;"/>
 
-<Label fx:id="lblMessage" style="-fx-font-size: 13px;"/>
+    <Button text="Envoyer la Réponse"
+            onAction="#envoyerReponse"
+            prefWidth="350"
+            style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-font-weight: bold;
+                       -fx-padding: 8px; -fx-background-radius: 7; -fx-cursor: hand;"/>
 
-<Separator/>
+    <Label fx:id="lblMessage" style="-fx-font-size: 12px;"/>
 
-<Label text="Réponses existantes"
-       style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+    <Separator/>
 
-<TableView fx:id="tableReponses" prefHeight="200">
-    <columns>
-        <TableColumn fx:id="colIdRec"   text="ID Réclamation" prefWidth="120"/>
-        <TableColumn fx:id="colMessage" text="Message"        prefWidth="250"/>
-        <TableColumn fx:id="colDate"    text="Date"           prefWidth="150"/>
-    </columns>
-</TableView>
+    <Label text="Réponses existantes"
+           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
 
-<Separator/>
+    <TableView fx:id="tableReponses" prefHeight="185">
+        <columns>
+            <TableColumn fx:id="colIdRec"   text="ID Réclamation" prefWidth="120"/>
+            <TableColumn fx:id="colMessage" text="Message"        prefWidth="250"/>
+            <TableColumn fx:id="colDate"    text="Date"           prefWidth="150"/>
+        </columns>
+    </TableView>
 
-<!-- Bouton retour vers la liste -->
-<Button text="Retour à la Liste"
-        onAction="#retourListe"
-        prefWidth="350"
-        style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8px; -fx-cursor: hand;"/>
+    <Separator/>
+
+    <Button text="&#8592; Retour à la Liste"
+            onAction="#retourListe"
+            prefWidth="350"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 8px;
+                       -fx-background-radius: 7; -fx-cursor: hand;"/>
 
 </VBox>
+
+</AnchorPane>
+
+
 
 

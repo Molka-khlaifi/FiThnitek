@@ -4,11 +4,8 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.*;
+        import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.ReponseReclamation;
 import services.ReponseReclamationService;
@@ -59,7 +56,7 @@ public class ReponseReclamationController {
 
         ReponseReclamation r = new ReponseReclamation(
                 idReclamation,
-                1, // id admin
+                1,
                 txtReponse.getText()
         );
 
@@ -72,20 +69,22 @@ public class ReponseReclamationController {
         chargerReponses();
     }
 
-    // ✅ Retour vers la liste des réclamations
+    // ✅ Retour vers la liste admin (au lieu de l'ancien ListeReclamation.fxml)
     @FXML
     public void retourListe() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/ListeReclamation.fxml")
+                    getClass().getResource("/views/ListeReclamationAdmin.fxml")
             );
             Stage stage = (Stage) txtReponse.getScene().getWindow();
             stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Liste des Réclamations");
+            stage.setTitle("Administration — Liste des Réclamations");
         } catch (Exception e) {
             lblMessage.setText("Erreur navigation : " + e.getMessage());
             e.printStackTrace();
         }
     }
 }
+
+
 

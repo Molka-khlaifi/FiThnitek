@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<AnchorPane
+xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controllers.ListeReclamationUserController"
+prefWidth="640" prefHeight="560"
+style="-fx-background-image: url('/BACKGROUND.png');
+               -fx-background-size: cover;
+               -fx-background-position: center;">
+
+<VBox spacing="14"
+      AnchorPane.topAnchor="25"
+      AnchorPane.bottomAnchor="25"
+      AnchorPane.leftAnchor="25"
+      AnchorPane.rightAnchor="25"
+      style="-fx-background-color: rgba(255,255,255,0.82);
+                 -fx-background-radius: 16;
+                 -fx-padding: 25px;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 4);">
+
+    <Label text="Mes Réclamations"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <TableView fx:id="tableReclamations" prefHeight="370">
+        <columns>
+            <TableColumn fx:id="colId"      text="ID"      prefWidth="50"/>
+            <TableColumn fx:id="colObjet"   text="Objet"   prefWidth="200"/>
+            <TableColumn fx:id="colType"    text="Type"    prefWidth="110"/>
+            <TableColumn fx:id="colUrgence" text="Urgence" prefWidth="90"/>
+            <TableColumn fx:id="colEtat"    text="État"    prefWidth="110"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="lblInfo" style="-fx-font-size: 12px;"/>
+
+    <HBox spacing="15" alignment="CENTER">
+
+        <Button text="+ Ajouter une réclamation"
+                onAction="#allerVersAjouter"
+                prefWidth="230"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold;
+                           -fx-padding: 9px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Button text="Supprimer"
+                onAction="#supprimerReclamation"
+                prefWidth="150"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold;
+                           -fx-padding: 9px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+    </HBox>
+
+</VBox>
+
+</AnchorPane>
+
+
