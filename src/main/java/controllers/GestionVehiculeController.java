@@ -400,8 +400,18 @@ public class GestionVehiculeController {
 
     @FXML
     private void maintenanceAction() {
+        if (vehiculeSelectionne == null) {
+            messageLabel.setText("Veuillez s\u00e9lectionner un v\u00e9hicule pour voir sa maintenance.");
+            return;
+        }
+
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Maintenance.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Maintenance.fxml"));
+            Parent root = loader.load();
+
+            MaintenanceController controller = loader.getController();
+            controller.setVehicule(vehiculeSelectionne);
+
             messageLabel.getScene().setRoot(root);
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture de la page Maintenance.");

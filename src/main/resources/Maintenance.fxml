@@ -54,7 +54,8 @@
                          -fx-padding: 10 12 10 12;">
                 <Label text="Rappels actifs"
                        style="-fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.86);" />
-                <Label text="4"
+                <Label fx:id="rappelsActifsLabel"
+                       text="0"
                        style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" />
             </VBox>
 
@@ -66,7 +67,8 @@
                          -fx-padding: 10 12 10 12;">
                 <Label text="Alertes proches"
                        style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
-                <Label text="2"
+                <Label fx:id="alertesProchesLabel"
+                       text="0"
                        style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
             </VBox>
 
@@ -78,7 +80,8 @@
                          -fx-padding: 10 12 10 12;">
                 <Label text="Prochaine action"
                        style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
-                <Label text="Vidange"
+                <Label fx:id="prochaineActionLabel"
+                       text="Aucune"
                        style="-fx-font-size: 19px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
             </VBox>
         </HBox>
@@ -88,11 +91,13 @@
                   style="-fx-background-color: #f8fafc; -fx-background-radius: 18; -fx-border-color: #e5e7eb; -fx-border-radius: 18; -fx-padding: 12;">
                 <HBox spacing="8.0">
                     <Label text="&#x1F6E2;" style="-fx-font-size: 22px;" />
-                    <Label text="Vidange bient&#244;t" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+                    <Label fx:id="vidangeTitleLabel" text="Vidange" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
                 </HBox>
-                <Label text="Vidange recommand&#233;e dans 10 km."
+                <Label fx:id="vidangeDescriptionLabel"
+                       text="S&#233;lectionnez un v&#233;hicule pour afficher le suivi."
                        wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
-                <Label text="Bient&#244;t"
+                <Label fx:id="vidangeBadgeLabel"
+                       text="En attente"
                        style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
             </VBox>
 
@@ -102,9 +107,11 @@
                     <Label text="&#x1F6E1;" style="-fx-font-size: 22px;" />
                     <Label text="Assurance &#224; renouveler" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
                 </HBox>
-                <Label text="Pr&#233;parer le renouvellement de l'assurance avant expiration."
+                <Label fx:id="assuranceDescriptionLabel"
+                       text="Date d'assurance non charg&#233;e."
                        wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
-                <Label text="&#192; surveiller"
+                <Label fx:id="assuranceBadgeLabel"
+                       text="En attente"
                        style="-fx-background-color: #6762ef; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
             </VBox>
         </HBox>
@@ -116,9 +123,11 @@
                     <Label text="&#x1F50D;" style="-fx-font-size: 22px;" />
                     <Label text="Visite technique proche" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
                 </HBox>
-                <Label text="Planifier le prochain contr&#244;le technique du v&#233;hicule."
+                <Label fx:id="visiteDescriptionLabel"
+                       text="Date de visite technique non charg&#233;e."
                        wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
-                <Label text="Bient&#244;t"
+                <Label fx:id="visiteBadgeLabel"
+                       text="En attente"
                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
             </VBox>
 
@@ -128,9 +137,11 @@
                     <Label text="&#x1F3F7;" style="-fx-font-size: 22px;" />
                     <Label text="Vignette &#224; v&#233;rifier" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
                 </HBox>
-                <Label text="V&#233;rifier la validit&#233; de la vignette et des taxes."
+                <Label fx:id="vignetteDescriptionLabel"
+                       text="Date de vignette non charg&#233;e."
                        wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
-                <Label text="&#192; v&#233;rifier"
+                <Label fx:id="vignetteBadgeLabel"
+                       text="En attente"
                        style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
             </VBox>
         </HBox>
