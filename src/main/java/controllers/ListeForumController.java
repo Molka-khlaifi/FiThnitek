@@ -231,8 +231,8 @@ public class ListeForumController {
             // ───────── BOUTON COMMENTAIRES ─────────
             Button commentairesBtn = new Button("💬 Commentaires");
             commentairesBtn.setStyle(
-                    "-fx-background-color: #4bcad6;" +
-                            "-fx-text-fill: white;" +
+                    "-fx-background-color: #F5F6FA;" +
+                            "-fx-text-fill: #085041;" +
                             "-fx-background-radius: 5;" +
                             "-fx-cursor: hand;"
             );

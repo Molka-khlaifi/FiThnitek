@@ -12,7 +12,7 @@
 <BorderPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #F5F6FA;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PostDetailsController">
 
     <top>
-        <HBox alignment="CENTER_LEFT" prefHeight="56" style="-fx-background-image: url('/BACKGROUND.png');            -fx-background-size: cover;            -fx-background-position: center;            -fx-border-color: #DDE2F0;            -fx-border-width: 0 0 1 0;            -fx-padding: 0 20 0 20;            -fx-spacing: 10;">
+        <HBox alignment="CENTER_LEFT" prefHeight="56" style="-fx-background-color: #F5F6FA;            -fx-background-size: cover;            -fx-background-position: center;            -fx-border-color: #DDE2F0;            -fx-border-width: 0 0 1 0;            -fx-padding: 0 20 0 20;            -fx-spacing: 10;">
             <Button onAction="#retourAction" prefHeight="30" prefWidth="90" style="-fx-background-color: #3D3D8A; -fx-text-fill: #C0C8F0;                        -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px;                        -fx-border-color: #5B5BAA; -fx-border-width: 1; -fx-border-radius: 6;" text="← Retour" />
             <Label style="-fx-font-size: 14px; -fx-text-fill: #B0B8D8;" text="— Détails du Post" />
         </HBox>

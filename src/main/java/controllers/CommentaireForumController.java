@@ -2,9 +2,7 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
@@ -13,8 +11,6 @@ import services.forumService;
 import util.SessionManager;
 import util.ModerationContenu;
 import util.NavigationManager;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
