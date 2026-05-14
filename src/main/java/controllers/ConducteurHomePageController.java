@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -12,8 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.SessionManager;
 import util.NavigationManager;
-import util.WeatherWidget;
-import util.TipOfTheDayWidget;
 
 import java.io.IOException;
 
@@ -45,12 +42,6 @@ public class ConducteurHomePageController {
     @FXML
     public void initialize() {
 
-        WeatherWidget weather = new WeatherWidget();
-        TipOfTheDayWidget tip = new TipOfTheDayWidget();
-
-        sidebarVBox.getChildren().addAll(weather, tip);
-        VBox.setMargin(weather, new Insets(0, 0, 5, 0));
-        VBox.setMargin(tip,     new Insets(0, 0, 5, 0));
 
         // Afficher le nom de l'utilisateur
         if (SessionManager.isLoggedIn() && SessionManager.getCurrentUser() != null) {
