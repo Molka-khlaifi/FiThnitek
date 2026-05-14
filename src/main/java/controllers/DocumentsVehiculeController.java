@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DocumentsVehiculeController {
 
@@ -41,6 +43,8 @@ public class DocumentsVehiculeController {
     private Vehicule vehiculeActuel;
 
     private DocumentVehicule documentSelectionne;
+
+    private final Set<Integer> documentsScannesOcr = new HashSet<>();
 
     @FXML
     public void initialize() {
@@ -149,9 +153,11 @@ public class DocumentsVehiculeController {
         HBox ocrLine = new HBox(8);
         ocrLine.setAlignment(Pos.CENTER_LEFT);
 
-        Label ocrBadge = creerBadge("OCR : Non scanné", "#7f8c8d");
-        Label ocrHint = new Label("Reconnaissance automatique à ajouter plus tard");
-        ocrHint.setStyle("-fx-font-size: 11px; -fx-text-fill: #888;");
+        boolean ocrScanne = documentsScannesOcr.contains(document.getIdDocument());
+        Label ocrBadge = creerBadge(
+                ocrScanne ? "OCR : Scanné" : "OCR : Non scanné",
+                ocrScanne ? "#27ae60" : "#7f8c8d"
+        );
 
         Button scannerOcrButton = new Button("Scanner OCR");
         scannerOcrButton.setStyle(
@@ -168,7 +174,7 @@ public class DocumentsVehiculeController {
             scannerOcrAction(document);
         });
 
-        ocrLine.getChildren().addAll(ocrBadge, ocrHint, scannerOcrButton);
+        ocrLine.getChildren().addAll(ocrBadge, scannerOcrButton);
 
         infosBox.getChildren().addAll(
                 titleLine,
@@ -350,6 +356,7 @@ public class DocumentsVehiculeController {
         };
 
         ocrTask.setOnSucceeded(event -> {
+            documentsScannesOcr.add(document.getIdDocument());
             messageLabel.setText("OCR termin\u00e9 pour " + texteAffichage(document.getNomFichier()) + ".");
             afficherAlerte(
                     Alert.AlertType.INFORMATION,
@@ -357,6 +364,7 @@ public class DocumentsVehiculeController {
                     "R\u00e9sultat OCR",
                     ocrTask.getValue().toDisplayText()
             );
+            chargerDocuments();
         });
 
         ocrTask.setOnFailed(event -> {

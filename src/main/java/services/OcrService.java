@@ -51,12 +51,7 @@ public class OcrService {
                 throw new OcrException("Gemini n'a retourn\u00e9 aucun texte exploitable.");
             }
 
-            return new OcrResult(
-                    texteExtrait,
-                    detecterImmatriculation(texteExtrait),
-                    detecterDateExpiration(texteExtrait),
-                    formaterTypeDocument(typeDocument)
-            );
+            return parserResultatJson(texteExtrait, typeDocument);
         } catch (IOException e) {
             throw new OcrException("Impossible de lire ou envoyer le fichier OCR : " + e.getMessage(), e);
         } catch (InterruptedException e) {
@@ -68,13 +63,12 @@ public class OcrService {
     private String construirePrompt(String typeDocument) {
         return "Extract useful vehicle document information from this image. " +
                 "Document type selected in the app: " + formaterTypeDocument(typeDocument) + ". " +
-                "Return concise structured text in French with:\\n" +
-                "- Type document\\n" +
-                "- Immatriculation\\n" +
-                "- Date expiration\\n" +
-                "- Nom propri\u00e9taire if visible\\n" +
-                "- R\u00e9sum\u00e9 texte extrait\\n" +
-                "If a field is not visible, return \"Non d\u00e9tect\u00e9\".";
+                "Return ONLY valid JSON text. Do not wrap it in markdown. Do not add explanations before or after the JSON. " +
+                "Use exactly these JSON keys: " +
+                "typeDocument, immatriculation, dateExpiration, nomProprietaire, constructeur, dateMiseEnCirculation, resumeTexteExtrait. " +
+                "If a field is not visible, return \"Non d\u00e9tect\u00e9\". " +
+                "For CARTE_GRISE, dateExpiration can be \"Non d\u00e9tect\u00e9\". " +
+                "The JSON values must be concise French strings.";
     }
 
     private String construireRequestBody(String prompt, String mimeType, String base64Image) {
@@ -258,24 +252,101 @@ public class OcrService {
         return builder.toString();
     }
 
+    private OcrResult parserResultatJson(String texteGemini, String selectedTypeDocument) {
+        String json = nettoyerJsonGemini(texteGemini);
+        String typeDocument = valeurJson(json, "typeDocument");
+
+        if (estNonDetecte(typeDocument)) {
+            typeDocument = formaterTypeDocument(selectedTypeDocument);
+        }
+
+        return new OcrResult(
+                valeurJson(json, "immatriculation"),
+                valeurJson(json, "dateExpiration"),
+                typeDocument,
+                valeurJson(json, "nomProprietaire"),
+                valeurJson(json, "constructeur"),
+                valeurJson(json, "dateMiseEnCirculation"),
+                valeurJson(json, "resumeTexteExtrait")
+        );
+    }
+
+    private String nettoyerJsonGemini(String texteGemini) {
+        if (texteGemini == null) {
+            return "{}";
+        }
+
+        String nettoye = texteGemini.trim();
+
+        if (nettoye.startsWith("```")) {
+            nettoye = nettoye.replaceFirst("^```(?:json|JSON)?\\s*", "");
+            nettoye = nettoye.replaceFirst("\\s*```$", "");
+        }
+
+        int debut = nettoye.indexOf('{');
+        int fin = nettoye.lastIndexOf('}');
+
+        if (debut >= 0 && fin > debut) {
+            return nettoye.substring(debut, fin + 1);
+        }
+
+        return nettoye;
+    }
+
+    private String valeurJson(String json, String key) {
+        Pattern pattern = Pattern.compile("\"" + Pattern.quote(key) + "\"\\s*:\\s*\"((?:\\\\.|[^\"])*)\"", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(json);
+
+        if (matcher.find()) {
+            String valeur = jsonUnescape(matcher.group(1)).trim();
+            return valeur.isEmpty() ? "Non d\u00e9tect\u00e9" : valeur;
+        }
+
+        return "Non d\u00e9tect\u00e9";
+    }
+
+    private boolean estNonDetecte(String valeur) {
+        return valeur == null
+                || valeur.trim().isEmpty()
+                || "Non d\u00e9tect\u00e9".equalsIgnoreCase(valeur.trim());
+    }
+
     public static class OcrResult {
-        private final String texteBrut;
         private final String immatriculation;
         private final String dateExpiration;
         private final String typeDocument;
+        private final String nomProprietaire;
+        private final String constructeur;
+        private final String dateMiseEnCirculation;
+        private final String resumeTexteExtrait;
 
-        public OcrResult(String texteBrut, String immatriculation, String dateExpiration, String typeDocument) {
-            this.texteBrut = texteBrut;
+        public OcrResult(
+                String immatriculation,
+                String dateExpiration,
+                String typeDocument,
+                String nomProprietaire,
+                String constructeur,
+                String dateMiseEnCirculation,
+                String resumeTexteExtrait
+        ) {
             this.immatriculation = immatriculation;
             this.dateExpiration = dateExpiration;
             this.typeDocument = typeDocument;
+            this.nomProprietaire = nomProprietaire;
+            this.constructeur = constructeur;
+            this.dateMiseEnCirculation = dateMiseEnCirculation;
+            this.resumeTexteExtrait = resumeTexteExtrait;
         }
 
         public String toDisplayText() {
-            return "Type document : " + typeDocument + "\n" +
+            return "R\u00e9sultat OCR\n\n" +
+                    "Type document : " + typeDocument + "\n" +
                     "Immatriculation : " + immatriculation + "\n" +
-                    "Date expiration : " + dateExpiration + "\n\n" +
-                    "Texte extrait :\n" + texteBrut;
+                    "Date expiration : " + dateExpiration + "\n" +
+                    "Nom propri\u00e9taire : " + nomProprietaire + "\n" +
+                    "Constructeur : " + constructeur + "\n" +
+                    "Date mise en circulation : " + dateMiseEnCirculation + "\n\n" +
+                    "R\u00e9sum\u00e9 :\n" + resumeTexteExtrait;
         }
     }
 
