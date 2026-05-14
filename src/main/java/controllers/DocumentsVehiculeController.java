@@ -149,7 +149,22 @@ public class DocumentsVehiculeController {
         Label ocrHint = new Label("Reconnaissance automatique à ajouter plus tard");
         ocrHint.setStyle("-fx-font-size: 11px; -fx-text-fill: #888;");
 
-        ocrLine.getChildren().addAll(ocrBadge, ocrHint);
+        Button scannerOcrButton = new Button("Scanner OCR");
+        scannerOcrButton.setStyle(
+                "-fx-background-color: #1f2d3d;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 11px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 5 10 5 10;" +
+                        "-fx-cursor: hand;"
+        );
+        scannerOcrButton.setOnAction(event -> {
+            event.consume();
+            scannerOcrAction(document);
+        });
+
+        ocrLine.getChildren().addAll(ocrBadge, ocrHint, scannerOcrButton);
 
         infosBox.getChildren().addAll(
                 titleLine,
@@ -286,6 +301,17 @@ public class DocumentsVehiculeController {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 
         dialog.showAndWait();
+    }
+
+    private void scannerOcrAction(DocumentVehicule document) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Scanner OCR");
+        alert.setHeaderText("Reconnaissance de caract\u00e8res");
+        alert.setContentText(
+                "OCR bient\u00f4t disponible pour ce document.\n" +
+                        "Fichier : " + texteAffichage(document.getCheminFichier())
+        );
+        alert.showAndWait();
     }
 
     private Label creerBadge(String texte, String couleur) {
