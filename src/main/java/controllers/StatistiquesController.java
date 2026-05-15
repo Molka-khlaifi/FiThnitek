@@ -9,6 +9,7 @@ import javafx.scene.chart.*;
         import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import models.Reclamation;
+import services.NavigationManager;
 import services.ReclamationService;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class StatistiquesController {
         long total     = liste.size();
         long enAttente = liste.stream().filter(r -> "En attente".equalsIgnoreCase(r.getEtat())).count();
         long enCours   = liste.stream().filter(r -> "En cours".equalsIgnoreCase(r.getEtat())).count();
-        long resolues  = liste.stream().filter(r -> "Résolu".equalsIgnoreCase(r.getEtat())).count();
+        long resolues  = liste.stream().filter(r -> "RÃ©solu".equalsIgnoreCase(r.getEtat())).count();
 
         lblTotal.setText(String.valueOf(total));
         lblEnAttente.setText(String.valueOf(enAttente));
@@ -48,7 +49,7 @@ public class StatistiquesController {
         }
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Réclamations");
+        series.setName("RÃ©clamations");
         for (Map.Entry<String, Integer> entry : parType.entrySet()) {
             series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
         }
@@ -65,7 +66,7 @@ public class StatistiquesController {
         pieChartType.setAnimated(true);
         pieChartType.setLegendVisible(true);
 
-        // ── Appliquer les couleurs APRÈS rendu complet ───────────────────────
+        // â”€â”€ Appliquer les couleurs APRÃˆS rendu complet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         Platform.runLater(() -> {
             // Axes BarChart
             barChartType.lookupAll(".axis-label").forEach(n ->
@@ -75,7 +76,7 @@ public class StatistiquesController {
             barChartType.lookupAll(".chart-plot-background").forEach(n ->
                     n.setStyle("-fx-background-color: rgba(255,255,255,0.4);"));
 
-            // Légende + labels PieChart
+            // LÃ©gende + labels PieChart
             pieChartType.lookupAll(".chart-legend-item").forEach(n ->
                     n.setStyle("-fx-text-fill: #2c3e50;"));
             pieChartType.lookupAll(".chart-pie-label").forEach(n ->
@@ -83,18 +84,14 @@ public class StatistiquesController {
         });
     }
 
-    // ✅ Retour vers la liste admin (au lieu de l'ancien ListeReclamation.fxml)
+    // âœ… Retour vers la liste admin (au lieu de l'ancien ListeReclamation.fxml)
     @FXML
     public void retourListe() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/ListeReclamationAdmin.fxml")
-            );
-            Stage stage = (Stage) barChartType.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Administration — Liste des Réclamations");
+            NavigationManager.navigateFrom(barChartType, "/views/ListeReclamationAdmin.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+

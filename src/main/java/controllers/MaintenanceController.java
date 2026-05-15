@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import models.MaintenanceVehicule;
 import models.Vehicule;
 import services.MaintenanceVehiculeService;
+import services.NavigationManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -307,8 +308,7 @@ public class MaintenanceController {
     @FXML
     private void monEspaceVehiculeAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GestionVehicule.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/GestionVehicule.fxml");
         } catch (IOException e) {
             messageLabel.setText("Erreur lors du retour vers Mon Espace V\u00e9hicule.");
             System.out.println(e.getMessage());
@@ -318,8 +318,7 @@ public class MaintenanceController {
     @FXML
     private void impactEnergetiqueAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ImpactEnergetique.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/ImpactEnergetique.fxml");
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture de la page Impact \u00e9nerg\u00e9tique.");
             System.out.println(e.getMessage());

@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Reclamation;
 import models.ReponseReclamation;
+import services.NavigationManager;
 import services.ReclamationService;
 import services.ReponseReclamationService;
 
@@ -27,7 +28,7 @@ public class MesReponsesController {
     ReclamationService        serviceRec      = new ReclamationService();
     ReponseReclamationService serviceReponses = new ReponseReclamationService();
 
-    // ✅ ID de l'utilisateur connecté (à remplacer par la session réelle)
+    // âœ… ID de l'utilisateur connectÃ© (Ã  remplacer par la session rÃ©elle)
     private final int ID_USER_CONNECTE = 1;
 
     @FXML
@@ -38,7 +39,7 @@ public class MesReponsesController {
         colUrgence.setCellValueFactory(new PropertyValueFactory<>("urgence"));
         colEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
 
-        // ✅ Charger uniquement les réclamations de cet utilisateur
+        // âœ… Charger uniquement les rÃ©clamations de cet utilisateur
         List<Reclamation> toutes = serviceRec.getAll();
         for (Reclamation r : toutes) {
             if (r.getIdUser() == ID_USER_CONNECTE) {
@@ -46,9 +47,9 @@ public class MesReponsesController {
             }
         }
 
-        // Message si aucune réclamation
+        // Message si aucune rÃ©clamation
         if (tableReclamations.getItems().isEmpty()) {
-            lblInfo.setText("Vous n'avez aucune réclamation pour l'instant.");
+            lblInfo.setText("Vous n'avez aucune rÃ©clamation pour l'instant.");
             lblInfo.setStyle("-fx-text-fill: #888;");
         }
     }
@@ -58,7 +59,7 @@ public class MesReponsesController {
         Reclamation selected = tableReclamations.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
-            lblInfo.setText("Sélectionne une réclamation !");
+            lblInfo.setText("SÃ©lectionne une rÃ©clamation !");
             lblInfo.setStyle("-fx-text-fill: red;");
             return;
         }
@@ -67,22 +68,22 @@ public class MesReponsesController {
 
         if (reponses.isEmpty()) {
             txtReponseAdmin.setText("");
-            lblInfo.setText("⏳ Pas encore de réponse de l'admin pour cette réclamation.");
+            lblInfo.setText("â³ Pas encore de rÃ©ponse de l'admin pour cette rÃ©clamation.");
             lblInfo.setStyle("-fx-text-fill: #e67e22;");
         } else {
-            // ✅ Afficher toutes les réponses de l'admin
+            // âœ… Afficher toutes les rÃ©ponses de l'admin
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < reponses.size(); i++) {
                 ReponseReclamation rep = reponses.get(i);
-                if (i > 0) sb.append("\n─────────────────────\n");
-                sb.append("Réponse #").append(i + 1).append(" :\n");
+                if (i > 0) sb.append("\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n");
+                sb.append("RÃ©ponse #").append(i + 1).append(" :\n");
                 sb.append(rep.getMessage());
                 if (rep.getDate() != null) {
-                    sb.append("\n📅 ").append(rep.getDate().toLocalDate());
+                    sb.append("\nðŸ“… ").append(rep.getDate().toLocalDate());
                 }
             }
             txtReponseAdmin.setText(sb.toString());
-            lblInfo.setText("✔ " + reponses.size() + " réponse(s) trouvée(s).");
+            lblInfo.setText("âœ” " + reponses.size() + " rÃ©ponse(s) trouvÃ©e(s).");
             lblInfo.setStyle("-fx-text-fill: green;");
         }
     }
@@ -90,15 +91,11 @@ public class MesReponsesController {
     @FXML
     public void retourAjouter() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/AjouterReclamation.fxml")
-            );
-            Stage stage = (Stage) tableReclamations.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Ajouter une Réclamation");
+            NavigationManager.navigateFrom(tableReclamations, "/views/AjouterReclamation.fxml");
         } catch (Exception e) {
             lblInfo.setText("Erreur navigation : " + e.getMessage());
             e.printStackTrace();
         }
     }
 }
+

@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import models.Vehicule;
+import services.NavigationManager;
 import services.VehiculeService;
 import javafx.geometry.Rectangle2D;
 import java.io.File;
@@ -309,8 +310,7 @@ public class GestionVehiculeController {
     @FXML
     private void ajouterAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/AjouterVehicule.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/AjouterVehicule.fxml");
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture du formulaire d'ajout.");
             System.out.println(e.getMessage());
@@ -325,13 +325,8 @@ public class GestionVehiculeController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierVehicule.fxml"));
-            Parent root = loader.load();
-
-            ModifierVehiculeController controller = loader.getController();
-            controller.setVehicule(vehiculeSelectionne);
-
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/ModifierVehicule.fxml",
+                    (ModifierVehiculeController controller) -> controller.setVehicule(vehiculeSelectionne));
 
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture du formulaire de modification.");
@@ -370,13 +365,8 @@ public class GestionVehiculeController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DocumentsVehicule.fxml"));
-            Parent root = loader.load();
-
-            DocumentsVehiculeController controller = loader.getController();
-            controller.setVehicule(vehiculeSelectionne);
-
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/DocumentsVehicule.fxml",
+                    (DocumentsVehiculeController controller) -> controller.setVehicule(vehiculeSelectionne));
 
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture des documents.");
@@ -390,8 +380,7 @@ public class GestionVehiculeController {
     @FXML
     private void impactEnergetiqueAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ImpactEnergetique.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/ImpactEnergetique.fxml");
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture de la page Impact énergétique.");
             System.out.println(e.getMessage());
@@ -406,13 +395,8 @@ public class GestionVehiculeController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Maintenance.fxml"));
-            Parent root = loader.load();
-
-            MaintenanceController controller = loader.getController();
-            controller.setVehicule(vehiculeSelectionne);
-
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/Maintenance.fxml",
+                    (MaintenanceController controller) -> controller.setVehicule(vehiculeSelectionne));
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture de la page Maintenance.");
             System.out.println(e.getMessage());

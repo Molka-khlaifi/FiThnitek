@@ -15,6 +15,7 @@ import models.DocumentVehicule;
 import models.Vehicule;
 import services.DocumentVehiculeService;
 import services.MaintenanceVehiculeService;
+import services.NavigationManager;
 import services.OcrService;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -685,13 +686,8 @@ public class DocumentsVehiculeController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterDocumentVehicule.fxml"));
-            Parent root = loader.load();
-
-            AjouterDocumentVehiculeController controller = loader.getController();
-            controller.setVehicule(vehiculeActuel);
-
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/AjouterDocumentVehicule.fxml",
+                    (AjouterDocumentVehiculeController controller) -> controller.setVehicule(vehiculeActuel));
 
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture du formulaire d'ajout document.");
@@ -729,13 +725,9 @@ public class DocumentsVehiculeController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierDocumentVehicule.fxml"));
-            Parent root = loader.load();
-
-            ModifierDocumentVehiculeController controller = loader.getController();
-            controller.setDocumentEtVehicule(documentSelectionne, vehiculeActuel);
-
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/ModifierDocumentVehicule.fxml",
+                    (ModifierDocumentVehiculeController controller) ->
+                            controller.setDocumentEtVehicule(documentSelectionne, vehiculeActuel));
 
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture du formulaire de modification.");
@@ -746,8 +738,7 @@ public class DocumentsVehiculeController {
     @FXML
     private void retourAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GestionVehicule.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/GestionVehicule.fxml");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

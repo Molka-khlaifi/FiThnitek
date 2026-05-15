@@ -71,6 +71,8 @@ public class UserHomeController {
             "Nabeul -> Tunis (Lundi, 08:30)",
             "Bizerte -> Tunis (05/05, 10:00)"
         );
+
+        showProfileSection(null);
     }
 
     private void setupConducteurHome() {

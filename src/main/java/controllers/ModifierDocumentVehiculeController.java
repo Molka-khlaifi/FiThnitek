@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import models.DocumentVehicule;
 import models.Vehicule;
 import services.DocumentVehiculeService;
+import services.NavigationManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -153,13 +154,8 @@ public class ModifierDocumentVehiculeController {
     @FXML
     private void retourAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DocumentsVehicule.fxml"));
-            Parent root = loader.load();
-
-            DocumentsVehiculeController controller = loader.getController();
-            controller.setVehicule(vehiculeActuel);
-
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/DocumentsVehicule.fxml",
+                    (DocumentsVehiculeController controller) -> controller.setVehicule(vehiculeActuel));
 
         } catch (IOException e) {
             System.out.println(e.getMessage());

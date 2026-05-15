@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import services.NavigationManager;
 import models.Vehicule;
 import services.VehiculeService;
 
@@ -96,8 +97,7 @@ public class ImpactEnergetiqueController {
     @FXML
     private void monEspaceVehiculeAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GestionVehicule.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/GestionVehicule.fxml");
         } catch (IOException e) {
             messageLabel.setText("Erreur lors du retour vers Mon Espace Véhicule.");
             System.out.println(e.getMessage());
@@ -112,8 +112,7 @@ public class ImpactEnergetiqueController {
     @FXML
     private void maintenanceAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Maintenance.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/Maintenance.fxml");
         } catch (IOException e) {
             messageLabel.setText("Erreur lors de l'ouverture de la page Maintenance.");
             System.out.println(e.getMessage());

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import models.Vehicule;
+import services.NavigationManager;
 import services.VehiculeService;
 
 import java.io.File;
@@ -185,8 +186,7 @@ public class ModifierVehiculeController {
     @FXML
     private void retourAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GestionVehicule.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/GestionVehicule.fxml");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

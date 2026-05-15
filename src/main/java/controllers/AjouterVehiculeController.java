@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import models.Vehicule;
+import services.NavigationManager;
 import services.VehiculeService;
 
 import java.io.IOException;
@@ -107,8 +108,7 @@ public class AjouterVehiculeController {
     @FXML
     private void retourAction() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GestionVehicule.fxml"));
-            messageLabel.getScene().setRoot(root);
+            NavigationManager.navigateFrom(messageLabel, "/GestionVehicule.fxml");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

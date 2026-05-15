@@ -92,10 +92,17 @@ public class LoginController {
                     SessionManager.setCurrentUser(user);
                 LogUtil.log(email, "Connexion réussie");
                 
-                if (role == Role.ADMIN) {
-                        HelloApplication.changeScene("admin_dashboard.fxml", "Fi Thnitek - Admin");
-                    } else {
-                        HelloApplication.changeScene("user_home.fxml", "Fi Thnitek - Accueil");
+                    switch (role) {
+                        case ADMIN:
+                            HelloApplication.changeScene("/AdminHomePage.fxml", "Fi Thnitek - Admin");
+                            break;
+                        case CONDUCTEUR:
+                            HelloApplication.changeScene("/ConducteurHomePage.fxml", "Fi Thnitek - Conducteur");
+                            break;
+                        case PASSAGER:
+                        default:
+                            HelloApplication.changeScene("/PassagerHomePage.fxml", "Fi Thnitek - Passager");
+                            break;
                     }
                 } else {
                     showMessage("Email ou mot de passe incorrect.", "#e74c3c");

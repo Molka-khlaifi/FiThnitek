@@ -8,6 +8,7 @@ import javafx.scene.control.*;
         import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.ReponseReclamation;
+import services.NavigationManager;
 import services.ReponseReclamationService;
 
 import java.time.LocalDateTime;
@@ -49,7 +50,7 @@ public class ReponseReclamationController {
     @FXML
     public void envoyerReponse() {
         if (txtReponse.getText().isEmpty()) {
-            lblMessage.setText("Réponse vide !");
+            lblMessage.setText("RÃ©ponse vide !");
             lblMessage.setStyle("-fx-text-fill: red;");
             return;
         }
@@ -62,29 +63,25 @@ public class ReponseReclamationController {
 
         service.add(r);
 
-        lblMessage.setText("Réponse envoyée avec succès !");
+        lblMessage.setText("RÃ©ponse envoyÃ©e avec succÃ¨s !");
         lblMessage.setStyle("-fx-text-fill: green;");
 
         txtReponse.clear();
         chargerReponses();
     }
 
-    // ✅ Retour vers la liste admin (au lieu de l'ancien ListeReclamation.fxml)
+    // âœ… Retour vers la liste admin (au lieu de l'ancien ListeReclamation.fxml)
     @FXML
     public void retourListe() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/ListeReclamationAdmin.fxml")
-            );
-            Stage stage = (Stage) txtReponse.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Administration — Liste des Réclamations");
+            NavigationManager.navigateFrom(txtReponse, "/views/ListeReclamationAdmin.fxml");
         } catch (Exception e) {
             lblMessage.setText("Erreur navigation : " + e.getMessage());
             e.printStackTrace();
         }
     }
 }
+
 
 
 

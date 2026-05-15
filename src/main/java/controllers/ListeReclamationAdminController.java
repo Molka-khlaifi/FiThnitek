@@ -8,6 +8,7 @@ import javafx.scene.control.*;
         import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.Reclamation;
+import services.NavigationManager;
 import services.ReclamationService;
 import services.ReponseReclamationService;
 
@@ -37,22 +38,22 @@ public class ListeReclamationAdminController {
         tableReclamations.getItems().addAll(service.getAll());
     }
 
-    // ────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Bouton : Modifier le statut (ChoiceDialog comme l'original)
-    // ────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @FXML
     public void modifierStatut() {
         Reclamation selected = tableReclamations.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            afficherErreur("Sélectionne une réclamation !");
+            afficherErreur("SÃ©lectionne une rÃ©clamation !");
             return;
         }
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(
-                selected.getEtat(), "En attente", "En cours", "Résolu", "Rejeté"
+                selected.getEtat(), "En attente", "En cours", "RÃ©solu", "RejetÃ©"
         );
         dialog.setTitle("Modifier le statut");
-        dialog.setHeaderText("Réclamation : " + selected.getObjet());
+        dialog.setHeaderText("RÃ©clamation : " + selected.getObjet());
         dialog.setContentText("Nouveau statut :");
 
         Optional<String> result = dialog.showAndWait();
@@ -60,25 +61,25 @@ public class ListeReclamationAdminController {
             service.updateEtat(selected.getId(), newEtat);
             selected.setEtat(newEtat);
             tableReclamations.refresh();
-            afficherSucces("Statut modifié en : " + newEtat);
+            afficherSucces("Statut modifiÃ© en : " + newEtat);
         });
     }
 
-    // ────────────────────────────────────────────────────────────────────────
-    // Bouton : Supprimer (avec vérification des réponses liées)
-    // ────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Bouton : Supprimer (avec vÃ©rification des rÃ©ponses liÃ©es)
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @FXML
     public void supprimerReclamation() {
         Reclamation selected = tableReclamations.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            afficherErreur("Sélectionne une réclamation !");
+            afficherErreur("SÃ©lectionne une rÃ©clamation !");
             return;
         }
 
         int nbReponses = serviceReponses.getByReclamation(selected.getId()).size();
         String message = nbReponses > 0
-                ? "Cette réclamation a " + nbReponses + " réponse(s) liée(s).\nElles seront aussi supprimées. Confirmer ?"
-                : "Supprimer la réclamation #" + selected.getId() + " ?";
+                ? "Cette rÃ©clamation a " + nbReponses + " rÃ©ponse(s) liÃ©e(s).\nElles seront aussi supprimÃ©es. Confirmer ?"
+                : "Supprimer la rÃ©clamation #" + selected.getId() + " ?";
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
         confirm.setTitle("Confirmation de suppression");
@@ -87,78 +88,59 @@ public class ListeReclamationAdminController {
         if (result.isPresent() && result.get() == ButtonType.YES) {
             service.delete(selected);
             tableReclamations.getItems().remove(selected);
-            afficherSucces("Supprimée avec succès !");
+            afficherSucces("SupprimÃ©e avec succÃ¨s !");
         }
     }
 
-    // ────────────────────────────────────────────────────────────────────────
-    // Bouton : Voir / Répondre (même logique que l'original)
-    // ────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Bouton : Voir / RÃ©pondre (mÃªme logique que l'original)
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @FXML
     public void voirReponses() {
         Reclamation selected = tableReclamations.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            afficherErreur("Sélectionne une réclamation !");
+            afficherErreur("Selectionne une reclamation !");
             return;
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/RepondreReclamation.fxml")
-            );
-            Stage stage = (Stage) tableReclamations.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-
-            ReponseReclamationController ctrl = loader.getController();
-            ctrl.setIdReclamation(selected.getId());
-            ctrl.setLabelReclamation("Réclamation #" + selected.getId() + " — " + selected.getObjet());
-
-            stage.setTitle("Répondre — Réclamation #" + selected.getId());
+            NavigationManager.navigateFrom(tableReclamations, "/views/RepondreReclamation.fxml",
+                    (ReponseReclamationController ctrl) -> {
+                        ctrl.setIdReclamation(selected.getId());
+                        ctrl.setLabelReclamation("Reclamation #" + selected.getId() + " - " + selected.getObjet());
+                    });
         } catch (Exception e) {
             afficherErreur("Erreur : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // ────────────────────────────────────────────────────────────────────────
     // Bouton : Statistiques
-    // ────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @FXML
     public void voirStatistiques() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/Statistiques.fxml")
-            );
-            Stage stage = (Stage) tableReclamations.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Statistiques des Réclamations");
+            NavigationManager.navigateFrom(tableReclamations, "/views/Statistiques.fxml");
         } catch (Exception e) {
             afficherErreur("Erreur : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // ────────────────────────────────────────────────────────────────────────
-    // Bouton : Retour vers Ajouter Réclamation
-    // ────────────────────────────────────────────────────────────────────────
+    // Bouton : Retour vers Ajouter RÃ©clamation
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @FXML
     public void retourAjouter() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/AjouterReclamation.fxml")
-            );
-            Stage stage = (Stage) tableReclamations.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Ajouter une Réclamation");
+            NavigationManager.navigateFrom(tableReclamations, "/views/AjouterReclamation.fxml");
         } catch (Exception e) {
             afficherErreur("Erreur : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // ────────────────────────────────────────────────────────────────────────
     // Helpers
-    // ────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private void afficherErreur(String msg) {
         lblInfo.setText(msg);
         lblInfo.setStyle("-fx-text-fill: red;");
@@ -169,3 +151,4 @@ public class ListeReclamationAdminController {
         lblInfo.setStyle("-fx-text-fill: green;");
     }
 }
+

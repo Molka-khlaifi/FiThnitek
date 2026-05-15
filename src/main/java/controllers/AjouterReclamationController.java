@@ -8,6 +8,7 @@ import javafx.scene.control.*;
         import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import models.Reclamation;
+import services.NavigationManager;
 import services.ReclamationService;
 import utils.BadWordsFilter;
 
@@ -90,10 +91,7 @@ public class AjouterReclamationController {
     @FXML
     public void voirMesReponses() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MesReponses.fxml"));
-            Stage stage = (Stage) txtObjet.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Mes Réclamations et Réponses");
+            NavigationManager.navigateFrom(txtObjet, "/views/MesReponses.fxml");
         } catch (Exception e) {
             lblMessage.setText("Erreur : " + e.getMessage());
             e.printStackTrace();
@@ -106,10 +104,7 @@ public class AjouterReclamationController {
     @FXML
     public void allerVersListeUser() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ListeReclamationUser.fxml"));
-            Stage stage = (Stage) txtObjet.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Mes Réclamations");
+            NavigationManager.navigateFrom(txtObjet, "/views/ListeReclamationUser.fxml");
         } catch (Exception e) {
             lblMessage.setText("Erreur : " + e.getMessage());
             e.printStackTrace();
@@ -167,11 +162,7 @@ public class AjouterReclamationController {
 
         // ── Accès accordé : ouvrir la liste admin ───────────────────────────
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/ListeReclamationAdmin.fxml"));
-            Stage stage = (Stage) txtObjet.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Administration — Liste des Réclamations");
+            NavigationManager.navigateFrom(txtObjet, "/views/ListeReclamationAdmin.fxml");
         } catch (Exception e) {
             lblMessage.setText("Erreur : " + e.getMessage());
             e.printStackTrace();

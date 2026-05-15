@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="580.0" prefWidth="680.0" style="-fx-background-color: #F5F6FA;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilAuteurController">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="56" style="-fx-background-color: #F5F6FA; -fx-padding: 0 20 0 12; -fx-spacing: 12;">
+            <Button onAction="#retourAction" prefHeight="30" prefWidth="90" style="-fx-background-color: #3D3D8A;                        -fx-text-fill: #C0C8F0;                        -fx-background-radius: 6;                        -fx-cursor: hand;                        -fx-font-size: 12px;                        -fx-border-color: #5B5BAA;                        -fx-border-width: 1;                        -fx-border-radius: 6;" text="← Retour" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #B0B8D8;" text="— Profil Auteur" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="0">
+
+            <!-- CARTE PROFIL -->
+            <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-background-color: white;                        -fx-padding: 20 24;                        -fx-border-color: #DDE2F0;                        -fx-border-width: 0 0 1 0;">
+
+                <!-- Avatar initiales -->
+                <VBox alignment="CENTER" style="-fx-background-color: #2D2D6B;                            -fx-background-radius: 50;                            -fx-min-width: 60;                            -fx-min-height: 60;                            -fx-max-width: 60;                            -fx-max-height: 60;">
+                    <Label fx:id="initialesLabel" style="-fx-font-size: 22px;                                -fx-font-weight: bold;                                -fx-text-fill: white;" text="??" />
+                </VBox>
+
+                <!-- Infos -->
+                <VBox spacing="4">
+                    <Label fx:id="nomAuteurLabel" prefHeight="30.0" prefWidth="94.0" style="-fx-font-size: 20px;                                -fx-font-weight: bold;                                -fx-text-fill: #2D2D6B;" text="..." />
+                    <Label fx:id="emailLabel" style="-fx-font-size: 12px;                                -fx-text-fill: #888;" text="" />
+                    <Label fx:id="nbPostsLabel" style="-fx-font-size: 12px;                                -fx-text-fill: #2BBF8A;                                -fx-font-weight: bold;" text="0 publication(s)" />
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- Badge membre -->
+                <Label style="-fx-background-color: #EEEDF8;                            -fx-text-fill: #2D2D6B;                            -fx-background-radius: 6;                            -fx-padding: 6 12;                            -fx-font-size: 12px;                            -fx-font-weight: bold;" text="✦ Membre Fi Thnitek" />
+            </HBox>
+
+            <!-- TITRE SECTION -->
+            <HBox style="-fx-padding: 14 24 8 24;">
+                <Label style="-fx-font-size: 14px;                            -fx-font-weight: bold;                            -fx-text-fill: #2D2D6B;" text="Publications" />
+            </HBox>
+
+            <!-- LISTE POSTS -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;                        -fx-border-width: 0;" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="postsContainer" spacing="10" style="-fx-padding: 0 16 16 16;" />
+                </content>
+            </ScrollPane>
+
+        </VBox>
+    </center>
+
+</BorderPane>
