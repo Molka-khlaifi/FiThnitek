@@ -2,6 +2,7 @@ package services;
 
 public final class SessionManager {
     private static User currentUser = new User(1, "Utilisateur", "Demo", "user@fithnitek.local", "PASSAGER");
+    private static Integer selectedTripId;
 
     private SessionManager() {
     }
@@ -20,6 +21,15 @@ public final class SessionManager {
 
     public static void logout() {
         currentUser = null;
+        selectedTripId = null;
+    }
+
+    public static Integer getSelectedTripId() {
+        return selectedTripId;
+    }
+
+    public static void setSelectedTripId(Integer tripId) {
+        selectedTripId = tripId;
     }
 
     public static final class User {

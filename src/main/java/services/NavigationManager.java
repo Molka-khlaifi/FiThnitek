@@ -44,6 +44,10 @@ public class NavigationManager {
         AnchorPane container = tabContainers.get(tabName);
 
         if (container == null) {
+            if (loadIntoDashboardTab(tabName, fxmlPath)) {
+                return;
+            }
+
             // Mettre en file d'attente au lieu d'abandonner
             System.out.println("⏳ Conteneur pas encore prêt, navigation mise en attente: " + tabName);
             pendingNavigations.put(tabName, fxmlPath);
@@ -84,6 +88,55 @@ public class NavigationManager {
     public static void navigateTo(String tabName, String fxmlPath) {
         selectTab(tabName);
         navigateInTab(tabName, fxmlPath);
+    }
+
+    private static boolean loadIntoDashboardTab(String tabName, String fxmlPath) {
+        if (primaryStage == null || primaryStage.getScene() == null) {
+            return false;
+        }
+
+        TabPane mainTabPane = (TabPane) primaryStage.getScene().lookup("#mainTabPane");
+        if (mainTabPane == null) {
+            return false;
+        }
+
+        Platform.runLater(() -> {
+            Tab targetTab = findTab(mainTabPane, tabName);
+            if (targetTab == null) {
+                System.err.println("❌ Aucun onglet trouvé avec le nom: " + tabName);
+                return;
+            }
+
+            try {
+                URL resource = NavigationManager.class.getResource(fxmlPath);
+                if (resource == null) {
+                    System.err.println("❌ FXML introuvable: " + fxmlPath);
+                    return;
+                }
+
+                Parent view = FXMLLoader.load(resource);
+                targetTab.setContent(view);
+                mainTabPane.getSelectionModel().select(targetTab);
+                System.out.println("✅ Navigation dashboard: " + tabName + " → " + fxmlPath);
+            } catch (IOException e) {
+                System.err.println("❌ Erreur chargement FXML: " + fxmlPath);
+                e.printStackTrace();
+            }
+        });
+
+        return true;
+    }
+
+    private static Tab findTab(TabPane tabPane, String tabName) {
+        for (Tab tab : tabPane.getTabs()) {
+            String tabId = tab.getId() != null ? tab.getId() : "";
+            String tabText = tab.getText() != null ? tab.getText() : "";
+
+            if (tabId.equalsIgnoreCase(tabName) || tabText.equalsIgnoreCase(tabName)) {
+                return tab;
+            }
+        }
+        return null;
     }
 
     public static void selectTab(String tabName) {

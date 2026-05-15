@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.transactionController"
+            prefHeight="920.0" prefWidth="890.0"
+            style="-fx-background-color: white;">
+
+    <!-- Title -->
+    <Label layoutX="30.0" layoutY="20.0"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"
+           text="💳 Nouvelle Transaction"/>
+
+    <!-- User ID (auto-filled from session — read-only) -->
+    <Label layoutX="30.0" layoutY="65.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="👤 User ID (auto)"/>
+    <TextField fx:id="userIdField" layoutX="30.0" layoutY="85.0"
+               prefHeight="36.0" prefWidth="400.0"
+               editable="false"
+               promptText="Auto-filled from session"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #b0b0b0; -fx-border-width: 1;
+                      -fx-background-color: #f5f5f5; -fx-padding: 0 10;
+                      -fx-text-fill: #555;"/>
+
+    <!-- Trip ID -->
+    <Label layoutX="455.0" layoutY="65.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Trip ID *"/>
+    <TextField fx:id="tripIdField" layoutX="455.0" layoutY="85.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="Ex: 101"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Montant -->
+    <Label layoutX="30.0" layoutY="140.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Montant (DT) *"/>
+    <TextField fx:id="montantField" layoutX="30.0" layoutY="160.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="Ex: 15.0"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Commission (pre-filled to 0.10) -->
+    <Label layoutX="455.0" layoutY="140.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Commission (%) (auto)"/>
+    <TextField fx:id="commissionField" layoutX="455.0" layoutY="160.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="Default: 0.10"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Date (auto-filled with today) -->
+    <Label layoutX="30.0" layoutY="215.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="📅 Date (auto)"/>
+    <TextField fx:id="dateField" layoutX="30.0" layoutY="235.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="Auto-filled with today"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Payment Method -->
+    <Label layoutX="455.0" layoutY="215.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Payment Method *"/>
+    <ComboBox fx:id="methodeField" layoutX="455.0" layoutY="235.0"
+              prefHeight="36.0" prefWidth="400.0"
+              style="-fx-background-radius: 6; -fx-border-radius: 6;"/>
+
+    <!-- Payment Ref -->
+    <Label layoutX="30.0" layoutY="290.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Payment Ref"/>
+    <TextField fx:id="paymentRefField" layoutX="30.0" layoutY="310.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="N/A if cash"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Nb Passagers -->
+    <Label layoutX="455.0" layoutY="290.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Nb Passagers *"/>
+    <TextField fx:id="nbPassagersField" layoutX="455.0" layoutY="310.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="Ex: 2"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Statut -->
+    <Label layoutX="30.0" layoutY="365.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Statut"/>
+    <ComboBox fx:id="statutField" layoutX="30.0" layoutY="385.0"
+              prefHeight="36.0" prefWidth="400.0"
+              style="-fx-background-radius: 6; -fx-border-radius: 6;"/>
+
+    <!-- Driver Email (auto-filled from session) -->
+    <Label layoutX="455.0" layoutY="365.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;" text="📧 Email (auto)"/>
+    <TextField fx:id="emailField" layoutX="455.0" layoutY="385.0"
+               prefHeight="36.0" prefWidth="400.0"
+               promptText="Auto-filled from session"
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Error Label -->
+    <Label fx:id="erreurLabel" layoutX="30.0" layoutY="432.0"
+           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text=""/>
+
+    <!-- Buttons -->
+    <Button layoutX="30.0" layoutY="462.0"
+            fx:id="completeTripBtn" onAction="#completeTrip"
+            prefHeight="38.0" prefWidth="175.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white;
+                   -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="✓ Complete Trip"/>
+
+    <Button layoutX="215.0" layoutY="462.0"
+            fx:id="updateBtn" onAction="#updateTransaction"
+            prefHeight="38.0" prefWidth="130.0"
+            style="-fx-background-color: #f39c12; -fx-text-fill: white;
+                   -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="✏ Update"/>
+
+    <Button layoutX="355.0" layoutY="462.0"
+            fx:id="refundBtn" onAction="#refund"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: white; -fx-border-color: #e74c3c;
+                   -fx-border-width: 1; -fx-text-fill: #e74c3c;
+                   -fx-background-radius: 8; -fx-cursor: hand;"
+            text="🔄 Refund"/>
+
+    <Button layoutX="485.0" layoutY="462.0"
+            fx:id="deleteBtn" onAction="#deleteTransaction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: white; -fx-border-color: #e74c3c;
+                   -fx-border-width: 1; -fx-text-fill: #e74c3c;
+                   -fx-background-radius: 8; -fx-cursor: hand;"
+            text="🗑 Delete"/>
+
+    <Button layoutX="615.0" layoutY="462.0"
+            fx:id="clearBtn" onAction="#clearFields"
+            prefHeight="38.0" prefWidth="100.0"
+            style="-fx-background-color: white; -fx-border-color: #ddd;
+                   -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="Annuler"/>
+
+    <!-- Stripe QR Code Button -->
+    <Button layoutX="725.0" layoutY="462.0"
+            onAction="#showStripeQR"
+            prefHeight="38.0" prefWidth="140.0"
+            style="-fx-background-color: #635BFF; -fx-text-fill: white;
+                   -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="⚡ Stripe QR Pay"/>
+
+    <!-- Export Buttons -->
+    <Button layoutX="30.0" layoutY="515.0"
+            onAction="#exportPDF"
+            prefHeight="32.0" prefWidth="145.0"
+            style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+               -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="📄 Export PDF"/>
+
+    <Button layoutX="185.0" layoutY="515.0"
+            onAction="#exportExcel"
+            prefHeight="32.0" prefWidth="160.0"
+            style="-fx-background-color: #27ae60; -fx-text-fill: white;
+               -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"
+            text="📊 Export Excel"/>
+
+    <!-- Search -->
+    <Label layoutX="30.0" layoutY="560.0"
+           style="-fx-font-weight: bold; -fx-text-fill: #555;"
+           text="🔍 Search"/>
+    <TextField fx:id="searchField" layoutX="30.0" layoutY="580.0"
+               prefHeight="36.0" prefWidth="830.0"
+               promptText="Search by User ID or Trip ID..."
+               style="-fx-background-radius: 6; -fx-border-radius: 6;
+                      -fx-border-color: #ddd; -fx-border-width: 1;
+                      -fx-background-color: white; -fx-padding: 0 10;"/>
+
+    <!-- Table -->
+    <TableView fx:id="transactionTable"
+               layoutX="15.0" layoutY="630.0"
+               prefHeight="270.0" prefWidth="855.0"
+               style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-width: 1;">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="userIdCol" text="User ID" prefWidth="80"/>
+            <TableColumn fx:id="tripIdCol" text="Trip ID" prefWidth="80"/>
+            <TableColumn fx:id="montantCol" text="Montant" prefWidth="90"/>
+            <TableColumn fx:id="commissionCol" text="Commission" prefWidth="100"/>
+            <TableColumn fx:id="montantNetCol" text="Net" prefWidth="90"/>
+            <TableColumn fx:id="dateCol" text="Date" prefWidth="105"/>
+            <TableColumn fx:id="methodeCol" text="Method" prefWidth="90"/>
+            <TableColumn fx:id="paymentRefCol" text="Ref" prefWidth="80"/>
+            <TableColumn fx:id="statutCol" text="Status" prefWidth="90"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

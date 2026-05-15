@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ScrollPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.mainMenu"
+            prefHeight="1000.0" prefWidth="920.0"
+            style="-fx-background-color: white;">
+
+    <VBox AnchorPane.topAnchor="0"
+          AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0">
+
+        <Label text="Fi Thniytek — Gestion Revenue"
+               style="-fx-font-size: 22px;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #3498db;
+                      -fx-padding: 15;
+                      -fx-alignment: center;"/>
+
+        <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+            <Tab text="📊 Dashboard" closable="false">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                            style="-fx-background-color: #f0f2f5; -fx-background: #f0f2f5;">
+                    <fx:include source="Dashboard.fxml"/>
+                </ScrollPane>
+            </Tab>
+            <Tab text="💳 Transactions" closable="false">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                            style="-fx-background-color: white; -fx-background: white;">
+                    <fx:include source="Transaction.fxml"/>
+                </ScrollPane>
+            </Tab>
+            <Tab text="💰 Revenues" closable="false">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                            style="-fx-background-color: white; -fx-background: white;">
+                    <fx:include source="Revenue.fxml"/>
+                </ScrollPane>
+            </Tab>
+        </TabPane>
+
+    </VBox>
+
+</AnchorPane>

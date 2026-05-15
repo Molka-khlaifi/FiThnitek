@@ -65,10 +65,7 @@
 
                 <Tab text="🛣  TRAJETS ET RÉSERVATIONS" closable="false">
                     <content>
-                        <VBox alignment="CENTER" spacing="6" style="-fx-background-color: #f4f5fa;">
-                            <Label text="TRAJETS ET RÉSERVATIONS" style="-fx-text-fill: #7f8390; -fx-font-size: 16px;"/>
-                            <Label text="Module à intégrer plus tard." style="-fx-text-fill: #7f8390; -fx-font-size: 16px;"/>
-                        </VBox>
+                        <fx:include source="/dashboardTrajet.fxml"/>
                     </content>
                 </Tab>
 
@@ -84,12 +81,9 @@
                     </content>
                 </Tab>
 
-                <Tab text="💰  REVENUS" closable="false">
+                <Tab id="REVENU" text="💰  REVENUS" closable="false">
                     <content>
-                        <VBox alignment="CENTER" spacing="6" style="-fx-background-color: #f4f5fa;">
-                            <Label text="REVENUS" style="-fx-text-fill: #7f8390; -fx-font-size: 16px;"/>
-                            <Label text="Module à intégrer plus tard." style="-fx-text-fill: #7f8390; -fx-font-size: 16px;"/>
-                        </VBox>
+                        <fx:include source="/mainMenu.fxml"/>
                     </content>
                 </Tab>
             </TabPane>
