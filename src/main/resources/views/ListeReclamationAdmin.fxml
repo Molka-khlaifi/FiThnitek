@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<AnchorPane
+xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controllers.ListeReclamationAdminController"
+prefWidth="680" prefHeight="620"
+style="-fx-background-image: url('/BACKGROUND.png');
+               -fx-background-size: cover;
+               -fx-background-position: center;">
+
+<VBox spacing="14"
+      AnchorPane.topAnchor="25"
+      AnchorPane.bottomAnchor="25"
+      AnchorPane.leftAnchor="25"
+      AnchorPane.rightAnchor="25"
+      style="-fx-background-color: rgba(255,255,255,0.82);
+                 -fx-background-radius: 16;
+                 -fx-padding: 25px;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 4);">
+
+    <!-- Titre -->
+    <Label text="Administration — Liste des Réclamations"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+
+    <!-- Tableau -->
+    <TableView fx:id="tableReclamations" prefHeight="350">
+        <columns>
+            <TableColumn fx:id="colId"      text="ID"      prefWidth="50"/>
+            <TableColumn fx:id="colObjet"   text="Objet"   prefWidth="185"/>
+            <TableColumn fx:id="colType"    text="Type"    prefWidth="110"/>
+            <TableColumn fx:id="colUrgence" text="Urgence" prefWidth="90"/>
+            <TableColumn fx:id="colEtat"    text="État"    prefWidth="110"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="lblInfo" style="-fx-font-size: 12px;"/>
+
+    <Separator/>
+
+    <!-- Boutons actions -->
+    <HBox spacing="10" alignment="CENTER">
+
+        <Button text="Modifier Statut"
+                onAction="#modifierStatut"
+                prefWidth="148"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold;
+                           -fx-padding: 9px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Button text="Supprimer"
+                onAction="#supprimerReclamation"
+                prefWidth="130"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold;
+                           -fx-padding: 9px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Button text="Voir / Répondre"
+                onAction="#voirReponses"
+                prefWidth="140"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold;
+                           -fx-padding: 9px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Button text="Statistiques"
+                onAction="#voirStatistiques"
+                prefWidth="130"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold;
+                           -fx-padding: 9px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+    </HBox>
+
+    <Separator/>
+
+    <!-- Retour -->
+    <HBox alignment="CENTER">
+        <Button text="&#8592; Retour — Ajouter une Réclamation"
+                onAction="#retourAjouter"
+                prefWidth="340"
+                style="-fx-background-color: #7f8c8d; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-padding: 9px;
+                           -fx-background-radius: 7; -fx-cursor: hand;"/>
+    </HBox>
+
+</VBox>
+
+</AnchorPane>
+
+

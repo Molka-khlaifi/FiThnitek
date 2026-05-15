@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AdminHomePageController"
+            prefWidth="1280"
+            prefHeight="800"
+            style="-fx-background-color: #eef0f6;">
+
+    <left>
+        <VBox prefWidth="227" style="-fx-background-color: #302f73;">
+            <padding>
+                <Insets top="20" right="14" bottom="24" left="16"/>
+            </padding>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label fx:id="lblStatus" text="Fi Thnitek v1.0" style="-fx-text-fill: rgba(255,255,255,0.18); -fx-font-size: 11px;"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_LEFT" minHeight="110" prefHeight="110"
+              style="-fx-background-color: #302f73; -fx-padding: 0 18 0 16;">
+            <VBox prefWidth="250" alignment="CENTER_LEFT" spacing="4">
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <Label text="Fi" style="-fx-text-fill: #b9b7f4; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                    <Label text="Thnitek" style="-fx-text-fill: #21c891; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                    <Label text="👓 ADMIN"
+                           style="-fx-background-color: #c6c1ff; -fx-text-fill: #24235f; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 5 10; -fx-font-size: 12px;"/>
+                </HBox>
+                <Label text="SMART CARPOOLING" style="-fx-text-fill: #b7b6db; -fx-font-size: 9px;"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <VBox alignment="CENTER_RIGHT" spacing="4">
+                <Label fx:id="lblAdminName" text="Utilisateur Admin"
+                       style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <Label text="Super Admin" style="-fx-text-fill: #21c891; -fx-font-size: 12px;"/>
+            </VBox>
+
+            <Button text="⏻  Déconnexion" onAction="#logout"
+                    style="-fx-background-color: transparent; -fx-border-color: #ff5964; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #ff5964; -fx-font-weight: bold; -fx-padding: 10 18; -fx-cursor: hand; -fx-translate-x: 24;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="mainTabPane"
+                 tabClosingPolicy="UNAVAILABLE"
+                 style="-fx-background-color: #eef0f6; -fx-tab-min-height: 50; -fx-tab-max-height: 50;">
+
+            <Tab text="👥  UTILISATEURS" closable="false">
+                <content>
+                    <fx:include source="/com/example/couvoiturage/admin_dashboard.fxml"/>
+                </content>
+            </Tab>
+
+            <Tab text="🚗  VÉHICULES" closable="false">
+                <content>
+                    <fx:include source="/GestionVehicule.fxml"/>
+                </content>
+            </Tab>
+
+            <Tab text="🛣  TRAJETS ET RÉSERVATIONS" closable="false">
+                <content>
+                    <fx:include source="/dashboardTrajet.fxml"/>
+                </content>
+            </Tab>
+
+            <Tab text="💬  FORUM" closable="false">
+                <content>
+                    <fx:include source="/ForumAdmin.FXML"/>
+                </content>
+            </Tab>
+
+            <Tab fx:id="tabReclamations" text="⚠  RÉCLAMATIONS" closable="false">
+                <content>
+                    <fx:include source="/views/ListeReclamationAdmin.fxml"/>
+                </content>
+            </Tab>
+
+            <Tab id="REVENU" text="💰  REVENUS" closable="false">
+                <content>
+                    <fx:include source="/mainMenu.fxml"/>
+                </content>
+            </Tab>
+
+            <Tab text="▥  STATISTIQUES" closable="false">
+                <content>
+                    <fx:include source="/views/Statistiques.fxml"/>
+                </content>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <bottom>
+        <VBox visible="false" managed="false">
+            <Circle fx:id="avatarCircle" radius="1"/>
+            <Button fx:id="btnNotifications" text="🔔" onAction="#openNotifications"/>
+            <Label fx:id="notifBadge" text="0"/>
+            <Label fx:id="lblDateTime" text=""/>
+            <Label fx:id="lblTotalUsers" text="—"/>
+            <Label fx:id="lblTotalVehicules" text="—"/>
+            <Label fx:id="lblTotalTrajets" text="—"/>
+            <Label fx:id="lblReclamationsEnAttente" text="—"/>
+            <Label fx:id="lblRevenuTotal" text="—"/>
+        </VBox>
+    </bottom>
+</BorderPane>

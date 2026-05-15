@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="rootPane" prefHeight="580.0" prefWidth="800.0"
+            style="-fx-background-image: url('/BACKGROUND.png');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.MaintenanceController">
+
+    <VBox layoutX="30.0" layoutY="25.0"
+          prefWidth="560.0"
+          prefHeight="95.0"
+          spacing="6.0"
+          style="-fx-background-color: rgba(255,255,255,0.92);
+                 -fx-background-radius: 20;
+                 -fx-border-color: rgba(255,255,255,0.70);
+                 -fx-border-radius: 20;
+                 -fx-padding: 16 20 16 20;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.13), 18, 0, 0, 6);">
+
+        <Label text="Maintenance v&#233;hicule &#x1F527;"
+               style="-fx-font-size: 25px;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #1f2d3d;" />
+
+        <Label text="Suivi pr&#233;ventif et rappels li&#233;s &#224; l'entretien du v&#233;hicule"
+               wrapText="true"
+               style="-fx-font-size: 13px;
+                      -fx-text-fill: #6b7280;" />
+    </VBox>
+
+    <VBox layoutX="30.0" layoutY="138.0"
+          prefWidth="560.0"
+          prefHeight="360.0"
+          spacing="12.0"
+          style="-fx-background-color: rgba(255,255,255,0.95);
+                 -fx-background-radius: 22;
+                 -fx-border-color: #eef2f7;
+                 -fx-border-radius: 22;
+                 -fx-padding: 16;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.14), 18, 0, 0, 7);">
+
+        <HBox spacing="12.0">
+            <VBox prefWidth="168.0" prefHeight="62.0" spacing="3.0"
+                  style="-fx-background-color: linear-gradient(to right, #6762ef, #3498db);
+                         -fx-background-radius: 16;
+                         -fx-padding: 10 12 10 12;">
+                <Label text="Rappels actifs"
+                       style="-fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.86);" />
+                <Label fx:id="rappelsActifsLabel"
+                       text="0"
+                       style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" />
+            </VBox>
+
+            <VBox prefWidth="168.0" prefHeight="62.0" spacing="3.0"
+                  style="-fx-background-color: #f8fafc;
+                         -fx-background-radius: 16;
+                         -fx-border-color: #e5e7eb;
+                         -fx-border-radius: 16;
+                         -fx-padding: 10 12 10 12;">
+                <Label text="Alertes proches"
+                       style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="alertesProchesLabel"
+                       text="0"
+                       style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+            </VBox>
+
+            <VBox prefWidth="168.0" prefHeight="62.0" spacing="3.0"
+                  style="-fx-background-color: #f8fafc;
+                         -fx-background-radius: 16;
+                         -fx-border-color: #e5e7eb;
+                         -fx-border-radius: 16;
+                         -fx-padding: 10 12 10 12;">
+                <Label text="Prochaine action"
+                       style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="prochaineActionLabel"
+                       text="Aucune"
+                       style="-fx-font-size: 19px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12.0">
+            <VBox prefWidth="256.0" prefHeight="92.0" spacing="7.0"
+                  style="-fx-background-color: #f8fafc; -fx-background-radius: 18; -fx-border-color: #e5e7eb; -fx-border-radius: 18; -fx-padding: 12;">
+                <HBox spacing="8.0">
+                    <Label text="&#x1F6E2;" style="-fx-font-size: 22px;" />
+                    <Label fx:id="vidangeTitleLabel" text="Vidange" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+                </HBox>
+                <Label fx:id="vidangeDescriptionLabel"
+                       text="S&#233;lectionnez un v&#233;hicule pour afficher le suivi."
+                       wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="vidangeBadgeLabel"
+                       text="En attente"
+                       style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
+            </VBox>
+
+            <VBox prefWidth="256.0" prefHeight="92.0" spacing="7.0"
+                  style="-fx-background-color: #f8fafc; -fx-background-radius: 18; -fx-border-color: #e5e7eb; -fx-border-radius: 18; -fx-padding: 12;">
+                <HBox spacing="8.0">
+                    <Label text="&#x1F6E1;" style="-fx-font-size: 22px;" />
+                    <Label text="Assurance &#224; renouveler" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+                </HBox>
+                <Label fx:id="assuranceDescriptionLabel"
+                       text="Date d'assurance non charg&#233;e."
+                       wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="assuranceBadgeLabel"
+                       text="En attente"
+                       style="-fx-background-color: #6762ef; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12.0">
+            <VBox prefWidth="256.0" prefHeight="92.0" spacing="7.0"
+                  style="-fx-background-color: #f8fafc; -fx-background-radius: 18; -fx-border-color: #e5e7eb; -fx-border-radius: 18; -fx-padding: 12;">
+                <HBox spacing="8.0">
+                    <Label text="&#x1F50D;" style="-fx-font-size: 22px;" />
+                    <Label text="Visite technique proche" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+                </HBox>
+                <Label fx:id="visiteDescriptionLabel"
+                       text="Date de visite technique non charg&#233;e."
+                       wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="visiteBadgeLabel"
+                       text="En attente"
+                       style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
+            </VBox>
+
+            <VBox prefWidth="256.0" prefHeight="92.0" spacing="7.0"
+                  style="-fx-background-color: #f8fafc; -fx-background-radius: 18; -fx-border-color: #e5e7eb; -fx-border-radius: 18; -fx-padding: 12;">
+                <HBox spacing="8.0">
+                    <Label text="&#x1F3F7;" style="-fx-font-size: 22px;" />
+                    <Label text="Vignette &#224; v&#233;rifier" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+                </HBox>
+                <Label fx:id="vignetteDescriptionLabel"
+                       text="Date de vignette non charg&#233;e."
+                       wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="vignetteBadgeLabel"
+                       text="En attente"
+                       style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 4 10 4 10;" />
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12.0">
+            <Button onAction="#afficherNotificationsAction"
+                    prefHeight="36.0"
+                    prefWidth="190.0"
+                    style="-fx-background-color: #1f2d3d;
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 12;
+                           -fx-cursor: hand;"
+                    text="Afficher les notifications" />
+
+            <Label text="Version d&#233;monstration : les vraies dates de maintenance seront connect&#233;es plus tard &#224; la base de donn&#233;es."
+                   prefWidth="320.0"
+                   wrapText="true"
+                   style="-fx-font-size: 11px; -fx-text-fill: #8a94a6;" />
+        </HBox>
+    </VBox>
+
+    <VBox layoutX="610.0" layoutY="25.0"
+          prefWidth="160.0"
+          prefHeight="455.0"
+          spacing="14.0"
+          style="-fx-background-color: rgba(255,255,255,0.94);
+                 -fx-background-radius: 22;
+                 -fx-border-color: #eef2f7;
+                 -fx-border-radius: 22;
+                 -fx-padding: 16;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.14), 18, 0, 0, 7);">
+
+        <Label text="Carnet" style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+        <Label text="Navigation module" style="-fx-font-size: 11px; -fx-text-fill: #8a94a6;" />
+
+        <Button onAction="#monEspaceVehiculeAction" prefHeight="38.0" prefWidth="128.0"
+                style="-fx-background-color: white; -fx-text-fill: #1f2d3d; -fx-font-weight: bold; -fx-background-radius: 12; -fx-border-color: #e5e7eb; -fx-border-radius: 12; -fx-cursor: hand;"
+                text="Mon espace" />
+
+        <Button onAction="#impactEnergetiqueAction" prefHeight="38.0" prefWidth="128.0"
+                style="-fx-background-color: white; -fx-text-fill: #1f2d3d; -fx-font-weight: bold; -fx-background-radius: 12; -fx-border-color: #e5e7eb; -fx-border-radius: 12; -fx-cursor: hand;"
+                text="Impact &#233;nergie" />
+
+        <Button onAction="#maintenanceAction" prefHeight="38.0" prefWidth="128.0"
+                style="-fx-background-color: linear-gradient(to right, #6762ef, #3498db); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;"
+                text="Maintenance" />
+
+        <VBox prefWidth="128.0" prefHeight="130.0" spacing="6.0"
+              style="-fx-background-color: #f8fafc; -fx-background-radius: 16; -fx-padding: 12; -fx-border-color: #eef2f7; -fx-border-radius: 16;">
+            <Label text="Objectif" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1f2d3d;" />
+            <Label text="Centraliser les rappels d'entretien du v&#233;hicule dans le carnet."
+                   wrapText="true" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
+        </VBox>
+    </VBox>
+
+    <Label fx:id="messageLabel"
+           layoutX="35.0" layoutY="520.0"
+           prefWidth="735.0"
+           style="-fx-text-fill: #27ae60; -fx-font-size: 12px; -fx-background-color: rgba(255,255,255,0.82); -fx-background-radius: 12; -fx-padding: 8 12 8 12;"
+           text="" />
+
+</AnchorPane>

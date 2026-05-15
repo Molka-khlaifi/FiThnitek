@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.dashboardControllerRevenue"
+      prefWidth="890.0"
+      spacing="20.0"
+      style="-fx-background-color: #f0f2f5; -fx-padding: 25 25 30 25;">
+
+    <!-- Title bar -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="📊 Dashboard"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Label text="Fi Thniytek — Overview"
+               style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-padding: 5 0 0 0;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button onAction="#refreshDashboard" text="↺ Refresh"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;
+                       -fx-padding: 6 16;"/>
+    </HBox>
+
+    <!-- ─── KPI Cards ──────────────────────────────────────────────────────── -->
+    <HBox spacing="15.0">
+
+        <!-- Total Transactions -->
+        <VBox prefWidth="200" prefHeight="95" spacing="6"
+              style="-fx-background-color: #3498db; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(52,152,219,0.4),12,0,0,4);">
+            <Label text="💳  Total Transactions"
+                   style="-fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 12px;"/>
+            <Label fx:id="totalTransactionsLabel" text="—"
+                   style="-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold;"/>
+        </VBox>
+
+        <!-- Total Revenue -->
+        <VBox prefWidth="200" prefHeight="95" spacing="6"
+              style="-fx-background-color: #27ae60; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(39,174,96,0.4),12,0,0,4);">
+            <Label text="💰  Total Revenue"
+                   style="-fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 12px;"/>
+            <Label fx:id="totalRevenueLabel" text="—"
+                   style="-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold;"/>
+        </VBox>
+
+        <!-- Total Refunded -->
+        <VBox prefWidth="200" prefHeight="95" spacing="6"
+              style="-fx-background-color: #e74c3c; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(231,76,60,0.4),12,0,0,4);">
+            <Label text="🔄  Total Refunded"
+                   style="-fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 12px;"/>
+            <Label fx:id="totalRefundedLabel" text="—"
+                   style="-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold;"/>
+        </VBox>
+
+        <!-- Active Drivers -->
+        <VBox prefWidth="200" prefHeight="95" spacing="6"
+              style="-fx-background-color: #f39c12; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(243,156,18,0.4),12,0,0,4);">
+            <Label text="🚗  Active Drivers"
+                   style="-fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 12px;"/>
+            <Label fx:id="driversLabel" text="—"
+                   style="-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold;"/>
+        </VBox>
+
+    </HBox>
+
+    <!-- ─── Row 1: Pie Charts ─────────────────────────────────────────────── -->
+    <HBox spacing="15.0">
+
+        <VBox spacing="8" prefWidth="425"
+              style="-fx-background-color: white; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.08),10,0,0,3);">
+            <Label text="Transaction Status"
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <PieChart fx:id="statusPieChart" prefHeight="270" labelsVisible="true"
+                      style="-fx-background-color: transparent;"/>
+        </VBox>
+
+        <VBox spacing="8" prefWidth="425"
+              style="-fx-background-color: white; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.08),10,0,0,3);">
+            <Label text="Payment Methods"
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <PieChart fx:id="methodPieChart" prefHeight="270" labelsVisible="true"
+                      style="-fx-background-color: transparent;"/>
+        </VBox>
+
+    </HBox>
+
+    <!-- ─── Row 2: Bar + Line Charts ─────────────────────────────────────── -->
+    <HBox spacing="15.0">
+
+        <VBox spacing="8" prefWidth="425"
+              style="-fx-background-color: white; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.08),10,0,0,3);">
+            <Label text="Revenue by Month (DT)"
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <BarChart fx:id="revenueBarChart" prefHeight="270" animated="true"
+                      style="-fx-background-color: transparent;" legendVisible="false">
+                <xAxis><CategoryAxis label="Month"/></xAxis>
+                <yAxis><NumberAxis label="DT"/></yAxis>
+            </BarChart>
+        </VBox>
+
+        <VBox spacing="8" prefWidth="425"
+              style="-fx-background-color: white; -fx-background-radius: 14;
+                     -fx-padding: 18; -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.08),10,0,0,3);">
+            <Label text="Passengers by Month"
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <LineChart fx:id="passengersLineChart" prefHeight="270" animated="true"
+                       style="-fx-background-color: transparent;" legendVisible="false">
+                <xAxis><CategoryAxis label="Month"/></xAxis>
+                <yAxis><NumberAxis label="Passengers"/></yAxis>
+            </LineChart>
+        </VBox>
+
+    </HBox>
+
+</VBox>

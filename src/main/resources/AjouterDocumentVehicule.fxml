@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="rootPane" prefHeight="580.0" prefWidth="800.0"
+            style="-fx-background-image: url('/uploads/documents/BACKGROUND.png');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterDocumentVehiculeController">
+
+    <Label layoutX="30.0" layoutY="25.0"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+           text="Ajouter un document véhicule" />
+
+    <Label fx:id="vehiculeLabel"
+           layoutX="30.0" layoutY="62.0"
+           style="-fx-text-fill: #555; -fx-font-size: 13px;"
+           text="Aucun véhicule sélectionné" />
+
+    <Label layoutX="30.0" layoutY="90.0"
+           style="-fx-text-fill: #ddd;"
+           text="────────────────────────────────────────────────────────────────────" />
+
+    <Label layoutX="90.0" layoutY="150.0" text="Type document" />
+    <ComboBox fx:id="typeDocumentComboBox"
+              layoutX="250.0" layoutY="145.0"
+              prefWidth="280.0"
+              promptText="Choisir type document" />
+
+    <Label layoutX="90.0" layoutY="205.0" text="Fichier document" />
+
+    <TextField fx:id="nomFichierTextField"
+               layoutX="250.0" layoutY="200.0"
+               prefWidth="280.0"
+               editable="false"
+               promptText="Aucun fichier choisi"
+               style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #ddd;" />
+
+    <Button layoutX="545.0" layoutY="200.0"
+            onAction="#choisirFichierAction"
+            prefHeight="30.0" prefWidth="135.0"
+            style="-fx-background-color: #0F6E56; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Uploader ici →" />
+
+    <Label layoutX="250.0" layoutY="238.0"
+           style="-fx-text-fill: #777; -fx-font-size: 11px;"
+           text="Le fichier sera sauvegardé automatiquement dans uploads/documents/" />
+
+    <Button layoutX="250.0" layoutY="330.0"
+            onAction="#ajouterDocumentAction"
+            prefHeight="38.0" prefWidth="140.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Ajouter" />
+
+    <Button layoutX="410.0" layoutY="330.0"
+            onAction="#retourAction"
+            prefHeight="38.0" prefWidth="120.0"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7; -fx-cursor: hand;"
+            text="Retour" />
+
+    <Label fx:id="messageLabel"
+           layoutX="90.0" layoutY="430.0"
+           prefWidth="650.0"
+           style="-fx-text-fill: #27ae60; -fx-font-size: 12px;"
+           text="" />
+
+</AnchorPane>

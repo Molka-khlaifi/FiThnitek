@@ -1,0 +1,265 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   FTHNITEK — Design System Global  •  Indigo & Émeraude
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+.root {
+    -fx-background-color: #F5F6FA;
+    -fx-font-family: "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOUTONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Bouton principal — Émeraude */
+.button {
+    -fx-background-color: #2BBF8A;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(43,191,138,0.25), 10, 0, 0, 4);
+}
+
+.button:hover {
+    -fx-background-color: #1A9E6F;
+    -fx-translate-y: -1;
+}
+
+.button:pressed {
+    -fx-background-color: #157D57;
+    -fx-translate-y: 1;
+}
+
+/* Bouton secondaire — Indigo */
+.button-secondary {
+    -fx-background-color: #3D3D8A;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(61,61,138,0.25), 10, 0, 0, 4);
+}
+
+.button-secondary:hover {
+    -fx-background-color: #5B5BAA;
+}
+
+/* Bouton danger */
+.button-danger {
+    -fx-background-color: #E85555;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(232,85,85,0.25), 10, 0, 0, 4);
+}
+
+.button-danger:hover {
+    -fx-background-color: #C73C3C;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHAMPS DE SAISIE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.text-field, .password-field, .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #DDE2F0;
+    -fx-border-width: 1.5;
+    -fx-padding: 10;
+    -fx-prompt-text-fill: #B0B8D0;
+    -fx-text-fill: #2D2D6B;
+}
+
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #3D3D8A;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(61,61,138,0.12), 5, 0, 0, 0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LABELS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.label {
+    -fx-text-fill: #444466;
+}
+
+.title-label {
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #2D2D6B;
+    -fx-letter-spacing: -1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARTES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(61,61,138,0.07), 20, 0, 0, 8);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAVBAR HORIZONTALE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.top-navbar {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 0 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(61,61,138,0.06), 10, 0, 0, 2);
+    -fx-min-height: 80;
+    -fx-border-color: #DDE2F0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #666688;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 30 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-background-radius: 0;
+    -fx-effect: none;
+}
+
+.nav-item:hover {
+    -fx-text-fill: #3D3D8A;
+    -fx-background-color: #F5F6FA;
+}
+
+.nav-item-active {
+    -fx-text-fill: #3D3D8A;
+    -fx-border-color: #3D3D8A;
+}
+
+.brand-label {
+    -fx-text-fill: #3D3D8A;
+    -fx-font-size: 24px;
+    -fx-font-weight: 900;
+    -fx-padding: 0 40 0 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIDEBAR ADMIN
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.sidebar {
+    -fx-background-color: #2D2D6B;
+    -fx-padding: 30 20;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A0A8D0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 20;
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+    -fx-effect: none;
+}
+
+.nav-button:hover {
+    -fx-background-color: #3D3D8A;
+    -fx-text-fill: #FFFFFF;
+}
+
+.nav-button-active {
+    -fx-background-color: #2BBF8A;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(43,191,138,0.3), 10, 0, 0, 4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARTES STATISTIQUES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.stats-card {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 25;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(61,61,138,0.05), 10, 0, 0, 5);
+    -fx-border-color: #DDE2F0;
+    -fx-border-width: 1;
+}
+
+.stats-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #2D2D6B;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TABLEAUX
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-border-color: #DDE2F0;
+    -fx-border-radius: 10;
+    -fx-padding: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #F5F6FA;
+    -fx-text-fill: #B0B8D0;
+    -fx-font-weight: bold;
+    -fx-padding: 12;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #FAFBFF;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #EEEDF8;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #EEEDF8;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: #3D3D8A;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HYPERLIENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.hyperlink {
+    -fx-text-fill: #3D3D8A;
+    -fx-font-weight: bold;
+    -fx-underline: false;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #2BBF8A;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CAPTCHA BOX
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.captcha-box {
+    -fx-background-color: #EEEDF8;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-border-color: #DDE2F0;
+    -fx-border-width: 1;
+}

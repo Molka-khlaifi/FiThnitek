@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<AnchorPane
+xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controllers.AjouterReclamationController"
+prefWidth="520" prefHeight="640"
+style="-fx-background-image: url('/BACKGROUND.png');
+               -fx-background-size: cover;
+               -fx-background-position: center;">
+
+<!-- Carte centrale semi-transparente -->
+<VBox spacing="14"
+      alignment="CENTER"
+      AnchorPane.topAnchor="30"
+      AnchorPane.bottomAnchor="30"
+      AnchorPane.leftAnchor="60"
+      AnchorPane.rightAnchor="60"
+      style="-fx-background-color: rgba(255,255,255,0.82);
+                 -fx-background-radius: 16;
+                 -fx-padding: 30px;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 4);">
+
+        <Label text="Ajouter une Réclamation"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <TextField fx:id="txtObjet"
+                   promptText="Objet de la réclamation"
+                   prefWidth="350"
+                   style="-fx-background-radius: 6; -fx-border-radius: 6;
+                          -fx-border-color: #ddd; -fx-border-width: 1;
+                          -fx-background-color: white; -fx-padding: 8px;"/>
+
+        <TextArea fx:id="txtDescription"
+                  promptText="Description détaillée"
+                  prefWidth="350" prefHeight="100"
+                  style="-fx-background-radius: 6; -fx-border-radius: 6;
+                         -fx-border-color: #ddd; -fx-border-width: 1;
+                         -fx-background-color: white; -fx-padding: 8px;"/>
+
+        <ComboBox fx:id="cbType"
+                  promptText="-- Type de réclamation --"
+                  prefWidth="350"
+                  style="-fx-background-radius: 6; -fx-border-radius: 6;
+                         -fx-border-color: #ddd; -fx-border-width: 1;
+                         -fx-background-color: white;"/>
+
+        <ComboBox fx:id="cbUrgence"
+                  promptText="-- Niveau d'urgence --"
+                  prefWidth="350"
+                  style="-fx-background-radius: 6; -fx-border-radius: 6;
+                         -fx-border-color: #ddd; -fx-border-width: 1;
+                         -fx-background-color: white;"/>
+
+        <Button text="Soumettre la Réclamation"
+                onAction="#ajouterReclamation"
+                prefWidth="350"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-padding: 10px; -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Label fx:id="lblMessage" style="-fx-font-size: 12px;"/>
+
+        <Separator prefWidth="350"/>
+
+        <Button text="Voir les réponses de l'admin"
+                onAction="#voirMesReponses"
+                prefWidth="350"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 8px;
+                       -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Button text="Voir mes réclamations"
+                onAction="#allerVersListeUser"
+                prefWidth="350"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 8px;
+                       -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+        <Button text="Accès administration"
+                onAction="#allerVersListeAdmin"
+                prefWidth="350"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 8px;
+                       -fx-background-radius: 7; -fx-cursor: hand;"/>
+
+</VBox>
+
+</AnchorPane>
+
+
+
+
+
+
+
+

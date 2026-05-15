@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.TrajetController"
+            style="-fx-background-color: #F5F6FA;">
+
+    <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- Header bar -->
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: white; -fx-padding: 14 20;
+                     -fx-border-color: #e5e7eb; -fx-border-width: 0 0 1 0;">
+            <Label text="🛣  Gestion des Trajets"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblTotal" text="0 trajet(s)"
+                   style="-fx-text-fill: #64748b; -fx-font-size: 13px;"/>
+            <Button text="↺  Rafraîchir" onAction="#handleRefresh"
+                    style="-fx-background-color: #f1f5f9; -fx-border-color: #e2e8f0;
+                           -fx-border-width: 1; -fx-background-radius: 8;
+                           -fx-border-radius: 8; -fx-cursor: hand; -fx-padding: 6 16;"/>
+            <Button text="＋  Nouveau trajet" onAction="#handleNouveau"
+                    style="-fx-background-color: #6366f1; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 8;
+                           -fx-cursor: hand; -fx-padding: 6 18;"/>
+        </HBox>
+
+        <!-- Filter bar -->
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color: white; -fx-padding: 10 20;
+                     -fx-border-color: #e5e7eb; -fx-border-width: 0 0 1 0;">
+            <TextField fx:id="txtSearch" promptText="🔍  Rechercher (départ, destination, conducteur)…"
+                       prefWidth="340"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #e2e8f0; -fx-border-width: 1;
+                              -fx-padding: 6 12;"/>
+            <Label text="Statut :" style="-fx-text-fill: #64748b;"/>
+            <ComboBox fx:id="cbStatut" prefWidth="150"/>
+        </HBox>
+
+        <!-- Table -->
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS"
+                   style="-fx-background-color: white;"
+                   columnResizePolicy="CONSTRAINED_RESIZE_POLICY">
+            <columns>
+                <TableColumn fx:id="colId"          text="ID"           prefWidth="45"/>
+                <TableColumn fx:id="colDepart"      text="Départ"       prefWidth="130"/>
+                <TableColumn fx:id="colDestination" text="Destination"  prefWidth="130"/>
+                <TableColumn fx:id="colDate"        text="Date départ"  prefWidth="130"/>
+                <TableColumn fx:id="colPrix"        text="Prix"         prefWidth="80"/>
+                <TableColumn fx:id="colPlaces"      text="Places"       prefWidth="75"/>
+                <TableColumn fx:id="colConducteur"  text="Conducteur"   prefWidth="130"/>
+                <TableColumn fx:id="colStatut"      text="Statut"       prefWidth="90"/>
+                <TableColumn fx:id="colActions"     text="Actions"      prefWidth="200"/>
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>
